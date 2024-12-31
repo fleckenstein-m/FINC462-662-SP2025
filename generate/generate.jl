@@ -55,7 +55,7 @@ md"""
 TITLE = "FINC 462/662 - Fixed Income Securities"
 
 # ╔═╡ a0057e4c-0bcf-4970-8a2b-0412ad5af510
-SUBTITLE = "Spring 2023"
+SUBTITLE = "Spring 2025"
 
 # ╔═╡ 4be56e57-fea0-4fbe-9659-44bed594b1b2
 INSTITUTION = "University of Delaware"
