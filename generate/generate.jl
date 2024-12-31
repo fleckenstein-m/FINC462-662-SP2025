@@ -87,7 +87,7 @@ available at `https://username.github.io/YourPackage.jl/` then the pre-path shou
 
 # ╔═╡ 88e1e91d-0d48-42e0-b4ab-4866624fd745
 begin
-	PREPATH = "FINC462-662-SP2023"
+	PREPATH = "FINC462-662-SP2025"
 	@skip_as_script PREPATH = ""
 end
 
@@ -106,20 +106,6 @@ show_section_number = false
 pages = [
 	(page = "/calendar/", title = "Calendar"),
 	(page = "/lect01/", title = "Lecture 01"),
-	(page = "/lect02/", title = "Lecture 02"),
-	(page = "/lect03/", title = "Lecture 03"),
-	(page = "/lect04/", title = "Lecture 04"),
-	(page = "/lect05/", title = "Lecture 05"),
-	(page = "/lect06/", title = "Lecture 06"),
-	(page = "/lect07/", title = "Lecture 07"),
-	(page = "/lect08/", title = "Lecture 08"),
-	(page = "/lect09/", title = "Lecture 09"),
-	(page = "/lect10/", title = "Lecture 10"),
-	(page = "/lect11/", title = "Lecture 11"),
-	(page = "/lect12/", title = "Lecture 12"),
-	(page = "/lect13/", title = "Lecture 13"),
-	(page = "/lect14/", title = "Lecture 14"),
-	(page = "/lect15/", title = "Lecture 15")
 ]
 
 # ╔═╡ c0768146-5ea0-4736-94f8-2c1a2affa922

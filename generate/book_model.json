@@ -7,60 +7,6 @@
                 "notebook_path": "notebooks/Assignment01/Assignment_01_noSol.jl",
                 "video_id": "",
                 "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 02",
-                "notebook_path": "notebooks/Assignment02/Assignment_02.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 03",
-                "notebook_path": "notebooks/Assignment03/Assignment_03.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 04",
-                "notebook_path": "notebooks/Assignment04/Assignment_04.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 05",
-                "notebook_path": "notebooks/Assignment05/Assignment_05.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 06",
-                "notebook_path": "notebooks/Assignment06/Assignment_06.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 07",
-                "notebook_path": "notebooks/Assignment07/Assignment_07.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 08",
-                "notebook_path": "notebooks/Assignment08/Assignment_08.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 09",
-                "notebook_path": "notebooks/Assignment09/Assignment_09.jl",
-                "video_id": "",
-                "preview_image_url": ""
-            },
-            {
-                "name": "Assignment 10",
-                "notebook_path": "notebooks/Assignment10/Assignment_10_wSol.jl",
-                "video_id": "",
-                "preview_image_url": ""
             }
         ]
     },
