@@ -124,7 +124,7 @@ Your final grade is based on _i)_ two midterm exams, _ii)_ a final exam, and _ii
 
 ## Assessment Component: Class Participation
 
-You are expected to come to class and be prepared to answer questions on the material. *Homework assignments* will be given nearly every week and will be announced in class and posted on the course webpage. You are expected to work on the homework assignments in groups of three. Homework assignments must be submitted in class before the lecture starts on the date the assignment is due. In addition, I reserve the right to ask the groups to solve up to three questions from the homework assignments in front of the class. The groups can select the problems they would like to present. I also reserve the right to give *Quizzes* in class. These will not officially be announced beforehand. The in-class quizzes will be modeled on the examples in the lecture material, after the topic is covered.   
+You are expected to come to class and be prepared to answer questions on the material. *Homework assignments* will be given nearly every week and will be announced in class and posted on the course webpage. You are expected to work on the homework assignments in groups of three. Homework assignments must be submitted before the lecture starts on the date the assignment is due. In addition, I reserve the right to ask the groups to solve up to three questions from the homework assignments in front of the class. The groups can select the problems they would like to present. I also reserve the right to give *Quizzes* in class. The in-class quizzes will be modeled on the examples in the lecture material, after the topic is covered.   
 
 
 ## Data Assignments
