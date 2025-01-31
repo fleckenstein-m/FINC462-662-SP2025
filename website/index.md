@@ -112,13 +112,16 @@ Your final grade is based on _i)_ two midterm exams, _ii)_ a final exam, and _ii
 
 1. Midterm 1
   - Date: *March 4, 2025*
+  - Time: 9.35am-10.55am (Section 010); 11.10am-12.30pm (Section 011)
   - Location: 329 Purnell Hall
 2. Midterm 2
   - Date: *April 15, 2025*
+  - Time: 9.35am-10.55am (Section 010); 11.10am-12.30pm (Section 011)
   - Location: 329 Purnell Hall
 3. Final Exam
-  - Date: *Set by Registrar's Office* 
-  - Location: *TBD*
+  - Date: *May 18, 2025*
+  - Time: 4.30pm-6.30pm (Section 010 and Sectio 011)
+  - Location: Gore Hall 205
 
 
 
