@@ -3,7 +3,7 @@
 
 | Lecture | Title                                      | Date          | Lecture Slides                                              |
 |:-------:|:------------------------------------------:|:-------------:|:-----------------------------------------------------------:|
-| 1       | Introduction                               | Feb 06, 2024   |  [Slides](/assets/lectures/lect01/Lecture_01.html)         |
+| 1       | Introduction                               | Feb 04, 2025   |  [Slides](/assets/lectures/lect01/Lecture_01.html)         |
 
 
 
