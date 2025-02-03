@@ -3,7 +3,7 @@
 
 
 * **Instructor:** Matthias Fleckenstein, [mflecken@udel.edu](mailto:mflecken@udel.edu)
-* **Class Times:** Section 010 - Tue/Thu 9.35am-10.55am; Section 011 - Tue/Thu 11.10am-12.30pm
+* **Class Times:** Section 011 - Tue/Thu 9.35am-10.55am; Section 010 - Tue/Thu 11.10am-12.30pm
 * **Class Location:** Purnell Hall 329
 * **Office Hours:** Mondays, 9.30am-11.00am, 310 Purnell Hall, or by appointment.
 
