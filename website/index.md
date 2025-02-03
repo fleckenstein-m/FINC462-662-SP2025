@@ -24,10 +24,10 @@
 
 # Class Times
 
-| Section     | FINC 462/662 - Section 010     |FINC 462/662 - Section 011      |
+| Section     | FINC 462/662 - Section 011     |FINC 462/662 - Section 010      |
 | :-------    | :------------------------------|:------------------------------ |
 | Day(s)      | Tue, Thu                       |Tue, Thu                        |
-| Time        | 9.35am-10.55am                 |11.10am-12.30pm                  |
+| Time        | 9.35am-10.55am                 |11.10am-12.30pm                 |
 | Location    | Purnell Hall 329               |Purnell Hall 329                |
 
 
