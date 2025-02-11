@@ -108,6 +108,7 @@ pages = [
 	(page = "/lect01/", title = "Lecture 01"),
 	(page = "/lect02/", title = "Lecture 02"),
 	(page = "/lect03/", title = "Lecture 03"),
+	(page = "/lect04/", title = "Lecture 04"),
 
 ]
 
