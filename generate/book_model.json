@@ -7,6 +7,12 @@
                 "notebook_path": "notebooks/Assignment01/Assignment_01_noSol.jl",
                 "video_id": "",
                 "preview_image_url": ""
+            },
+            {
+                "name": "Assignment 02",
+                "notebook_path": "notebooks/Assignment02/Assignment_02_noSol.jl",
+                "video_id": "",
+                "preview_image_url": ""
             }
         ]
     },
