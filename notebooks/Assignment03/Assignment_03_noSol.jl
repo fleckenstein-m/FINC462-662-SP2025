@@ -10,7 +10,7 @@ begin
 	using Pkg
 	#Pkg.upgrade_manifest()
 	#Pkg.update()
-	Pkg.resolve()
+	#Pkg.resolve()
 	
 	using DataFrames, HTTP,  Dates, PlutoUI, Printf, LaTeXStrings, HypertextLiteral
 
@@ -131,14 +131,6 @@ Markdown.parse("
 Suppose you consider investing in a $(T_1)-year bond. This bond pays coupon cash flows of \$ $(C_11) in one year from now, \$ $(C_12) in two years from now, \$ $(C_13) in three years from now, and \$ $(C_14) in four years from now. Assume that interest rates are r = $(r_1*100) percent (annual rate, annually compounded). What is the price of this bond?
 ")
 
-# ╔═╡ dbffdff4-ffbd-4111-a0a3-8805e2e489ce
-Foldable("Solution", 
-Markdown.parse("
-**Solution**
-	
-``\$ \\textrm{PV} = \\frac{$(C_11)}{(1+$(r_1))^{1}} + \\frac{$(C_12)}{(1+$(r_1))^{2}} + \\frac{$(C_13)}{(1+$(r_1))^{3}} + \\frac{$(C_14)}{(1+$(r_1))^{4}} = $(roundmult(PV_1,1e-6))\$``.
-"))
-
 # ╔═╡ 02ae383b-c437-47c8-97c1-786130a43adb
 vspace
 
@@ -165,14 +157,6 @@ Markdown.parse("
 Suppose you consider investing in a $(T_2)-year bond. This bond pays semi-annual coupon cash flows of \$ $(C_21) after six months, \$ $(C_22) in one year from now, \$ $(C_23) in 1.5 years from now, and \$ $(C_24) in two years years from now. Assume that interest rates are r = $(r_2*100) percent (annual rate, semi-annually compounded). What is the price of this bond?
 ")
 
-# ╔═╡ 46f769ec-3b6a-4f56-9cc8-71f4a29dd2e2
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-``\$ \\textrm{PV} = \\frac{$(C_21)}{(1+\\frac{$(r_2)}{2})^{2\\times 0.5}} + \\frac{$(C_22)}{(1+\\frac{$(r_2)}{2})^{2\\times 1.0}} + \\frac{$(C_23)}{(1+\\frac{$(r_2)}{2})^{2\\times 1.5}} + \\frac{$(C_24)}{(1+\\frac{$(r_2)}{2})^{2\\times 2.0}} = $(roundmult(PV_2,1e-6))\$``.
-"))
-
 # ╔═╡ 6bbb6e05-c6be-45ea-a84a-caa86e0cba17
 vspace
 
@@ -197,14 +181,6 @@ Markdown.parse("
 Suppose you consider investing in a fixed-income security that pays you a total of \$ $(C_31) million split into equal annual cash flows over a $(T_3)-year period. What is the fair market price for this investment, assuming that interest rates are $(r_3*100) percent (per annum)?
 ")
 
-# ╔═╡ adb410b2-b053-46af-95f8-7501dfb2213d
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-``\$ \\textrm{PV} = \\frac{C}{r} \\times \\left( 1 - \\frac{1}{(1+r)^{T}} \\right) = \\frac{$(roundmult(C_32,1e-6)) \\textrm{ Million}}{$(r_3)} \\times \\left( 1 - \\frac{1}{(1+$(r_3))^{$(T_3)}} \\right) = $(roundmult(PV_3,1e-3)) \\textrm{ Million} \$``.
-"))
-
 # ╔═╡ f531b5e8-c3e4-465b-8232-141b2b4fb42e
 vspace
 
@@ -226,14 +202,6 @@ end
 # ╔═╡ 9a39984d-ec6c-4a6f-a483-99f366afb289
 Markdown.parse("
 Suppose you consider investing in a perpetual fixed-income security that has a cash flow of \$ $(C_4) in one year. The cash flows then grow at an annual rate of $(g_4*100) ``\\%`` per year forever. What would you be willing to pay for this security, assuming that interest rates are $(r_4*100) percent?")
-
-# ╔═╡ 92c2d933-98a8-4433-828c-3e83a397fed2
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-``\$ \\textrm{PV} = \\frac{C}{r-g} = \\frac{$(C_4)}{$(r_4)-$(g_4)} = \$ $(roundmult(PV_4,1e-2))  \$``.
-"))
 
 # ╔═╡ dcd66a9e-9b36-4ea2-9f9e-f3b3b6e32c3a
 vspace
@@ -259,14 +227,6 @@ Markdown.parse("
 Suppose you consider investing in a fixed-income security that pays a cash flow of  \$ $(C_5) one year from today. Each year after that, the cash flows grow at a constant rate of $(roundmult(g_5*100,1e-2)) % percent per annum. The last cash flow is in $(T_5) years from today. What would you be willing to pay for this security, assuming that interest rates are $(r_5*100) %?
 ")
 
-# ╔═╡ 6c6d75d2-ba91-40c0-8366-7db87fa51d34
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-``\$ \\textrm{PV} = \\frac{C}{r-g} \\times \\left( 1- \\frac{(1+g)^T}{(1+r)^T} \\right) = \\frac{$(C_5)}{$(r_5)-$(g_5)} \\times \\left( 1- \\frac{(1+$(g_5))^{$(T_5)}}{(1+$(r_5))^{$(T_5)}} \\right) = \$ $(roundmult(PV_5,1e-2))  \$``.
-"))
-
 # ╔═╡ 1939b4e0-efd1-480b-a878-47c48903e9fa
 vspace
 
@@ -290,22 +250,6 @@ begin
 	PV_6 = C_61/(1+r_6/12)^(12 * 1/12)+C_62/(1+r_6/12)^(12 * 2/12)+C_63/(1+r_6/12)^(12 * 3/12)
 	display("")
 end
-
-# ╔═╡ 0a96974f-76f0-4879-b5fb-0bdd9aa2f10a
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-First, we figure out at what times the cash flows come in.
-The first is in one month. Hence, we set ``T=\\frac{1}{12}`` for the first cash flow.
-The second is in two months. Hence, we set ``T=\\frac{2}{12}`` for the second cash flow.
-The third is in three months. Hence, we set ``T=\\frac{3}{12}`` for the third cash flow.
-We then calculate the present value of each cash flow using monthly compounding and take the sum.
-
-``\$ \\textrm{PV} = \\frac{C_1}{(1+\\frac{r}{12})^{12\\times \\frac{1}{12}}} + \\frac{C_2}{(1+\\frac{r}{12})^{12\\times \\frac{2}{12}}} + \\frac{C_3}{(1+\\frac{r}{12})^{12\\times \\frac{3}{12}}}=\$``
-
-``\$= \\frac{$(C_61)}{(1+\\frac{$(r_6)}{12})^{12\\times \\frac{1}{12}}} + \\frac{$(C_62)}{(1+\\frac{$(r_6)}{12})^{12\\times \\frac{2}{12}}} + \\frac{$(C_63)}{(1+\\frac{$(r_6)}{12})^{12\\times \\frac{3}{12}}}=\$ $(roundmult(PV_6,1e-2))\$``
-"))
 
 # ╔═╡ 7c80a921-2408-49cb-906f-a38652e00697
 vspace
@@ -333,32 +277,6 @@ end
 Markdown.parse("
 Suppose you invested in a fixed income security. Assume that this security pays you a cash flow of  \$ $(C_71) now and it then pays monthly cash flows of $(C_72) per month for the next $(T_7) years. Your plan is to invest all cash flows into a money market savings account earning $(r_7*100) percent compounded monthly. How large is the balance in your money market account when you receive the last payment from the fixed income investment? 
 ")
-
-# ╔═╡ 3f62375c-2edf-4a39-b7d4-47e1f408ebae
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-- Step 1: Calculate the future value of $(C_71) in $(T_7) years using monthly compounding.
-- Step 2: Calculate the present value of the annuity in the amount of $(C_72) using monthly compounding.
-- Step 3: Take the PV of the annuity computed in step 2 and calculate its future value in $(T_7) years. Note that this is analogous to Step 1.
-- Step 4: Add the amounts in Step 1 and Step 4 to arrive at the final answer
-
-**Step 1**:
-``\$\\textrm{FV}_1 = C \\times \\left( 1+\\frac{r}{12} \\right)^{12\\times T} = $(C_71) \\times \\left( 1+\\frac{$(r_7)}{12} \\right)^{12\\times $(T_7)}  = $(roundmult(FV_71,1e-2))\$``
-
-**Step 2**:
-``\$ \\textrm{PV}_2 = \\frac{C}{\\frac{r}{12}} \\times \\left( 1 - \\frac{1}{(1+\\frac{r}{12})^{12\\times T}} \\right) =  \\frac{$(C_72)}{\\frac{$(r_7)}{12}} \\times \\left( 1 - \\frac{1}{(1+\\frac{$(r_7)}{12})^{12\\times $(T_7)}} \\right) = $(roundmult(PV_71,1e-2))\$``.
-
-**Step 3**:
-``\$\\textrm{FV}_2 = C \\times \\left( 1+\\frac{r}{12} \\right)^{12\\times T} = $(roundmult(PV_71,1e-2)) \\times \\left( 1+\\frac{$(r_7)}{12} \\right)^{12\\times $(T_7)}  = $(roundmult(FV_72,1e-2))\$``
-
-**Step 4**:
-``\$ FV = \\textrm{FV}_1 + \\textrm{FV}_2 = $(roundmult(FV_71,1e-2)) + $(roundmult(FV_72,1e-2)) = $(roundmult(FV_7,1e-2)) \$``
-
-- Thus at the end of the $(T_7)-year period, your money market account has a total value of $(roundmult(FV_7,1e-2)).
-
-"))
 
 # ╔═╡ cdcf9417-4d7f-4e01-b304-64f9904e6de6
 vspace
@@ -402,24 +320,6 @@ You are starting to plan for retirement and you consider investing in a fixed-in
 
 ")
 
-# ╔═╡ af5034dc-81c7-4487-861a-6297fa4850d4
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-**Step 1:** 
-
-Calculate the present value of the stream of cash flows **in year $(T_92)**. Note that this is simply a $(T_91-T_92)-year annuity with the first cash flow in year $(T_92+1)
-``\$ \\textrm{PV}_{$(T_92)} = \\frac{C}{r} \\times \\left( 1 - \\frac{1}{(1+r)^{T}} \\right) = \\frac{$(roundmult(C_9,1e-2))}{$(r_9)} \\times \\left( 1 - \\frac{1}{(1+$(r_9))^{$(T_91)-$(T_92)}} \\right) = $(roundmult(PV_91,1e-2))\$``.
-
-**Step 2:**
-Since we computed the present value in year $(T_92) in Step 1. We need to discount it back to today.
-``\$ PV = \\frac{PV_{$(T_92)}}{(1+r)^T} = \\frac{$(roundmult(PV_91,1e-2))}{(1+$(r_9))^{$(T_92)}} = $(roundmult(PV_92,1e-2))\$``
-
-
-Thus, we would be willing to pay \$ $(roundmult(PV_92,1e-2)) for this fixed-income investment.
-"))
-
 # ╔═╡ 2f75969e-c107-4184-b56c-6b8fca9e5634
 vspace
 
@@ -446,24 +346,6 @@ end
 # ╔═╡ 993d08fa-3f0e-4d1e-888e-32ddee9a0160
 Markdown.parse("
 You are starting to plan for retirement and you consider investing in a fixed-income security that starts to pay cash flows of $(C_10) $(m_10)-times per year in $(T_102+1) years from today and has its last cash flow in $(T_101) years from today. What would you be willing to pay for this security, assuming that interest rates are $(r_10*100) percent per annum.")
-
-# ╔═╡ 7706691a-d4ef-4cca-b7a4-0119d10e9560
-Foldable("Solution",
-Markdown.parse("
-**Solution**
-
-**Step 1:** 
-
-Calculate the present value of the stream of cash flows **in year $(T_102)**. Note that this is simply a $(T_101-T_102)-year annuity with the first cash flow in year $(T_102+1)
-``\$ \\textrm{PV}_{$(T_102)} = \\frac{C}{\\frac{r}{m}} \\times \\left( 1 - \\frac{1}{(1+\\frac{r}{m})^{m\\times T}} \\right) = \\frac{$(roundmult(C_10,1e-2))}{\\frac{$(r_10)}{$(m_10)}} \\times \\left( 1 - \\frac{1}{\\left(1+\\frac{$(r_10)}{$(m_10)}\\right)^{$(m_10)\\times ($(T_101)-$(T_102))}} \\right) = $(roundmult(PV_101,1e-2))\$``.
-
-**Step 2:**
-Since we computed the present value in year $(T_102) in Step 1. We need to discount it back to today.
-``\$ PV = \\frac{PV_{$(T_102)}}{\\left(1+\\frac{r}{m}\\right)^{m\\times T}} = \\frac{$(roundmult(PV_101,1e-2))}{\\left(1+\\frac{$(r_10)}{$(m_10)}\\right)^{$(m_10) \\times $(T_102)}} = $(roundmult(PV_102,1e-2))\$``
-
-
-Thus, we would be willing to pay \$ $(roundmult(PV_102,1e-2)) for this fixed-income investment.
-"))
 
 # ╔═╡ 24972917-ba7d-4a8e-9704-19220693b021
 vspace
@@ -1640,48 +1522,39 @@ version = "1.4.1+2"
 # ╟─36e6512e-a077-48ad-8fe8-70a1bd1bed93
 # ╟─239caa07-cb32-4757-8fea-6f5054516137
 # ╟─ce1e6bc3-3e22-4163-9c1f-f91976954376
-# ╟─dbffdff4-ffbd-4111-a0a3-8805e2e489ce
 # ╟─02ae383b-c437-47c8-97c1-786130a43adb
 # ╟─7ea060c9-731e-41da-a439-12610260fae8
 # ╟─2523f7ec-d65f-4145-9fb2-3436ce6744d5
 # ╟─2adc33c7-5bf9-479a-9512-501e0e1649f6
-# ╟─46f769ec-3b6a-4f56-9cc8-71f4a29dd2e2
 # ╟─6bbb6e05-c6be-45ea-a84a-caa86e0cba17
 # ╟─1702bd2f-cba9-4cb9-9fa3-2c0e99b81bbf
 # ╟─54ab8f43-70b0-47d2-9698-575071d32322
 # ╟─c0858db4-7a7c-4f82-bdc4-575a220d694d
-# ╟─adb410b2-b053-46af-95f8-7501dfb2213d
 # ╟─f531b5e8-c3e4-465b-8232-141b2b4fb42e
 # ╟─37b083ac-6448-4d91-9e74-d645fcb00504
 # ╟─9a39984d-ec6c-4a6f-a483-99f366afb289
 # ╟─75aad9f7-fbee-43ce-be15-2a4da297e03f
-# ╟─92c2d933-98a8-4433-828c-3e83a397fed2
 # ╟─dcd66a9e-9b36-4ea2-9f9e-f3b3b6e32c3a
 # ╟─93802c3b-6ac6-4d60-8d33-863e335230f6
 # ╟─429bce00-f102-435f-b577-e3bc6378f284
 # ╟─1dd2ace5-98b6-473f-9d8e-fb0147355576
-# ╟─6c6d75d2-ba91-40c0-8366-7db87fa51d34
 # ╟─1939b4e0-efd1-480b-a878-47c48903e9fa
 # ╟─20d12d4e-d734-4475-b219-1f01f5f7d85f
 # ╟─d5c29e93-4363-4c9d-9cd4-8386f547c99f
 # ╟─d402a211-2666-49c3-b9ec-d782e01c0cf1
-# ╟─0a96974f-76f0-4879-b5fb-0bdd9aa2f10a
 # ╟─7c80a921-2408-49cb-906f-a38652e00697
 # ╟─036e1628-8606-4f9a-bda6-c2316d32e4fe
 # ╟─45e2bd20-aa69-4f80-a063-636bc4e59048
 # ╟─06896dd0-ab98-4f54-a949-043e2a097ae5
-# ╟─3f62375c-2edf-4a39-b7d4-47e1f408ebae
 # ╟─cdcf9417-4d7f-4e01-b304-64f9904e6de6
 # ╟─2402fafe-5c80-4d2c-ba34-d5c7e1ff39e5
 # ╟─2b3fffbf-e847-440a-8e8f-61a314e0d808
 # ╟─63b8c6ae-5f14-4e09-bcb4-9732b73e150c
 # ╟─3ab55bd3-f60c-4e44-8340-b3a8c4ab5f8c
-# ╟─af5034dc-81c7-4487-861a-6297fa4850d4
 # ╟─2f75969e-c107-4184-b56c-6b8fca9e5634
 # ╟─c54bd48e-d7d1-4724-a7c8-099301e6c0bc
 # ╟─993d08fa-3f0e-4d1e-888e-32ddee9a0160
 # ╟─f28ff2cb-c3f9-4943-a65b-84fe3f2fabf1
-# ╟─7706691a-d4ef-4cca-b7a4-0119d10e9560
 # ╟─24972917-ba7d-4a8e-9704-19220693b021
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╟─00000000-0000-0000-0000-000000000001

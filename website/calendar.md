@@ -4,11 +4,15 @@
 | Lecture | Title                                      | Date          | Lecture Slides                                              |
 |:-------:|:------------------------------------------:|:-------------:|:-----------------------------------------------------------:|
 | 1       | Introduction                               | Feb 04, 2025   |  [Slides](/assets/lectures/lect01/Lecture_01.html)         |
-
+| 2       | The U.S. Treasury Market                   | Feb 06, 2025   |  [Slides](/assets/lectures/lect02/Lect02.html)             |
+| 3       | Price-Quoting Conventions in the U.S. Treasury Market (a) | Feb 11, 2025   |  [Slides](/assets/lectures/lect03/Lect03.html)             |
+| 4       | Price-Quoting Conventions in the U.S. Treasury Market (b) | Feb 13, 2025   |  [Slides](/assets/lectures/lect03/Lect03.html)             |
+| 5       | Bond Pricing Fundamentals                  | Feb 18, 2025   |  [Slides](/assets/lectures/lect04/Lect04.html)             |
 
 
 ## Assignments
 
 |         | Title                                      | Due Date          | Assignment                                              |
 |:-------:|:------------------------------------------:|:-----------------:|:-------------------------------------------------------:|
-| 1       | Assignment 1                               | TBD               | Assignment 01                                           |
+| 1       | Assignment 1                               | Feb 11, 2025      | Assignment 01                                           |
+| 2       | Assignment 2                               | Feb 18, 2025      | Assignment 02                                           |
