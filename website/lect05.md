@@ -1,3 +1,3 @@
 ## Lecture 05
 
-[Slides](/assets/lectures/lect05/Lect05_noSol.html)                              
+[Slides](/assets/lectures/lect05/Lecture_05_noSol.html)                              
