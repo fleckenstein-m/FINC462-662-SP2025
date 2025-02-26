@@ -9,6 +9,8 @@
 | 4       | Price-Quoting Conventions in the U.S. Treasury Market (b) | Feb 13, 2025   |  [Slides](/assets/lectures/lect03/Lecture_03.html)             |
 | 5       | Bond Pricing Fundamentals                  | Feb 18, 2025   |  [Slides](/assets/lectures/lect04/Lecture_04.html)             |
 | 6       | Bond Pricing                               | Feb 20, 2020   | [Slides](/assets/lectures/lect05/Lecture_05.html)              |
+| 7       | Bond Yields and Bond Pricing by Replication (a) | Feb 25, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
+| 8       | Bond Yields and Bond Pricing by Replication (b) | Feb 27, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
 
 ## Assignments
 
@@ -16,4 +18,5 @@
 |:-------:|:------------------------------------------:|:-----------------:|:-------------------------------------------------------:|
 | 1       | Assignment 1                               | Feb 11, 2025      | Assignment 01                                           |
 | 2       | Assignment 2                               | Feb 18, 2025      | Assignment 02                                           |
-| 2       | Assignment 3                               | Feb 25, 2025      | Assignment 03                                           |
+| 3       | Assignment 3                               | Feb 25, 2025      | Assignment 03                                           |
+| 4       | Assignment 4                               | Mar 4, 2025       | Assignment 04                                           |
