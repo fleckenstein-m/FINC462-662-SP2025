@@ -78,6 +78,9 @@ begin
 	display("")
 end
 
+# ╔═╡ c0c7389f-2540-4d57-a133-c94929fb878b
+using PrettyTables
+
 # ╔═╡ 731c88b4-7daf-480d-b163-7003a5fbd41f
 begin 
 	html"""
@@ -162,6 +165,7 @@ md"""
 """
 
 # ╔═╡ cc279734-c807-41e5-9f25-7bff29925f27
+# ╠═╡ show_logs = false
 begin
 DT = DataFrame([0.25	0.0633	0.9844
 0.5	0.0649	0.9683
@@ -194,8 +198,12 @@ DT = DataFrame([0.25	0.0633	0.9844
 7.25	0.055	0.673
 7.5	0.0531	0.6733], ["T", "Rates", "D(T)"])
 DT = select(DT,Not("Rates"))
+display("")
 end
 
+
+# ╔═╡ 2a632107-9a36-46c6-8c80-10fb1c5c1a4a
+pretty_table(HTML, DT; nosubheader=true)
 
 # ╔═╡ 479dadc8-cab9-465b-9186-0b5fc1e3632e
 vspace
@@ -419,6 +427,7 @@ Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
@@ -429,6 +438,7 @@ HypertextLiteral = "~0.9.3"
 LaTeXStrings = "~1.3.0"
 Plots = "~1.25.3"
 PlutoUI = "~0.7.27"
+PrettyTables = "~1.3.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -437,7 +447,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "29dacf306593bd3659ccd99f24749f1061445cec"
+project_hash = "0f9228ec4b3ad7d92046654a3fa371364da5aa34"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1642,6 +1652,8 @@ version = "1.4.1+2"
 # ╟─24972917-ba7d-4a8e-9704-19220693b021
 # ╟─e7126b5d-7d10-46b7-8b2f-7f00fc45cd4b
 # ╟─cc279734-c807-41e5-9f25-7bff29925f27
+# ╟─c0c7389f-2540-4d57-a133-c94929fb878b
+# ╟─2a632107-9a36-46c6-8c80-10fb1c5c1a4a
 # ╟─479dadc8-cab9-465b-9186-0b5fc1e3632e
 # ╟─5666bfc2-13eb-42b6-9a30-6f657567a8a2
 # ╟─2d75b79b-ab8e-4b1a-9f36-ec269087bcac
