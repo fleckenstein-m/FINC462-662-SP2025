@@ -62,6 +62,23 @@ begin
 	display("")
 end
 
+# ╔═╡ 1ecfd85c-e27b-4978-b67d-934e4d633a9e
+Foldable("Solution",
+Markdown.parse("
+
+**Step 1:** Calculate the dollar coupon cash flow \$C\$.
+
+``\$ C = \\frac{c}{2} \\times F = \\frac{$(c11/100)}{2} \\times $(F11) = $(C11) \$``
+
+**Step 2:** Use the annuity formula and calculate the price of the Treasury bond.
+
+``\$P = \\frac{C}{\\frac{r}{2}} \\left(1- \\frac{1}{\\left(1+\\frac{r}{2} \\right)^{2 T}} \\right) + \\frac{F}{(1+\\frac{r}{2})^{2T}}\$``
+
+``\$=\\frac{$C11}{$(r11/200)} \\left(1- \\frac{1}{\\left(1+$(r11/200) \\right)^{2 \\times $T11}} \\right) + \\frac{$F11}{(1+$(r11/200))^{2\\times $T11}}=$(roundmult(C11/(r11/200)*(1-1/(1+r11/200)^(2*T11))+F11/(1+r11/(200))^(2*T11),1e-6))\$``
+
+Thus, the price of the Treasury bond is \$ $(roundmult(C11/(r11/200)*(1-1/(1+r11/200)^(2*T11))+F11/(1+r11/(200))^(2*T11),1e-6))
+"))
+
 # ╔═╡ 24972917-ba7d-4a8e-9704-19220693b021
 vspace
 
@@ -71,6 +88,7 @@ md"""
 """
 
 # ╔═╡ cc279734-c807-41e5-9f25-7bff29925f27
+# ╠═╡ show_logs = false
 begin
 DT = DataFrame([0.25	0.0633	0.9844
 0.5	0.0649	0.9683
@@ -103,8 +121,15 @@ DT = DataFrame([0.25	0.0633	0.9844
 7.25	0.055	0.673
 7.5	0.0531	0.6733], ["T", "Rates", "D(T)"])
 DT = select(DT,Not("Rates"))
+display("")
 end
 
+
+# ╔═╡ c0c7389f-2540-4d57-a133-c94929fb878b
+using PrettyTables
+
+# ╔═╡ 2a632107-9a36-46c6-8c80-10fb1c5c1a4a
+pretty_table(HTML, DT; nosubheader=true)
 
 # ╔═╡ 479dadc8-cab9-465b-9186-0b5fc1e3632e
 vspace
@@ -128,6 +153,19 @@ begin
  P2 =  F2 * DT2
  display("")
 end
+
+# ╔═╡ 017d7940-edaf-4f08-acfd-fe130b8c529d
+Foldable("Solution",
+Markdown.parse("
+
+**Step 1:** Look up the discount factor that matches the maturity \$T=$(T2)\$ of the zero-coupon bond from the table provided above.
+``\$ D(T) = D($(T2)) = $(DT2)\$``
+
+**Step 2:** Calculate the price of the zero coupon bond.
+``\$ P = F \\times D(T) = $(F2) \\times $(DT2) = $(roundmult(P2,1e-2))\$ ``
+
+
+"))
 
 # ╔═╡ 156c7ca6-bf21-41d7-b8fb-166d7c515121
 vspace
@@ -157,6 +195,22 @@ begin
  display("")
 end
 
+# ╔═╡ 1d0ed0d5-2f5b-4ef1-b32f-fcb0e43e72b7
+Foldable("Solution",
+Markdown.parse("
+
+**Step 1:** First, calculate the cash flows of the Treasury bond.
+
+``\$C= \\frac{c}{4} \\times F = \\frac{$(c3)}{4} \\times $(F3) = $(C31)\$``
+
+**Step 2:** Make a table with the bond's cash flows and the corresponding discount factors as shown below.
+
+**Step 3:** Calculate the bond price by multiplying the cash flows with the discount factors and then take the sum.
+
+The price of the Treasury bond is \$P=$(P3)\$
+
+"))
+
 # ╔═╡ c1446fc5-dd24-4a19-8460-e353bbacc029
 DataFrame(T=collect(0.25:0.25:T3),C=C32,DT=DT3)
 
@@ -183,6 +237,15 @@ begin
  c9 = 2* (1-D9[3])/sum(D9)
 	display("")
 end
+
+# ╔═╡ f98d10d2-8de5-4158-8467-cfbba88820c4
+Foldable("Solution",Markdown.parse("
+- We can use the formula for the par yield of a semi-annual coupon bond
+
+``\$c = 2 \\times \\left( \\frac{1-D(1.5)}{D(0.5)+D(1.0)+D(1.5)} \\right) = 2 \\times \\left( \\frac{1-$(D9[3])}{$(D9[1])+$(D9[2])+$(D9[3])} \\right) = $(c9)\$``
+
+- Thus the $(T9)-month Treasury note ought to be issued with a coupon rate of $(roundmult(c9*100,1e-4)) percent (paid semi-annually).
+"))
 
 # ╔═╡ 8aaa8098-d052-4c26-bd00-ada80e47beb9
 vspace
@@ -227,6 +290,22 @@ P6C = x6A * P6A + x6B * P6B
 display("")
 end
 
+# ╔═╡ f7e11e81-abb1-4c41-9494-c7df4e5cfd60
+Foldable("Solution",Markdown.parse("
+
+|          | Cash flow today | Cash flow in 6 months | Cash flow in 1 year |
+|----------|-----------|--------------|-------------|
+| Bond 'A' | -$(roundmult(P6A,1e-2))  | $(roundmult(C1A,1e-2))     |      -      |
+| Bond 'B' | -$(roundmult(P6B,1e-2))  |       -      | $(roundmult(C2B,1e-2))    |
+| Bond 'C' |         ? | $(roundmult(C1C,1e-2))       | $(roundmult(C2C,1e-2))    |
+- Bond C's cash flows can be written as a combination of Bond 'A' and 'B' cash flows.
+- Specifically, $(roundmult(x6A,1e-2)) of Bond 'A' and $(roundmult(x6B,1e-2)) of Bond 'B' produces the same cash flows as Bond 'C'.
+- Therefore, the value of Bond 'C' is
+
+``\$P = $(roundmult(x6A,1e-2)) \\times \\textrm{Price Bond A} + $(roundmult(x6B,1e-2)) \\times \\textrm{Price Bond B}=$(roundmult(x6A,1e-2))\\times $(roundmult(P6A,1e-2)) + $(roundmult(x6B,1e-2)) \\times $(roundmult(P6B,1e-2)) = $(roundmult(P6C,1e-4))\$``
+
+"))
+
 # ╔═╡ c55b3d5a-9927-49ff-aab9-bd7c377bf19a
 vspace
 
@@ -247,6 +326,19 @@ Replicate bond D’s cash flows using a portfolio of bonds A, B, and C. What is 
 |D     |  6%    | 1.5                 | ?    |
 
 """
+
+# ╔═╡ 8563b016-6603-4e38-9b14-35f019b48212
+Foldable("Solution",md"""
+|  |     Units  |  t = 0   |  t = 0.5 | t = 1  | t = 1.5  |
+|:---|---------:|---------:|---------:|-------:|---------:|
+|D | 1          |  -100.05 | 3        | 3      | 103      |
+|C | 1.03       | -99.086  | 0        | 0      | 103      |
+|B | 0.03       | -2.9475  | 0        | 3      | 0        |
+|A | 0.03       | -2.985   | 3        | 0      | 0        |
+|0.03 A + 0.03 B + 1.03 C  |  | -105.02 | 3 |3   | 103
+Thus, Bond D is replicated with a portfolio of 0.03 units of A, 0.03 units of B, and
+1.03 units of C. The cost of the replicating portfolio is 105.02. By the law of one price, Bond D must have a price of 105.02.
+""")
 
 # ╔═╡ 9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╠═╡ show_logs = false
@@ -335,6 +427,7 @@ Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+PrettyTables = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
@@ -345,6 +438,7 @@ HypertextLiteral = "~0.9.3"
 LaTeXStrings = "~1.3.0"
 Plots = "~1.25.3"
 PlutoUI = "~0.7.27"
+PrettyTables = "~1.3.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -353,7 +447,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "29dacf306593bd3659ccd99f24749f1061445cec"
+project_hash = "0f9228ec4b3ad7d92046654a3fa371364da5aa34"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1555,29 +1649,37 @@ version = "1.4.1+2"
 # ╟─d379fd29-4afe-4c65-97ba-976285ddeb0d
 # ╟─8522b18c-2652-4bd8-85c1-bda06d1ba909
 # ╟─6e437eae-a842-4647-850d-e0f4817ddfae
+# ╟─1ecfd85c-e27b-4978-b67d-934e4d633a9e
 # ╟─24972917-ba7d-4a8e-9704-19220693b021
 # ╟─e7126b5d-7d10-46b7-8b2f-7f00fc45cd4b
 # ╟─cc279734-c807-41e5-9f25-7bff29925f27
+# ╟─c0c7389f-2540-4d57-a133-c94929fb878b
+# ╟─2a632107-9a36-46c6-8c80-10fb1c5c1a4a
 # ╟─479dadc8-cab9-465b-9186-0b5fc1e3632e
 # ╟─5666bfc2-13eb-42b6-9a30-6f657567a8a2
 # ╟─2d75b79b-ab8e-4b1a-9f36-ec269087bcac
 # ╟─4fd33f48-ee38-4de1-a0dc-2c516af91672
+# ╟─017d7940-edaf-4f08-acfd-fe130b8c529d
 # ╟─156c7ca6-bf21-41d7-b8fb-166d7c515121
 # ╟─c0f5db89-e8c3-4196-83ef-9d7c62360954
 # ╟─b2600b17-e8c4-4356-b69b-3e33e3abe89e
 # ╟─3f5f6787-765e-47b3-8ddd-efac8d16b164
+# ╟─1d0ed0d5-2f5b-4ef1-b32f-fcb0e43e72b7
 # ╟─c1446fc5-dd24-4a19-8460-e353bbacc029
 # ╟─d86b2036-a1be-4e24-8856-bc6fb26d124d
 # ╟─bcb37bf5-e8bb-4028-a987-e0694202432b
 # ╟─7b6e59a9-742e-4e7a-8b35-cc0cdd25efb6
 # ╟─775164aa-bd40-41b5-bf97-4894a1011b03
+# ╟─f98d10d2-8de5-4158-8467-cfbba88820c4
 # ╟─8aaa8098-d052-4c26-bd00-ada80e47beb9
 # ╟─12103028-2510-40b7-be6b-059e29a631a9
 # ╟─abcb088b-6e5f-4015-baaf-ec9e9cec427e
 # ╟─f1705376-4701-445c-98f9-386c41211e95
+# ╟─f7e11e81-abb1-4c41-9494-c7df4e5cfd60
 # ╟─c55b3d5a-9927-49ff-aab9-bd7c377bf19a
 # ╟─703119eb-4969-4d78-8976-6db9d9f040bc
 # ╟─e3859e92-007e-454f-b2fb-f122d9d72cb1
+# ╟─8563b016-6603-4e38-9b14-35f019b48212
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
