@@ -11,7 +11,10 @@
 | 6       | Bond Pricing                               | Feb 20, 2020   | [Slides](/assets/lectures/lect05/Lecture_05.html)              |
 | 7       | Bond Yields and Bond Pricing by Replication (a) | Feb 25, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
 | 8       | Bond Yields and Bond Pricing by Replication (b) | Feb 27, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
-| 9       | Term Structure of Interest Rates            | Mar 6, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
+| 9       | Term Structure of Interest Rates (a)           | Mar 11, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
+| 10       | Term Structure of Interest Rates (b)           | Mar 13, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
+
+
 
 ## Assignments
 
@@ -21,3 +24,4 @@
 | 2       | Assignment 2                               | Feb 18, 2025      | Assignment 02                                           |
 | 3       | Assignment 3                               | Feb 25, 2025      | Assignment 03                                           |
 | 4       | Assignment 4                               | Mar 4, 2025       | Assignment 04                                           |
+| 5       | Assignment 5                               | Mar 18, 2025      | Assignment 05                                           |

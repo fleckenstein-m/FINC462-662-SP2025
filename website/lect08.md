@@ -1,3 +1,6 @@
 ## Lecture 08
 
-[Slides](/assets/lectures/lect08/Lect08.html)                              
+
+- Open the lecture slides in a new browser window by right-clicking on the link below and and then selecting "Open link in new window".
+
+[Slides](/assets/lectures/lect08/Lecture_08_noSol.html)                              
