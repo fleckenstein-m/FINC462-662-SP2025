@@ -11,8 +11,8 @@
 | 6       | Bond Pricing                               | Feb 20, 2020   | [Slides](/assets/lectures/lect05/Lecture_05.html)              |
 | 7       | Bond Yields and Bond Pricing by Replication (a) | Feb 25, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
 | 8       | Bond Yields and Bond Pricing by Replication (b) | Feb 27, 2025   | [Slides](/assets/lectures/lect06/Lecture_06.html)              |
-| 9       | Term Structure of Interest Rates (a)           | Mar 11, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
-| 10       | Term Structure of Interest Rates (b)           | Mar 13, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
+| 9       | Term Structure of Interest Rates            | Mar 11, 2025   | [Slides](/assets/lectures/lect07/Lecture_07.html)              |
+| 10      | Measures of Bond Price Volatility           | Mar 13, 2025   | [Slides](/assets/lectures/lect08/Lecture_07.html)              |
 
 
 
