@@ -28,7 +28,7 @@
             },
             {
                 "name": "Assignment 05",
-                "notebook_path": "notebooks/Assignment05/Assignment_05_noSol.jl",
+                "notebook_path": "notebooks/Assignment05/Assignment_05.jl",
                 "video_id": "",
                 "preview_image_url": ""
             },
@@ -37,7 +37,7 @@
                 "notebook_path": "notebooks/Assignment06/Assignment_06_noSol.jl",
                 "video_id": "",
                 "preview_image_url": ""
-            },
+            }
         ]
     },
     {
