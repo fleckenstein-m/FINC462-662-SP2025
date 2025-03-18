@@ -66,6 +66,17 @@ begin
  display("")
 end
 
+# ╔═╡ dbffdff4-ffbd-4111-a0a3-8805e2e489ce
+Foldable("Solution",Markdown.parse("
+First, the coupon cash flow is \$C=\\frac{$(c_1)}{2}\\times $(F_1)=$(C_1[1])\$
+
+``\$P = \\frac{C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} + \\frac{C}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}} + \\ldots + \\frac{C}{(1+\\frac{r_{2.5}}{2})^{2\\times 2.5}} + \\frac{1000 + 25}{(1+\\frac{r_{T}}{2})^{2\\times T}}\$``
+
+``\$P = \\frac{$(roundmult(C_1[1],1e-2))}{(1+\\frac{$(roundmult(y_1[1],1e-4))}{2})^{2\\times $(roundmult(T_1[1],1e-2))}} + \\frac{$(roundmult(C_1[2],1e-2))}{(1+\\frac{$(roundmult(y_1[2],1e-4))}{2})^{2\\times 1$(roundmult(T_1[2],1e-2))}} + \\ldots + \\frac{$(roundmult(C_1[end-1],1e-2))}{(1+\\frac{$(roundmult(y_1[end-1],1e-4))}{2})^{2\\times $(roundmult(T_1[end-1],1e-2))}} + \\frac{$(roundmult(C_1[end],1e-2))}{(1+\\frac{$(roundmult(y_1[end],1e-4))}{2})^{2\\times $(roundmult(T_1[end],1e-2))}}\$``
+
+``\$\\rightarrow P = $(roundmult(P_1,1e-4))\$``
+"))
+
 # ╔═╡ 02ae383b-c437-47c8-97c1-786130a43adb
 vspace
 
@@ -107,6 +118,27 @@ r_2C = 2*( (100/P_2C)^(1/(2*T_2C)) -1)
 P_2D = C_2D/(1+0.5*r_2A)^(2*T_2A) + C_2D/(1+0.5*r_2B)^(2*T_2B) + (100+C_2D)/(1+0.5*r_2C)^(2*T_2C)	
 display("")
 end
+
+# ╔═╡ 9d07c2cf-cb6e-46b3-86cc-a3a821a0e7ec
+Foldable("Solution",Markdown.parse("
+- First, we calculate the zero-coupon yields for T = $(T_2A), $(T_2B), and $(T_2C) using Bond A, B, and C, respectively.
+
+Bond A: 
+``\$ P = \\frac{100}{\\left(1+\\frac{r_{0.5}}{2}\\right)^{2\\times 0.5}} \\rightarrow $(P_2A) = \\frac{100}{\\left(1+\\frac{r_{0.5}}{2}\\right)^{2\\times 0.5}} \\rightarrow r_{0.5} = $(roundmult(r_2A,1e-4))\$``
+
+Bond B: 
+``\$ P = \\frac{100}{\\left(1+\\frac{r_{1.0}}{2}\\right)^{2\\times 1.0}} \\rightarrow $(P_2B) = \\frac{100}{\\left(1+\\frac{r_{1.0}}{2}\\right)^{2\\times 1.0}} \\rightarrow r_{1.0} = $(roundmult(r_2B,1e-4))\$``
+
+Bond C: 
+``\$ P = \\frac{100}{\\left(1+\\frac{r_{1.5}}{2}\\right)^{2\\times 1.5}} \\rightarrow $(P_2C) = \\frac{100}{\\left(1+\\frac{r_{1.5}}{2}\\right)^{2\\times 1.5}} \\rightarrow r_{1.5} = $(roundmult(r_2C,1e-4))\$``
+
+- Now, we calculate the market price of bond D using the zero-coupon yields calculated in the previous step. First, note that bond D has semi-annual cash flows of \$C=\\frac{c}{2}\\times 100= \\frac{$(c_2D)}{2}\\times 100 = $(C_2D)\$
+
+``\$P_D = \\frac{C}{(1+r_{0.5})^{2\\times 0.5}} + \\frac{C}{(1+r_{1.0})^{2\\times 1.0}} + \\frac{C+100}{(1+r_{1.5})^{2\\times 1.5}}\$``
+
+``\$P_D = \\frac{$(roundmult(C_2D,1e-2))}{(1+$(roundmult(r_2A,1e-4)))^{2\\times $(roundmult(T_2A,1e-2))}} + \\frac{$(roundmult(C_2D,1e-2))}{(1+$(roundmult(r_2B,1e-4)))^{2\\times 1.0}} + \\frac{$(roundmult(C_2D,1e-2))+100}{(1+$(roundmult(r_2C,1e-4)))^{2\\times 1.5}} = $(roundmult(P_2D,1e-4))\$``
+
+"))
 
 # ╔═╡ 8a581992-a91c-4d60-adfd-4e315cfd5d00
 vspace
@@ -159,6 +191,50 @@ D_3C = 1/(1+r_3C/2)^(2*T_3C)
 D_3D = 1/(1+r_3D/2)^(2*T_3D)	
 	display("")
 end
+
+# ╔═╡ 013fb954-b08b-4a6f-b817-bdfac5f68b2e
+Foldable("Solution",Markdown.parse("
+**Part 1)**
+
+- Bond A:
+
+``\$ P = \\frac{100+C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}}\$``
+``\$ $(P_3A) = \\frac{100+C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} \\rightarrow r_{0.5} = $(roundmult(r_3A,1e-4)) \$``
+
+- Bond B:
+``\$ P = \\frac{C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} + \\frac{100+C}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}}\$``
+
+``\$ $(P_3B) = \\frac{$(C_3B)}{(1+\\frac{$(roundmult(r_3A,1e-4))}{2})^{2\\times 0.5}} + \\frac{100+$(roundmult(C_3B,1e-4))}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}} \\rightarrow r_{1.0} = $(roundmult(r_3B,1e-4))\$``
+
+- Bond C:
+``\$ P = \\frac{C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} + \\frac{C}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}} + \\frac{100+C}{(1+\\frac{r_{1.5}}{2})^{2\\times 1.0}}\$``
+
+``\$ $(P_3C) = \\frac{$(roundmult(C_3C,1e-2))}{(1+\\frac{$(roundmult(r_3A,1e-4))}{2})^{2\\times 0.5}} + \\frac{$(roundmult(C_3C,1e-2))}{(1+\\frac{$(roundmult(r_3B,1e-4))}{2})^{2\\times 1.0}} + \\frac{100+$(roundmult(C_3C,1e-2))}{(1+\\frac{r_{1.5}}{2})^{2\\times 1.0}} \\rightarrow r_{1.5}=$(roundmult(r_3C,1e-4))\$``
+
+- Bond D:
+``\$ P = \\frac{C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} + \\frac{C}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}} + \\frac{C}{(1+\\frac{r_{1.5}}{2})^{2\\times 1.5}} + \\frac{100+C}{(1+\\frac{r_{2.0}}{2})^{2\\times 2.0}}\$``
+
+``\$ $(roundmult(P_3D,1e-2)) = \\frac{$(roundmult(C_3D,1e-2))}{(1+\\frac{$(roundmult(r_3A,1e-4))}{2})^{2\\times 0.5}} + \\frac{$(roundmult(C_3D,1e-2))}{(1+\\frac{$(roundmult(r_3B,1e-4))}{2})^{2\\times 1.0}} + \\frac{$(roundmult(C_3D,1e-2))}{(1+\\frac{$(roundmult(r_3C,1e-4))}{2})^{2\\times 1.5}} + \\frac{100+$(roundmult(C_3D,1e-2))}{(1+\\frac{r_{2.0}}{2})^{2\\times 2.0}}\$``
+
+``\$ \\rightarrow r_{2.0}= $(roundmult(r_3D,1e-2))\$``
+**Part 2)**
+
+- T=0.5: 
+``\$ D(0.5) = \\frac{1}{\\left(1+\\frac{r_{0.5}}{2}\\right)^{2\\times 0.5}} = $(roundmult(D_3A,1e-4))\$`` 
+
+- T=1.0:
+``\$ D(1.0) = \\frac{1}{\\left(1+\\frac{r_{1.0}}{2}\\right)^{2\\times 1.0}} = $(roundmult(D_3B,1e-4))\$`` 
+
+- T=1.5:
+``\$ D(1.5) = \\frac{1}{\\left(1+\\frac{r_{1.5}}{2}\\right)^{2\\times 1.5}} = $(roundmult(D_3C,1e-4))\$`` 
+
+
+- T=2.0:
+``\$ D(2.0) = \\frac{1}{\\left(1+\\frac{r_{2.0}}{2}\\right)^{2\\times 2.0}} = $(roundmult(D_3D,1e-4))\$`` 
+
+
+- Note: The yield curve implies that \$ 1 in 1.5 years is worth less than \$ 1 in 2 years. This is inconsistent with the general principles of the time value of money
+"))
 
 # ╔═╡ 24972917-ba7d-4a8e-9704-19220693b021
 vspace
@@ -1410,14 +1486,17 @@ version = "1.4.1+2"
 # ╟─36e6512e-a077-48ad-8fe8-70a1bd1bed93
 # ╟─239caa07-cb32-4757-8fea-6f5054516137
 # ╟─ce1e6bc3-3e22-4163-9c1f-f91976954376
+# ╟─dbffdff4-ffbd-4111-a0a3-8805e2e489ce
 # ╟─02ae383b-c437-47c8-97c1-786130a43adb
 # ╟─e1f618e8-9ad0-436e-b43c-9cbd8e6b5f60
 # ╟─2e408672-22ed-48f1-8690-0ed58f78aca0
 # ╟─f02ca2da-aed8-4540-a74b-066daa415bf2
+# ╟─9d07c2cf-cb6e-46b3-86cc-a3a821a0e7ec
 # ╟─8a581992-a91c-4d60-adfd-4e315cfd5d00
 # ╟─459eef1f-ed9f-413e-ae7e-51b01d6d0802
 # ╟─84f0214a-498f-40c8-be10-f4290d1cd117
 # ╟─6037856e-2918-4139-8059-20796f637ba7
+# ╟─013fb954-b08b-4a6f-b817-bdfac5f68b2e
 # ╟─24972917-ba7d-4a8e-9704-19220693b021
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╟─00000000-0000-0000-0000-000000000001
