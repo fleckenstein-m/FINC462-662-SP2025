@@ -1,3 +1,6 @@
 ## Lecture 10
 
-[Slides](/assets/lectures/lect10/Lect10.html)                              
+
+- Open the lecture slides in a new browser window by right-clicking on the link below and and then selecting "Open link in new window".
+
+[Slides](/assets/lectures/lect10/Lecture_10_noSol.html)                              
