@@ -72,7 +72,7 @@ First, the coupon cash flow is \$C=\\frac{$(c_1)}{2}\\times $(F_1)=$(C_1[1])\$
 
 ``\$P = \\frac{C}{(1+\\frac{r_{0.5}}{2})^{2\\times 0.5}} + \\frac{C}{(1+\\frac{r_{1.0}}{2})^{2\\times 1.0}} + \\ldots + \\frac{C}{(1+\\frac{r_{2.5}}{2})^{2\\times 2.5}} + \\frac{1000 + 25}{(1+\\frac{r_{T}}{2})^{2\\times T}}\$``
 
-``\$P = \\frac{$(roundmult(C_1[1],1e-2))}{(1+\\frac{$(roundmult(y_1[1],1e-4))}{2})^{2\\times $(roundmult(T_1[1],1e-2))}} + \\frac{$(roundmult(C_1[2],1e-2))}{(1+\\frac{$(roundmult(y_1[2],1e-4))}{2})^{2\\times 1$(roundmult(T_1[2],1e-2))}} + \\ldots + \\frac{$(roundmult(C_1[end-1],1e-2))}{(1+\\frac{$(roundmult(y_1[end-1],1e-4))}{2})^{2\\times $(roundmult(T_1[end-1],1e-2))}} + \\frac{$(roundmult(C_1[end],1e-2))}{(1+\\frac{$(roundmult(y_1[end],1e-4))}{2})^{2\\times $(roundmult(T_1[end],1e-2))}}\$``
+``\$P = \\frac{$(roundmult(C_1[1],1e-2))}{(1+\\frac{$(roundmult(y_1[1],1e-4))}{2})^{2\\times $(roundmult(T_1[1],1e-2))}} + \\frac{$(roundmult(C_1[2],1e-2))}{(1+\\frac{$(roundmult(y_1[2],1e-4))}{2})^{2\\times $(roundmult(T_1[2],1e-2))}} + \\ldots + \\frac{$(roundmult(C_1[end-1],1e-2))}{(1+\\frac{$(roundmult(y_1[end-1],1e-4))}{2})^{2\\times $(roundmult(T_1[end-1],1e-2))}} + \\frac{$(roundmult(C_1[end],1e-2))}{(1+\\frac{$(roundmult(y_1[end],1e-4))}{2})^{2\\times $(roundmult(T_1[end],1e-2))}}\$``
 
 ``\$\\rightarrow P = $(roundmult(P_1,1e-4))\$``
 "))
