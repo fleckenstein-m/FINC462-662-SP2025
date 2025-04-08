@@ -128,6 +128,19 @@ begin
 		display("")
 end
 
+# ╔═╡ dbffdff4-ffbd-4111-a0a3-8805e2e489ce
+Foldable("Solution",Markdown.parse("
+- Using the Macaulay Duration formula, we calculate ``D`` as follows
+``$str31 ``
+- Plugging in the values
+``$str32 ``
+- Finally, the Macaulay Duration ``D`` is
+``$str33``
+- The Modified Duration is
+``\$MD = \\frac{D}{(1+\\frac{y}{2})} = \\frac{$(roundmult(D,1e-4))}{1+\\frac{$(roundmult(y3/100,1e-3))}{2}} = $(roundmult(MD,1e-4))\$``
+
+"))
+
 # ╔═╡ 02ae383b-c437-47c8-97c1-786130a43adb
 vspace
 
@@ -160,6 +173,29 @@ begin
  display("")
 end
 
+# ╔═╡ d3cd8fc8-a3cc-4a42-a8e0-73c06752ddf3
+Foldable("Solution",Markdown.parse("
+
+- We pick ``\\Delta y=$deltaY5``% (20 basis points).
+1. We calculate ``P(y+\\Delta y)``
+ ``\$P(y+\\Delta y)= \\frac{C}{(y+\\Delta y)/2} \\times \\left( 1-\\frac{1}{\\left(1+\\frac{(y+\\Delta y)}{2}\\right)^{2\\times T}} \\right) + \\frac{100}{\\left(1+\\frac{(y+\\Delta y)}{2}\\right)^{2\\times T}}\$``
+
+``\$P(y+\\Delta y)= \\frac{$C5}{$(y3+deltaY5)\\%/2} \\times \\left( 1-\\frac{1}{\\left(1+\\frac{$(y5+deltaY5)\\%}{2}\\right)^{2\\times $T5}} \\right) + \\frac{100}{\\left(1+\\frac{$(y5+deltaY5)\\%}{2}\\right)^{2\\times $T5}}=$(roundmult(p5plus,1e-6))\$``
+
+2. We calculate ``P(y-\\Delta y)``
+ ``\$P(y-\\Delta y)= \\frac{C}{(y-\\Delta y)/2} \\times \\left( 1-\\frac{1}{\\left(1+\\frac{(y-\\Delta y)}{2}\\right)^{2\\times T}} \\right) + \\frac{100}{\\left(1+\\frac{(y-\\Delta y)}{2}\\right)^{2\\times T}}\$``
+
+``\$P(y+\\Delta y)= \\frac{$C5}{$(y5-deltaY5)\\%/2} \\times \\left( 1-\\frac{1}{\\left(1+\\frac{$(y5-deltaY5)\\%}{2}\\right)^{2\\times $T5}} \\right) + \\frac{100}{\\left(1+\\frac{$(y5-deltaY5)\\%}{2}\\right)^{2\\times $T5}} =$(roundmult(p5minus,1e-6))\$``
+
+3. We calculate the modified duration ``MD(y)``
+``\$MD(y) = - \\frac{P(y+\\Delta y)-P(y-\\Delta y)}{2\\times \\Delta y} \\times \\frac{1}{P(y)}\$``
+
+``\$MD($y5\\%) = - \\frac{$(roundmult(p5plus,1e-4))-$(roundmult(p5minus,1e-4))}{2\\times $(deltaY5/100)} \\times \\frac{1}{$(roundmult(p5,1e-4))}=$(roundmult(md5,1e-6))\$``
+
+- This means that when interest rates increase by 1 percentage point, the price of the bond declines by $(roundmult(md5,1e-2)) percent.
+
+"))
+
 # ╔═╡ ef4da0da-1905-4c7e-bacc-3d782920100b
 vspace
 
@@ -181,6 +217,14 @@ C       | 97.327      | 5%                | 3 years
 
 # ╔═╡ 9510d176-a1e0-44b0-a584-08855d257e40
 vspace
+
+# ╔═╡ 2163ac0a-301f-455d-bc07-8fa2873aa59f
+Foldable("Solution",
+md"""
+- Bond C, which has the longest maturity, is likely to have the largest modified  duration, so is not the answer.
+- Bonds A and B have the same maturity, but B has higher coupons, so B should have a lower modified duration than Bond A.
+- Thus, B is likely to have a lower modified duration than A and the answer is Bond B.
+""")
 
 # ╔═╡ e1342341-a348-453c-894f-dfbe857eb4db
 vspace
@@ -206,6 +250,46 @@ Interest rates are annual interest rates that are __semi-annually__ compounded.
 
 # ╔═╡ 6ebbd3a5-5c68-494b-8c56-82d958d8bee8
 vspace
+
+# ╔═╡ 2ec3879c-2220-4ba5-aea9-6bf4ad6a5c29
+Foldable("Solution to Part 1",Markdown.parse("
+We use \$\\Delta y = 0.1\\%\$ (10 basis points).
+
+\$\\begin{aligned}
+&P(y) = \\frac{3}{(1+\\frac{1\\%}{2})^{2\\times 0.5}} + \\frac{103}{(1+\\frac{1.2\\%}{2})^{2\\times 1.0}} = 104.76\\\\
+&P(y + \\Delta y) = \\frac{3}{(1+\\frac{1.1\\%}{2})^{2\\times 0.5}} + \\frac{103}{(1+\\frac{1.3\\%}{2})^{2\\times 1.0}}= 104.6575\\\\
+&P(y - \\Delta y) = \\frac{3}{(1+\\frac{0.9\\%}{2})^{2\\times 0.5}} + \\frac{103}{(1+\\frac{1.1\\%}{2})^{2\\times 1.0}}= 104.8528\\\\
+&MD \\approx -\\frac{104.6575 - 104.8628}{2\\times .001}\\times\\frac{1}{104.76} = 0.9784
+\\end{aligned}\$
+"))
+
+# ╔═╡ c8580960-58ca-4324-9593-57db48ccdc1e
+Foldable("Solution to Part 2",Markdown.parse("
+We use \$\\Delta y = 0.1\\%\$ (10 basis points).
+
+\$\\begin{aligned}
+&P(y) = \\frac{5}{(1+\\frac{1\\%}{2})^{2\\times 0.5}} + \\frac{5}{(1+\\frac{1.2\\%}{2})^{2\\times 1.0}} + 
+\\frac{5}{(1+\\frac{1.4\\%}{2})^{2\\times 1.5}} + \\frac{105}{(1+\\frac{1.8\\%}{2})^{2\\times 2.0}} = 116.12\\\\
+
+&P(y+\\Delta y) = \\frac{5}{(1+\\frac{1.1\\%}{2})^{2\\times 0.5}} + \\frac{5}{(1+\\frac{1.3\\%}{2})^{2\\times 1.0}} + 
+\\frac{5}{(1+\\frac{1.5\\%}{2})^{2\\times 1.5}} + \\frac{105}{(1+\\frac{1.9\\%}{2})^{2\\times 2.0}} = 115.9004\\\\
+&P(y-\\Delta y) = \\frac{5}{(1+\\frac{0.9\\%}{2})^{2\\times 0.5}} + \\frac{5}{(1+\\frac{1.1\\%}{2})^{2\\times 1.0}} + 
+\\frac{5}{(1+\\frac{1.3\\%}{2})^{2\\times 1.5}} + \\frac{105}{(1+\\frac{1.7\\%}{2})^{2\\times 2.0}} = 116.3314
+\\\\
+&MD \\approx -\\frac{115.9004 - 116.3314}{2\\times .001}\\times\\frac{1}{116.12} = 1.8558
+\\end{aligned}\$
+
+
+"))
+
+# ╔═╡ 2c63c47c-307a-4844-8cf2-9c44982ac5cd
+Foldable("Solution to Part 3",Markdown.parse("
+\$\\begin{aligned}
+&w_{1yr} = \\frac{104.76}{104.76+116.12} = 0.4743\\\\
+&w_{2yr} = \\frac{116.12}{104.76+116.12} = 0.5257\\\\
+&MD = 0.4743\\times(0.9784) + 0.5257\\times(1.8558) = 1.44
+\\end{aligned}\$
+"))
 
 # ╔═╡ 0008a21c-49dc-4ee0-bc27-ca100e599278
 vspace
@@ -243,6 +327,22 @@ begin
 	df8 = DataFrame(Bond=["H","I","J","K","L"],Maturity=matVec8,Yield=yVec8,FaceValue=fVec8,PricePer100=pVec8,nB=nB8, MD=MD8, Pb =Pb8, wb=wB8, wB_MD=wB8.*MD8)
 	display("")
 end
+
+# ╔═╡ 5a5cfed2-6017-4a05-9f3f-b93d0bdc81a2
+md"""
+**Solution**
+"""
+
+# ╔═╡ b01e826e-acc1-4684-a2d1-fdb53946cdf3
+df8[:,1:10]
+
+# ╔═╡ e52b3706-8bc7-49aa-b154-0aca6560d8ac
+Markdown.parse("
+``\$MD_{\\textrm{Portfolio}} = $(roundmult(df8.wB_MD[1],1e-4)) + $(roundmult(df8.wB_MD[2],1e-4)) + $(roundmult(df8.wB_MD[3],1e-4)) + $(roundmult(df8.wB_MD[4],1e-4)) + $(roundmult(df8.wB_MD[5],1e-4))\$``
+
+``\$MD_{\\textrm{Portfolio}} = $(roundmult(sum(df8.wB_MD),1e-6))\$``
+")
+
 
 # ╔═╡ 7fa2dc91-127d-43e9-a2ed-d7b36d27ce1e
 vspace
@@ -846,22 +946,31 @@ version = "17.4.0+2"
 # ╟─982fa9ef-7fdf-4697-a39e-e48ac2ac7ae5
 # ╟─ce1e6bc3-3e22-4163-9c1f-f91976954376
 # ╟─dda3cea8-ff3c-45f3-93e9-207bf63f25aa
+# ╟─dbffdff4-ffbd-4111-a0a3-8805e2e489ce
 # ╟─02ae383b-c437-47c8-97c1-786130a43adb
 # ╟─e1f618e8-9ad0-436e-b43c-9cbd8e6b5f60
 # ╟─354d2f11-01c8-4d2e-ba6d-c18853018ce7
 # ╟─1591fc11-7174-46a8-95d0-0ff9e1ce2424
+# ╟─d3cd8fc8-a3cc-4a42-a8e0-73c06752ddf3
 # ╟─ef4da0da-1905-4c7e-bacc-3d782920100b
 # ╟─bdfc509c-1288-45ff-8dd2-15f9f31511b8
 # ╟─6afec959-4488-4a7e-99e9-186057053197
 # ╟─9510d176-a1e0-44b0-a584-08855d257e40
+# ╟─2163ac0a-301f-455d-bc07-8fa2873aa59f
 # ╟─e1342341-a348-453c-894f-dfbe857eb4db
 # ╟─c7d4ecf0-d78d-4666-a07f-380c3265c96a
 # ╟─19c41dd1-0155-4aa1-88ba-2cb4c4e35595
 # ╟─6ebbd3a5-5c68-494b-8c56-82d958d8bee8
+# ╟─2ec3879c-2220-4ba5-aea9-6bf4ad6a5c29
+# ╟─c8580960-58ca-4324-9593-57db48ccdc1e
+# ╟─2c63c47c-307a-4844-8cf2-9c44982ac5cd
 # ╟─0008a21c-49dc-4ee0-bc27-ca100e599278
 # ╟─1bae6b88-9b8c-42a7-8abe-981a46714219
 # ╟─b22ded79-21d4-460f-a5d0-7951957473af
 # ╟─2ef23d43-033b-4e3d-842b-36f6d7f3f91c
+# ╟─5a5cfed2-6017-4a05-9f3f-b93d0bdc81a2
+# ╟─b01e826e-acc1-4684-a2d1-fdb53946cdf3
+# ╟─e52b3706-8bc7-49aa-b154-0aca6560d8ac
 # ╟─7fa2dc91-127d-43e9-a2ed-d7b36d27ce1e
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╟─00000000-0000-0000-0000-000000000001

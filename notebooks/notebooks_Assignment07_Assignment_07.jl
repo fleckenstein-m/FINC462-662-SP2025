@@ -98,6 +98,40 @@ Markdown.parse("
 - What is the price changes of the bond (in percentage terms) when bond yields increase by 50 basis points?
 ")
 
+# ╔═╡ b73e1ead-ef82-436c-a866-3fa9a3b7d8a2
+Foldable("Solution",Markdown.parse("
+- We start by selecting the yield change ``\\Delta y=$deltaY2``%
+- First, we calculate the bond price ``P(y)``
+``\$ P(y) = \\frac{C}{y/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{y}{2}\\right)^{2\\times T}} \\right) + \\frac{F}{\\left(1+\\frac{y}{2}\\right)^{2\\times T}}
+\$``
+``\$ =\\frac{$C2}{$y2\\%/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{$y2\\%}{2}\\right)^{2\\times $T2}} \\right) + \\frac{$F2}{\\left(1+\\frac{$y2\\%}{2}\\right)^{2\\times $T2}} = $(roundmult(P2,1e-4))\$``
+
+- Next, using ``\\Delta y=$deltaY2``% 
+``\$ P(y+\\Delta y) = \\frac{C}{(y+\\Delta y)/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{y+\\Delta y}{2}\\right)^{2\\times T}} \\right) + \\frac{F}{\\left(1+\\frac{y+\\Delta y}{2}\\right)^{2\\times T}}\$``
+``\$
+=\\frac{$C2}{$y2plus\\%/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{$y2plus\\%}{2}\\right)^{2\\times $T2}} \\right) + \\frac{$F2}{\\left(1+\\frac{$y2plus\\%}{2}\\right)^{2\\times $T2}} = $(roundmult(P2plus,1e-4)) \$``
+
+- Similarly,
+``\$ P(y-\\Delta y) = \\frac{C}{(y-\\Delta y)/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{y-\\Delta y}{2}\\right)^{2\\times T}} \\right) + \\frac{F}{\\left(1+\\frac{y-\\Delta y}{2}\\right)^{2\\times T}}\$``
+``\$
+=\\frac{$C2}{$y2minus\\%/2} \\times \\left(1-\\frac{1}{\\left(1+\\frac{$y2minus\\%}{2}\\right)^{2\\times $T2}} \\right) + \\frac{$F2}{\\left(1+\\frac{$y2minus\\%}{2}\\right)^{2\\times $T2}} = $(roundmult(P2minus,1e-4))\$``
+
+- Thus,
+``\$\\textrm{CX} = \\frac{$(roundmult(P2plus,1e-4))+$(roundmult(P2minus,1e-4))-2\\times $(roundmult(P2,1e-4))}{($(roundmult(deltaY2,1e-4))\\%)^2} \\times \\frac{1}{$(roundmult(P2,1e-4))}=$(roundmult(CX2,1e-6))
+\$``
+
+- Recall that the modified duration of the bond is 
+
+``\$MD(y) = - \\frac{P(y+\\Delta y)-P(y-\\Delta y)}{2\\times \\Delta y} \\times \\frac{1}{P(y)}\$``
+
+``\$MD(y) = - \\frac{$(roundmult(P2plus,1e-4))-$(roundmult(P2minus,1e-4))}{2\\times $(roundmult(deltaY2,1e-4))\\%} \\times \\frac{1}{$(roundmult(P2,1e-4))}=$(roundmult(MD2,1e-6))\$``
+
+- Thus, when yield increase from ``y=$y2``% to ``y=6.5``%, the approximate percent change in the bond price is
+``\$ \\frac{\\Delta P}{P} = -MD(y) \\times \\Delta y + \\frac{1}{2} \\times \\textrm{CX} \\times (\\Delta y)^2\$``
+
+``\$ \\frac{\\Delta P}{P} = $(-roundmult(MD2,1e-6)) \\times 0.005 + \\frac{1}{2} \\times $(roundmult(CX2,1e-6)) \\times (0.005)^2 = $(roundmult(-MD2*0.005+0.5*CX2*0.005^2,1e-6))=$(roundmult(100*(-MD2*0.005+0.5*CX2*0.005^2),1e-4))\\%\$``
+"))
+
 # ╔═╡ b92f0179-d96c-499d-b98d-5a574ee5cfaf
 vspace
 
@@ -137,6 +171,44 @@ L      | $(matVec4[5]) | $(yVec4[5])% | $(fVec4[5])
 
 ")
 
+# ╔═╡ e31f7600-4a21-4323-9e3a-eaf87e9410e4
+Foldable("Solution",md"""
+- First, calculate the prices of the zero coupon bonds face value.
+- Recall, that the price of a $T$-year maturity zero-coupon bond with yield $y_T$ (annually compounded) and face value $100$ is given by
+
+$$P_T = \frac{100}{(1+y_T)^T}$$
+
+- Next, calculate the number of units $n_b$ for each bond $b$ in the portfolio.
+- The number of bonds is simply the actual face value divided by 100 face value (which we used to calculate the bond price).
+  - For instance for bond H, it is $(fVec4[1])/100 = $(fVec4[1]/100) 
+
+- Next,  calculate the convexities of the zero-coupon bonds.
+- Recall that for a zero-coupon bond with time-to-maturity $T$ and yield-to-maturity $y$ (**annually compounded**), the convexity is
+
+$$\textrm{CX} = \frac{T^2+T}{(1+y)^2}$$
+
+- For instance, for bond H it is $CX_1=\frac{(1^2 + 1)}{(1+y)^2}$=$(roundmult(CX4[1],1e-4))
+
+
+- Next, calculate the total value of the bond portfolio.
+- The value of the bond portfolio $P_{\textrm{Portfolio}}$ is the sum of the values of the positions in the individual bonds. The position in bond $b$ is worth the number of units times the bond price, i.e. $n_b \times P_b$.
+
+- Then, we can calculate the portfolio weights
+
+$$w_b = \frac{n_b\times P_b}{P_{\textrm{Portfolio}}}$$
+
+- As the last step, we compute the convexity of the portfolio $CX_{\textrm{Portfolio}}$
+
+$$CX_{\textrm{Portfolio}} = w_1 \times CX_1 + w_2 \times CX_2 + \ldots + w_B \times CX_B$$
+
+We get $CX_{\textrm{Portfolio}}$ = $(roundmult(df4.wB_CX[1],1e-4)) + $(roundmult(df4.wB_CX[2],1e-4)) + $(roundmult(df4.wB_CX[3],1e-4)) + $(roundmult(df4.wB_CX[4],1e-4)) + $(roundmult(df4.wB_CX[5],1e-4)) = $(roundmult(sum(df4.wB_CX),1e-6))
+
+The table below summarizes all the calculations.
+""")
+
+# ╔═╡ 49b9da08-e934-4c4d-8f3b-b8438579aa4e
+df4
+
 # ╔═╡ 4359839b-c167-4e1a-b26c-7ad0a49b157d
 vspace
 
@@ -154,6 +226,50 @@ md"""
 3. Calculate the bond’s convexity using the approximation formula with $\Delta y = 0.1$%.
 4. If discount rates increase to 10%, what is the new price of the bond?
 """
+
+# ╔═╡ 4747c18f-f737-4820-b889-fddd4c8244e4
+Foldable("Solution to Part 1",
+Markdown.parse("
+``\$ P = 25\\times\\frac{1}{\\frac{.06}{2}}\\left[1 - \\frac{1}{(1+\\frac{0.06}{2})^{2\\times 10}}\\right] + \\frac{1000}{(1+\\frac{0.06}{2})^{20}} = 925.6126\$``
+
+"))
+
+# ╔═╡ fa0e29ef-b7c5-4cb2-bbd3-2d88f034a38f
+Foldable("Solution to Part 2",
+Markdown.parse("
+\$\\begin{aligned}
+P(y+\\Delta y) = 25\\times\\frac{1}{.0305}\\left[1 - \\frac{1}{1.0305^{20}}\\right] + \\frac{1000}{1.0305^{20}} = 918.5509\\\\
+P(y-\\Delta y) =25\\times\\frac{1}{.0295}\\left[1 - \\frac{1}{1.0295^{20}}\\right] + \\frac{1000}{1.0295^{20}} = 932.7408
+\\end{aligned}\$
+
+\$\\begin{aligned}
+MD \\approx - \\frac{918.5509 - 932.7408}{2\\times .001} \\times \\frac{1}{925.6126} = 7.67
+\\end{aligned}\$
+"))
+
+# ╔═╡ 18ec655a-729b-4e33-bd70-00f9f0beaec8
+Foldable("Solution to Part 3",
+Markdown.parse("
+\$\\begin{aligned}
+C \\approx \\frac{918.5509 + 932.7408 - 2 \\times 925.6126}{.001^2} \\times \\frac{1}{925.6126} = 71.79
+\\end{aligned}\$
+"))
+
+# ╔═╡ f4b065a1-fb99-4798-874d-a24cea678cd7
+Foldable("Solution to Part 4",Markdown.parse("
+- Approximation using annual yields (6 % to 10%; \$\\Delta\$ y = 4%):
+
+\$\\begin{aligned}
+&\\frac{\\Delta P}{P} \\approx -7.67(0.04) + \\frac{1}{2}(71.79)(0.04)^2 = -0.249178\\\\
+&(1-0.249178)\\times 925.6126 = 694.97
+\\end{aligned}\$
+
+- Compare to the actual price after the yield change
+\$\\begin{aligned}
+25\\times\\frac{1}{.05}\\left[1 - \\frac{1}{1.05^{20}}\\right] + \\frac{1000}{1.05^{20}} = 688.44
+\\end{aligned}\$
+
+"))
 
 # ╔═╡ 7fa2dc91-127d-43e9-a2ed-d7b36d27ce1e
 vspace
@@ -779,13 +895,20 @@ version = "17.4.0+2"
 # ╟─faa98402-e6d6-4a24-83ee-e8af7228103b
 # ╟─d8dd4d39-a980-46dd-bbcb-90a47faa937a
 # ╟─be8f75cd-bb9b-41e7-881b-011ca9432bd7
+# ╟─b73e1ead-ef82-436c-a866-3fa9a3b7d8a2
 # ╟─b92f0179-d96c-499d-b98d-5a574ee5cfaf
 # ╟─5ed25d13-c20d-492b-8b85-0b49a2762019
 # ╟─908377a9-3767-4b65-865d-ec69b7ff349b
 # ╟─39131b82-0d76-4e3c-bb5f-64701697599d
+# ╟─e31f7600-4a21-4323-9e3a-eaf87e9410e4
+# ╟─49b9da08-e934-4c4d-8f3b-b8438579aa4e
 # ╟─4359839b-c167-4e1a-b26c-7ad0a49b157d
 # ╟─30f3c798-7cbb-4889-87c4-5efad40837c4
 # ╟─6f68f07f-4bef-4de8-ad9a-f5fb1ae99398
+# ╟─4747c18f-f737-4820-b889-fddd4c8244e4
+# ╟─fa0e29ef-b7c5-4cb2-bbd3-2d88f034a38f
+# ╟─18ec655a-729b-4e33-bd70-00f9f0beaec8
+# ╟─f4b065a1-fb99-4798-874d-a24cea678cd7
 # ╟─7fa2dc91-127d-43e9-a2ed-d7b36d27ce1e
 # ╟─aee736ee-b621-4cf8-ae76-b46f1f0a91cc
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
