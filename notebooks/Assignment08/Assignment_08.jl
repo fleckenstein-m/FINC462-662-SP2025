@@ -1,12 +1,11 @@
 ### A Pluto.jl notebook ###
-# v0.19.19
+# v0.20.4
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ d160a115-56ed-4598-998e-255b82ec37f9
+# ╔═╡ 9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╠═╡ show_logs = false
-#Set-up packages
 begin
 	#using Pkg
 	#Pkg.upgrade_manifest()
@@ -86,29 +85,29 @@ begin
 	"""
 end
 
-# ╔═╡ 19b58a85-e443-4f5b-a93a-8d5684f9a17a
-TableOfContents(title="Assignment 8", indent=true, depth=2, aside=true)
-
 # ╔═╡ a5de5746-3df0-45b4-a62c-3daf36f015a5
 begin 
 	html"""
 	<p style="padding-bottom:1cm"> </p>
 	<div align=center style="font-size:25px; font-family:family:Georgia"> FINC-462/662: Fixed Income Securities </div>
 	<p style="padding-bottom:1cm"> </p>
-	<p align=center style="font-size:25px; font-family:family:Georgia"> <b> Assignment 8
-	</b> <p>
+	<p align=center style="font-size:25px; font-family:family:Georgia"> <b> Assignment 8</b> <p>
+	<p align=center style="font-size:25px; font-family:family:Georgia"> <b> Hedging Interest Rate Risk</b> <p>
 	<p style="padding-bottom:1cm"> </p>
-	<p align=center style="font-size:25px; font-family:family:Georgia"> Spring 2023 <p>
-	<p style="padding-bottom:1cm"> </p>
+	<p align=center style="font-size:25px; font-family:family:Georgia"> Spring 2025 <p>
+	<p style="padding-bottom:0.5cm"> </p>
 	<div align=center style="font-size:20px; font-family:family:Georgia"> Prof. Matt Fleckenstein </div>
-	<p style="padding-bottom:0.05cm"> </p>
+	<p style="padding-bottom:0.25cm"> </p>
 	<div align=center style="font-size:20px; font-family:family:Georgia"> University of Delaware, 
 	Lerner College of Business and Economics </div>
 	<p style="padding-bottom:0cm"> </p>
 	"""
 end
 
-# ╔═╡ 3eeb383c-7e46-46c9-8786-ab924b475d45
+# ╔═╡ 8bcc8106-31e8-4212-8f9e-8800e5737b11
+vspace
+
+# ╔═╡ 657e8ee4-5df9-42c1-8639-ba5ab37b51b4
 # ╠═╡ show_logs = false
 begin
  function getBondPrice(y,c,T,F)
@@ -119,694 +118,354 @@ begin
 	PV = CF./(1+y/200).^(2 .* dt)
 	return sum(PV)
  end
-
- function getModDuration(y,c,T,F)
-	P0 = getBondPrice(y,c,T,F)
-	deltaY = 0.10 
-	Pplus  = getBondPrice(y+deltaY,c,T,F)
-	Pminus = getBondPrice(y-deltaY,c,T,F)
-	return -(Pplus-Pminus)./(2 * deltaY * P0)
- end
- display("")
-	
+	display("")
 end
 
-# ╔═╡ 9f9d1928-5806-46e9-8dab-2961da605826
-vspace
-
-# ╔═╡ 7ad75350-14a4-47ee-8c6b-6a2eac09ebb1
-md"""
-# Question 1
-"""
-
-# ╔═╡ caad8479-654b-4a15-a994-56c8764728c7
+# ╔═╡ af866ea7-e8eb-4774-8d0d-66b4da87a01e
 begin
-	r05_2 = 2.00
-	r10_2 = 3.00
-	r15_2 = 3.50
-	r20_2 = 3.00
-	r25_2 = 4.00 
-	r30_2 = 4.50
-	r35_2 = 4.75
-	r40_2 = 5.00
-	r45_2 = 5.10
-	r50_2 = 5.25
+	r4 = 3.5 #percent
+	F4_1 = 1000
+	T4_1 = 12
+	T4_2 = 5
+	T4_3 = 20
 	
-	rVec_2 = [r05_2,r10_2,r15_2,r20_2,r25_2,r30_2,r35_2,r40_2,r45_2,r50_2]
+	MD4_1 = T4_1/(1+r4/100)
+	MD4_2 = T4_2/(1+r4/100)
+	MD4_3 = T4_3/(1+r4/100)
+	P4_1 = F4_1/(1+(r4/100))^T4_1
+	P4_2 = F4_1/(1+(r4/100))^T4_2
+	P4_3 = F4_1/(1+(r4/100))^T4_3
 	
-	f05_10_2 = 2*((1+r10_2/200)^(2*1.0)/(1+r05_2/200)^(2*0.5) -1)
-	f10_15_2 = 2*((1+r15_2/200)^(2*1.5)/(1+r10_2/200)^(2*1.0) -1)
-	f15_20_2 = 2*((1+r20_2/200)^(2*2.0)/(1+r15_2/200)^(2*1.5) -1)
-	f20_25_2 = 2*((1+r25_2/200)^(2*2.5)/(1+r20_2/200)^(2*2.0) -1)
-	f25_30_2 = 2*((1+r30_2/200)^(2*3.0)/(1+r25_2/200)^(2*2.5) -1)
-	f30_35_2 = 2*((1+r35_2/200)^(2*3.5)/(1+r30_2/200)^(2*3.0) -1)
-	f35_40_2 = 2*((1+r40_2/200)^(2*4.0)/(1+r35_2/200)^(2*3.5) -1)
-	f40_45_2 = 2*((1+r45_2/200)^(2*4.5)/(1+r40_2/200)^(2*4.0) -1)
-	f45_50_2 = 2*((1+r50_2/200)^(2*5.0)/(1+r45_2/200)^(2*4.5) -1)
-	fVec_2 = [f05_10_2,f10_15_2,f15_20_2,f20_25_2,f25_30_2,f30_35_2,f35_40_2,f40_45_2,f45_50_2]
 
-	
-	f10_30_2 = (((1+r30_2/200)^(2*3)/(1+r10_2/200)^(2*1))^(1/(2*2))-1)*2
-	f20_40_2 = (((1+r40_2/200)^(2*4)/(1+r20_2/200)^(2*2))^(1/(2*2))-1)*2
-	f30_50_2 = (((1+r50_2/200)^(2*5)/(1+r30_2/200)^(2*3))^(1/(2*2))-1)*2
-
-	f10_50_2 = (((1+r50_2/200)^(2*5)/(1+r10_2/200)^(2*1))^(1/(2*4))-1)*2
-	f20_50_2 = (((1+r50_2/200)^(2*5)/(1+r20_2/200)^(2*2))^(1/(2*3))-1)*2
-	
-	
-	strf05_10_2 = "2*((1+$(roundmult(r10_2/100,1e-6))/2)^{2*1.0}/(1+$(r05_2/100)/2)^{2*0.5} -1)"
-	strf10_15_2 = "2*((1+$(roundmult(r15_2/100,1e-6))/2)^{2*1.5}/(1+$(r10_2/100)/2)^{2*1.0} -1)"
-	strf15_20_2 = "2*((1+$(roundmult(r20_2/100,1e-6))/2)^{2*2.0}/(1+$(r15_2/100)/2)^{2*1.5} -1)"
-	strf20_25_2 = "2*((1+$(roundmult(r25_2/100,1e-6))/2)^{2*2.5}/(1+$(r20_2/100)/2)^{2*2.0} -1)"
-	strf25_30_2 = "2*((1+$(roundmult(r30_2/100,1e-6))/2)^{2*3.0}/(1+$(r25_2/100)/2)^{2*2.5} -1)"
-	strf30_35_2 = "2*((1+$(roundmult(r35_2/100,1e-6))/2)^{2*3.5}/(1+$(r30_2/100)/2)^{2*3.0} -1)"
-	strf35_40_2 = "2*((1+$(roundmult(r40_2/100,1e-6))/2)^{2*4.0}/(1+$(r35_2/100)/2)^{2*3.5} -1)"
-	strf40_45_2 = "2*((1+$(roundmult(r45_2/100,1e-6))/2)^{2*4.5}/(1+$(r40_2/100)/2)^{2*4.0} -1)"
-	strf45_50_2 = "2*((1+$(roundmult(r50_2/100,1e-6))/2)^{2*5.0}/(1+$(r45_2/100)/2)^{2*4.5} -1)"
-	strfVec_2 = [strf05_10_2,strf10_15_2,strf15_20_2,strf20_25_2,strf25_30_2,strf30_35_2,strf35_40_2,strf40_45_2,strf45_50_2]
+	lhs4 = [MD4_2 (T4_3/(1+r4/100))
+         (0.5*(T4_2^2+T4_2)/(1+r4/100)^2) (0.5*(T4_3^2+T4_3)/(1+r4/100)^2)]
+ 	rhs4 = [(MD4_1*P4_1), (0.5*P4_1*(T4_1^2+T4_1)/(1+r4/100)^2)]
+ 	sol4 = inv(lhs4)*rhs4
+		
 	html"""<hr>"""
 end
 
-# ╔═╡ 23bb9890-718d-42fd-a9fa-51b4a7994ed7
-md"""
-Suppose spot rates are as given below. Calculate 6-month forward rates out to 5 years, i.e. calculate $f_{0.5,1}$, $f_{1.0,1.5}$, ..., $f_{4.5,5}$.
-
-| Tenor $\,T$ | Spot Rate $\,r_t$      |
-|:----------|:--------------------|
-| 0.5-year  | $r_{0.5}$=$(r05_2)% |
-| 1.0-year  | $r_{1.0}$=$(r10_2)%
-| 1.5-year  | $r_{1.5}$=$(r15_2)%
-| 2.0-year  | $r_{2.0}$=$(r20_2)%
-| 2.5-year  | $r_{2.5}$=$(r25_2)%
-| 3.0-year  | $r_{3.0}$=$(r30_2)%
-| 3.5-year  | $r_{3.5}$=$(r35_2)%
-| 4.0-year  | $r_{4.0}$=$(r40_2)%
-| 4.5-year  | $r_{4.5}$=$(r45_2)%
-| 5.0-year  | $r_{5.0}$=$(r50_2)%
-
-"""
-
-# ╔═╡ ac0cf027-4684-4e1e-87df-ac66ecc17461
-Foldable("Solution",Markdown.parse("
-
-Forward Rate   | Value                                     | Calculation            
---------------:|------------------------------------------:|----------------------:
-``f(0.5,1.0)``  | ``$(roundmult(f05_10_2*100,1e-4))\\%``   | ``$(strfVec_2[1])``
-``f(1.0,1.5)``  | ``$(roundmult(f10_15_2*100,1e-4))\\%``   | ``$(strfVec_2[2])``
-``f(1.5,2.0)``  | ``$(roundmult(f15_20_2*100,1e-4))\\%``   | ``$(strfVec_2[3])``
-``f(2.0,2.5)``  | ``$(roundmult(f20_25_2*100,1e-4))\\%``   | ``$(strfVec_2[4])``
-``f(2.5,3.0)``  | ``$(roundmult(f25_30_2*100,1e-4))\\%``   | ``$(strfVec_2[5])``
-``f(3.0,3.5)``  | ``$(roundmult(f30_35_2*100,1e-4))\\%``   | ``$(strfVec_2[6])``
-``f(3.5,4.0)``  | ``$(roundmult(f35_40_2*100,1e-4))\\%``   | ``$(strfVec_2[7])``
-``f(4.0,4.5)``  | ``$(roundmult(f40_45_2*100,1e-4))\\%``   | ``$(strfVec_2[8])``
-``f(4.5,5.0)``  | ``$(roundmult(f45_50_2*100,1e-4))\\%``   | ``$(strfVec_2[9])``
-
-"))
-
-# ╔═╡ 238cfc9b-434a-426e-93e7-419314b7dc41
+# ╔═╡ be7ce534-0249-42f5-8365-9af47376aa5b
 vspace
 
-# ╔═╡ 4302072c-2542-4901-8c3d-ba6170af3744
+# ╔═╡ 8c5d9a78-9040-41fc-94f2-a6aab6da5c6d
 md"""
-# Question 2
+## Exercise 1
 """
 
-# ╔═╡ a473c4cd-0a21-493b-9ec5-55ea66a0ed99
+# ╔═╡ 90f57146-71c8-448e-a644-7039853050c0
 Markdown.parse("
-__2.1__ Calculate the two-year forward rate starting one year from today (i.e., \$f_{1,3}\$).
+- Suppose that we are a large firm and that we have issued a bond with \$ $(F4_1) par value. The bond is a zero-coupon bond with maturity in $(T4_1) years.
+- Suppose that all interest rates are $(r4)% (annually compounded).
+- To hedge our exposure, we can buy/sell a $(T4_2)-year zero-coupon bond in the financial market.
+- Implement a duration hedge. What is the dollar position in the  $(T4_2)-year zero-coupon that we need to take to hedge the interest rate risk of the bond issue? 
 ")
 
-# ╔═╡ 1c95f7b3-6ff5-4b5e-bc26-4bf80d98425e
-Foldable("Solution",
-Markdown.parse("
-``\$\\left( 1+ \\frac{f_{1,3}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,3}}{2}\\right)^{2\\times 3}}{\\left( 1+ \\frac{r_{0,1}}{2}\\right)^{2\\times 1}}\$``
-	
-``\$\\left( 1+ \\frac{f_{1,3}}{2}\\right)^{4}  = \\frac{\\left(1+ \\frac{$(r30_2)\\%}{2}\\right)^{6}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2}}\$``
-	
-``\$f_{1,3} = 2\\times \\left( \\frac{\\left(1+ \\frac{$(r30_2)\\%}{2}\\right)^{6/4}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2/4}} -1\\right)\$``
-	
-``\$ f_{1,3} = $(roundmult(f10_30_2,1e-6)) = $(roundmult(f10_30_2*100,1e-4)) \\%\$``
-"))
 
-# ╔═╡ 5d00ce86-142d-4740-91e1-73704382c366
+# ╔═╡ 225cef3a-33eb-4aee-83af-442b441d4adc
+vspace
+
+# ╔═╡ 31be29e2-2457-4ef9-a95f-b2ac742ecd97
+md"""
+**Solution**
+"""
+
+# ╔═╡ 9ac02b23-b9fe-4061-93ad-bf79d9bd0d01
 Markdown.parse("
-__2.2__ Calculate the two-year forward rate starting two years from today (i.e., \$f_{2,4}\$).
+- The value and the modified durations of the bonds are:
+  -  ``P_{$(T4_1)}`` is the value in the $(T4_1)-year bond, i.e. `$(roundmult(P4_1,1e-4))`.
+  -  ``P_{$(T4_2)}`` is the value in the $(T4_2)-year bond, i.e. `x`.
+
+  -  ``MD_{$(T4_1)}`` = `$(roundmult(MD4_2,1e-4))`
+  -  ``MD_{$(T4_2)}`` = `$(roundmult(MD4_1,1e-4))`
 ")
 
-# ╔═╡ 40079ad2-79a8-4d15-906e-b4fdd8b6a88d
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{2,4}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,4}}{2}\\right)^{2\\times 4}}{\\left( 1+ \\frac{r_{0,2}}{2}\\right)^{2\\times 2}}\$``
-	
-``\$\\left( 1+ \\frac{f_{2,4}}{2}\\right)^{4}  = \\frac{\\left(1+ \\frac{$(r40_2)\\%}{2}\\right)^{8}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{4}}\$``
-	
-``\$f_{2,4} = 2\\times \\left( \\frac{\\left(1+ \\frac{$(r40_2)\\%}{2}\\right)^{8/4}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{4/4}} -1\\right)\$``
-	
-``\$f_{2,4} = $(roundmult(f20_40_2,1e-6)) = $(roundmult(f20_40_2*100,1e-4))\\%\$``
-"))
-
-# ╔═╡ 5f84a5be-dbea-4eab-ba5a-06b8062d5b4b
+# ╔═╡ 6ae264cd-edc4-4abe-8b1e-9b34f664e314
 Markdown.parse("
-__2.3__ Calculate the two-year forward rate starting three years from today (i.e., \$f_{3,5}\$).
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `x` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+ ``MD_{$(T4_2)}``: `$(roundmult(MD4_2,1e-4))`| ``MD_{$(T4_1)}``: `$(roundmult(MD4_1,1e-4))`
+``\\Delta P_{$(T4_2)}= x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y`` | ``\\Delta P_{$(T4_1)}=$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y``
 ")
 
-# ╔═╡ d43cdfc5-a6fe-423b-83c7-522026fd6097
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{3,5}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,3}}{2}\\right)^{2\\times 3}}\$``
-	
-``\$\\left( 1+ \\frac{f_{3,5}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r30_2)\\%}{2}\\right)^{2\\times 3}}\$``
-	
-``\$f_{3,5} = $(roundmult(f30_50_2,1e-6)) = $(roundmult(f30_50_2*100,1e-4))\\%\$``
-"))
-
-# ╔═╡ d74dd608-b367-43f3-b5f1-bd654e5f87e2
+# ╔═╡ 04969d91-8e9b-44b0-8517-60b59c5f2ebe
 Markdown.parse("
-__2.4__ Calculate the 4-year forward rate starting one year from today (i.e., \$f_{1,5}\$).
+- To hedge the interest rate risk, we need to have
+``\$x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y \\stackrel{!}{=} $(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y\$``
+- Thus, our position on the $(T4_2)-year zero coupon bond ``x`` must be
+``\$x = $(roundmult(P4_1,1e-4)) \\times \\frac{(-$(roundmult(MD4_1,1e-4)))}{(-$(roundmult(MD4_2,1e-4)))} = $(roundmult(P4_1*MD4_1/MD4_2,1e-4))\$``
+- Thus, we buy \$ ``$(roundmult(P4_1*MD4_1/MD4_2,1e-4))`` of the $(T4_2)-year zero-coupon bond.
 ")
 
-# ╔═╡ 9b10cdd6-ba85-49f5-87cd-d018a301b3af
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{1,5}}{2}\\right)^{2\\times 4}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,1}}{2}\\right)^{2\\times 1}}\$``
-	
-``\$\\left( 1+ \\frac{f_{1,5}}{2}\\right)^{2\\times 4}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2\\times 1}}\$``
-	
-``\$f_{1,5} = $(roundmult(f10_50_2,1e-6)) = $(roundmult(f10_50_2*100,1e-4))\\%\$``
-"))
-
-# ╔═╡ 18252fe4-6aba-4b13-b6fb-6426bd9037ca
+# ╔═╡ 796384ef-7f3d-4423-8748-45a2a892c34b
 Markdown.parse("
-__2.5__ Calculate the 3-year forward rate starting two years from today (i.e., \$f_{2,5}\$).
+- Pluggin in the market value of the $(T4_2)-year bond and solving for the face value ``F``
+``\$ $(roundmult(P4_1*MD4_1/MD4_2,1e-4)) = \\frac{F}{(1+$(r4)\\%)^$(T4_2)}\$``
+``\$ F= \\\$ $(roundmult(P4_1*MD4_1/MD4_2*(1+r4/100)^T4_2,1e-2))\$``
 ")
 
-# ╔═╡ 16610ace-58fc-4619-a99c-90575607c1c0
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{2,5}}{2}\\right)^{2\\times 3}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,2}}{2}\\right)^{2\\times 2}}\$``
-	
-``\$\\left( 1+ \\frac{f_{2,5}}{2}\\right)^{2\\times 3}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{2\\times 2}}\$``
-	
-``\$f_{2,5} = $(roundmult(f20_50_2,1e-6)) = $(roundmult(f20_50_2*100,1e-4))\\%\$``
-"))
-
-# ╔═╡ 738b8f7a-3cfd-4792-89e7-96ba3f55be81
+# ╔═╡ 0d010810-a2f9-4f78-a173-abb96eae4ecb
 vspace
 
-# ╔═╡ e3c1b782-7f23-4c50-af3c-91aa8af0a88e
+# ╔═╡ 2cd77b86-5578-4d2c-9650-c654f0322602
 md"""
-# Question 3
+## Exercise 2
 """
 
-# ╔═╡ 3a4ba27e-26d7-40d9-8f9d-8f22535d9287
+# ╔═╡ 96463334-3f79-4086-848e-240b2532e563
 md"""
-Suppose that you are given the following term structure of zero-coupon yields (spot rates). Assume interest rates are semi-annually compounded.
-
-| Maturity | r     |  
-|:---------|------:|
-|0.5       | 0.02  |
-|1         | 0.025 |
-|1.5       | 0.03  |
-|2         | 0.04  |
-
-
+- Suppose that we are managing a pension fund and have a liability of \$100mm per year for the next 100 years. Assume that the discount rate is 5% regardless of maturity (term structure is flat). Suppose that the pension fund is currently fully funded (i.e., the fund has cash in the amount of the current market value of the liability).
+- Use 1-year and 30-year zero-coupon bonds to form a portfolio that hedges our liability.
+- What are the position in the 1-year and the 30-year zero-coupon bonds that we need to take to hedge our liability (using a duration hedge).
 """
 
-# ╔═╡ 86478c8f-aeee-4085-ad39-af31f8c9c037
-begin
-	r05_3 = 2.00
-	r10_3 = 2.50
-	r15_3 = 3.00
-	r20_3 = 4.00
-		
-	rVec_3 = [r05_3,r10_3,r15_3,r20_3,r25_2]
-	
-	f05_10_3 = 2*((1+r10_3/200)^(2*1.0)/(1+r05_3/200)^(2*0.5) -1)
-	f10_15_3 = 2*((1+r15_3/200)^(2*1.5)/(1+r10_3/200)^(2*1.0) -1)
-	f15_20_3 = 2*((1+r20_3/200)^(2*2.0)/(1+r15_3/200)^(2*1.5) -1)
-	f05_20_3 = 2*( ((1+r20_3/200)^(2*2.0)/(1+r05_3/200)^(2*0.5))^(1/(2*1.5)) -1)
-	
-	fVec_3 = [f05_10_3,f10_15_3,f15_20_3,f05_20_3]
-
-	
-	strf05_10_3 = "2*((1+$(roundmult(r10_3/100,1e-6))/2)^{2*1.0}/(1+$(r05_3/100)/2)^{2*0.5} -1)"
-	strf10_15_3 = "2*((1+$(roundmult(r15_3/100,1e-6))/2)^{2*1.5}/(1+$(r10_3/100)/2)^{2*1.0} -1)"
-	strf15_20_3 = "2*((1+$(roundmult(r20_3/100,1e-6))/2)^{2*2.0}/(1+$(r15_3/100)/2)^{2*1.5} -1)"
-	
-	strf05_20_3 = "2*( ( (1+$(roundmult(r20_3/100,1e-6))/2)^{2*2.0}/(1+$(r05_3/100)/2)^{2*0.5} )^{1/(2*1.5)} -1)"
-	
-	 strfVec_3 = [strf05_10_3,strf10_15_3,strf15_20_3,strf05_20_3]
-	html"""<hr>"""
-end
-
-# ╔═╡ f68b5afd-cf8f-4cba-ad7f-03fcc3f291af
-md"""
-**1.** From the given spot rates, calculate the forward rates, $f(0.5, 1)$, $f(1, 1.5)$, $f(1.5,2)$, and $f(0.5, 2)$.
-"""
-
-# ╔═╡ 6a8300c3-b1ae-46e4-ba04-0c15c10c3e0a
-Foldable("Solution",Markdown.parse("
-
-Forward Rate   | Value                                     | Calculation            
---------------:|------------------------------------------:|----------------------:
-``f(0.5,1.0)``  | ``$(roundmult(f05_10_3*100,1e-3))\\%``   | ``$(strfVec_3[1])``
-``f(1.0,1.5)``  | ``$(roundmult(f10_15_3*100,1e-3))\\%``   | ``$(strfVec_3[2])``
-``f(1.5,2.0)``  | ``$(roundmult(f15_20_3*100,1e-3))\\%``   | ``$(strfVec_3[3])``
-``f(0.5,2.0)``  | ``$(roundmult(f05_20_3*100,1e-3))\\%``   | ``$(strfVec_3[4])``
-
-"))
-
-# ╔═╡ d419a379-712e-47a6-99ed-d8350fbc1000
+# ╔═╡ 8b8220f2-bfe4-45d9-968d-ed256a98bf79
 vspace
 
-# ╔═╡ 6d1be573-3b15-4a18-89d7-5d887cea7e84
+# ╔═╡ ab4d9779-a1cf-49b2-87ff-9e4d523ea77f
 md"""
-**2.** Suppose that $f(1, 1.5) = 4.5$%. (This should be almost 0.5 percentage points higher
-than what you found in Part 1 above.) Using this value for $f(1, 1.5)$ and the given zero-coupon yields, construct an arbitrage trading strategy to take advantage of this mispricing.
-- *Hint: Calculate zero-coupon bond prices for maturities of 1-year and 1.5-years. Then create a synthetic forward contract before forming a strategy.*
+**Solution**
 """
 
-# ╔═╡ 07c1fc06-d2c8-4512-89b0-9897d62ab35a
+# ╔═╡ 88f518bb-a3be-46e9-95eb-65424dbf0708
+md"""
+- Let’s first value the pension liability. 
+
+$\text{Value of Liability} = 100\times \frac{1}{0.05}\left[1 - \frac{1}{1.05^{100}}\right]= 1984.79102$.
+
+- Let’s also suppose that the pension fund currently has 1984.79102 in cash. That is, the pension fund is neither under- nor overfunded.
+"""
+
+# ╔═╡ 05b4cca7-e2e0-40e5-a653-0f3a9751e92c
+md"""
+- Next, we calculate the modified duration of our liability.
+$\textrm{Value of liability @ 5.0\%} = 1984.79102$
+
+$\textrm{Value of liability @ 5.1\%} = 100\times \frac{1}{0.051}\left[1-\frac{1}{1.051^{100}}\right] = 1947.227482$
+
+$\textrm{Value of liability @ 4.9\%} = 100\times \frac{1}{0.049}\left[1-\frac{1}{1.049^{100}}\right] = 2023.745478$
+
+$MD \approx -\frac{1947.227482 - 2023.745478}{2\times 0.001} \times \frac{1}{1984.79102} = 19.2761$
+
+- *Note how we can use our MD approximation formula even though it's not a bond.*
+"""
+
+# ╔═╡ 7033fc1f-f60b-44dc-8f37-f04adf486857
+md"""
+- Let's add the modified durations of the asset and liability sides.
+
+
+|       Assets   |             |      Liabilities          |
+|:---------------|:------------|--------------------------:|
+| 1yr            | 30yr        |        Pension            |
+| \$x            | \$z         |   \$1984.79102            |
+| $MD = \frac{1}{1.05} = 0.9524$ | $MD = \frac{30}{1.05} = 28.5714$ | $MD = 19.2761$ |
+
+Modified Duration Constraint:
+$-0.9524x - 28.5714z = -19.2761(1984.79102)$
+
+Assets = Liabilities Constraint:
+$x + z = 1984.79102$
+
+Solving: $x = 667.9925$, $z = 1316.799$
+
+Face values: 
+- 1yr:  $701.3921$
+  -  Calculation: $667.9925\times (1.05)$
+- 30yr: $5691.127$ 
+  - Calculation: $1316.799\times(1.05)^{30}$
+"""
+
+# ╔═╡ f9fa048e-2a26-48a3-99c2-a107162439e8
+md"""
+- Thus, our hedging portfolio is as shown below.
+
+|       Assets   |             |      Liabilities          |
+|:---------------|:------------|--------------------------:|
+| 1yr            | 30yr        |        Pension            |
+| \$ 667.9925    | \$1316.799  |   \$1984.79102            |
+"""
+
+# ╔═╡ 09fc0f42-fdb2-4a50-88ae-e9c3da739d2f
+vspace
+
+# ╔═╡ a502041d-58ff-4d3b-b745-231fd6b21ac9
+md"""
+## Exercise 3
+"""
+
+# ╔═╡ f0a85acc-effa-4e3a-95e4-1be30a0b69f0
+Markdown.parse("
+- Suppose that we are a large firm and that we have issued a bond with \$ $(F4_1) par value. The bond is a zero-coupon bond with maturity in $(T4_1) years. Suppose that all interest rates are $(r4)% (annually compounded).
+- Use $(T4_2) and $(T4_3)-year zero coupon bonds to hedge our interest rate risk using a duration-and-convexity hedge. What positions in the $(T4_2) and $(T4_3)-year zero coupon bonds do we need to take?
+
+")
+
+# ╔═╡ 0e211169-0204-4582-936d-feecf2aec3cd
+vspace
+
+# ╔═╡ f3d6b12c-3d76-4058-a0c9-e8bfc53e2143
+md"""
+**Solution**
+"""
+
+# ╔═╡ f8a823ae-1aa1-41c7-b88c-283f541b067d
+Markdown.parse("
+- Let's first calculate the duration, convexity, the percentage price change and the dollar price in response to a yield change ``\\Delta y`` for each of the three bonds.
+
+")
+
+# ╔═╡ fe0d9d46-2c7f-42ba-bb04-ccb741631e7c
+Markdown.parse("
+- ``$(T4_1)``-year Zero-coupon bond (liability)
+  - ``MD_{$(T4_1)}=\\frac{T}{1+y} = \\frac{$(T4_1)}{1+$(r4)\\%} = $(roundmult(T4_1/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_1)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_1^2+T4_1)}{(1+$(r4)\\%)^2} = $(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_1)}}{P_{$(T4_1)}}= - MD_{$(T4_1)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_1)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_1)} = P_{$(T4_1)} \\times (- MD_{$(T4_1)}) \\times \\Delta y + P_{$(T4_1)} \\times \\frac{1}{2} \\times CX_{$(T4_1)} \\times \\left( \\Delta y \\right)^2``")
+
+
+# ╔═╡ 020b481e-a212-430f-9744-b369d23bab74
+Markdown.parse("
+- ``$(T4_2)``-year Zero-coupon bond
+  - ``MD_{$(T4_2)}=\\frac{T}{1+y} = \\frac{$(T4_2)}{1+$(r4)\\%} = $(roundmult(T4_2/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_2)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_2^2+T4_2)}{(1+$(r4)\\%)^2} = $(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_2)}}{P_{$(T4_2)}}= - MD_{$(T4_2)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_2)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_2)} = P_{$(T4_2)} \\times (- MD_{$(T4_2)}) \\times \\Delta y + P_{$(T4_2)} \\times \\frac{1}{2} \\times CX_{$(T4_2)} \\times \\left( \\Delta y \\right)^2``
+
+
+")
+
+# ╔═╡ c6ea0fc5-80ea-4f99-8426-590ed5917b66
+Markdown.parse("
+- ``$(T4_3)``-year Zero-coupon bond
+  - ``MD_{$(T4_3)}=\\frac{T}{1+y} = \\frac{$(T4_3)}{1+$(r4)\\%} = $(roundmult(T4_3/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_3)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_3^2+T4_3)}{(1+$(r4)\\%)^2} = $(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_3)}}{P_{$(T4_3)}}= - MD_{$(T4_3)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_3)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_3)} = P_{$(T4_3)} \\times (- MD_{$(T4_3)}) \\times \\Delta y + P_{$(T4_3)} \\times \\frac{1}{2} \\times CX_{$(T4_3)} \\times \\left( \\Delta y \\right)^2``
+")
+
+# ╔═╡ f8582e96-7877-439b-870b-b68a551411f7
+Markdown.parse("
+- Next, let's write down the balance sheet.
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `x` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+ ``MD_{$(T4_2)}``: `$(roundmult(MD4_2,1e-4))`| ``MD_{$(T4_1)}``: `$(roundmult(MD4_1,1e-4))`
+``\\textrm{CX}_{$(T4_2)}``: `$(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))` | ``\\textrm{CX}_{$(T4_1)}``: `$(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))`
+``\\Delta P_{$(T4_2)}= x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2`` | ``\\Delta P_{$(T4_1)}=$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y + $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2``
+                       |
+$(T4_3)-year bond: `z` |
+``MD_{$(T4_3)}``: `$(roundmult(T4_3/(1+r4/100),1e-4))`|
+``\\textrm{CX}_{$(T4_3)}`` `$(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))` |
+``\\Delta P_{$(T4_3)}= z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2`` |
+")
+
+# ╔═╡ 7c22ab3a-6678-4e50-b417-8a51f36e4917
+Markdown.parse("
+- This means, we need to have
+``\$ \\Delta P_{$(T4_2)} + \\Delta P_{$(T4_3)} = \\Delta P_{$(T4_1)}\$``
+")
+
+# ╔═╡ 1fdd2193-0519-49ea-b57c-e94726de49f3
+Markdown.parse("
+``\$ x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 + \$``
+``\$ z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 = \$``
+``\$ $(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y + $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 \$``
+")
+
+# ╔═╡ c4a0dba8-f203-47e7-9625-7a71238790d0
+Markdown.parse("
+- Terms in ``\\Delta y``: **Modified Duration Equation**
+
+``\$ x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y  =$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y \$``
+
+")
+
+# ╔═╡ 16a07c05-9982-4305-b8ec-eac332fa7774
+Markdown.parse("
+- Terms in ``(\\Delta y)^2``: **Convexity Equation**
+
+``\$ x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 = $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2\$``
+")
+
+# ╔═╡ 83688847-afb0-44b9-a004-3a978f19dbc9
+Markdown.parse("
+- The solution to this system of 2 equations in 2 unknowns is 
+``\$x = $(roundmult(sol4[1],1e-4)), z = $(roundmult(sol4[2],1e-4))\$``
+- Thus, we enter a position with market value of \$ $(roundmult(sol4[1],1e-4)) in the $(T4_2)-year bond, and a position with market value of \$ $(roundmult(sol4[2],1e-4)) in the $(T4_3)-year bond.
+- The corresponding face values in the ``$(T4_2)``-year bond and the ``$(T4_3)``-year bonds are
+\$F_{$(T4_2)} = $(roundmult(sol4[1]*(1+r4/100)^T4_2,1e-2))\$
+\$F_{$(T4_3)} = $(roundmult(sol4[2]*(1+r4/100)^T4_3,1e-2))\$
+")
+
+# ╔═╡ abd91e21-32d1-4d65-b535-1f241e0346c2
+Markdown.parse("
+- The balance sheet is now
+- Next, let's write down the balance sheet as in the previous example.
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `$(roundmult(sol4[1],1e-4))` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+Face value ``F_{$(T4_2)}``: $(roundmult(sol4[1]*(1+r4/100)^T4_2,1e-2)) | Face value ``F_{$(T4_1)}``: $(roundmult(F4_1,1e-2))
+                        |
+$(T4_3)-year bond: `$(roundmult(sol4[2],1e-4))` |
+Face value ``F_{$(T4_3)}``: $(roundmult(sol4[2]*(1+r4/100)^T4_3,1e-2)) | 
+")
+
+# ╔═╡ be90841e-c3eb-407b-8f6a-307c16ea49a8
+vspace
+
+# ╔═╡ dd5f91f6-b0a7-403b-a554-076106f4a365
+vspace
+
+# ╔═╡ af4c0216-0d9d-4841-9586-94329d575c64
+md"""
+## Exercise 4
+"""
+
+# ╔═╡ 34a2d854-f8cd-4f4d-9acd-5b1c57aba680
+md"""
+Suppose that you have a liability of $100 per year in perpetuity and the current interest rate for discounting this perpetuity is 10%. To hedge the value of this perpetuity, you decide to buy a 10-year zero coupon bond (which also has a discount rate of 10%). How much of a 10-year bond do you need to buy?
+- Recall that the value of a perpetuity that pays \$1 each period is:
+
+$\text{Value of perpetuity} = \frac{1}{r}$
+
+"""
+
+# ╔═╡ 9eddbe1b-0761-4cb7-b6ba-347af5c41261
 Foldable("Solution",md"""
-- Bond Prices
-  - 1-year zero-coupon bond price: $\frac{100}{1.0125^2} = 97.5461$ (Bond  `X`)
-  - 1.5-year zero-coupon bond price: $\frac{100}{1.015^3} = 95.6317$ (Bond `Z`)
+- First, calculate the value of the perpetuity.
 
-- Create a replicating portfolio to lend \$100 at $t=1$ that is repaid at $t=1.5$.
+$\text{Value of perpetuity} = 100\times \frac{1}{r} = \frac{100}{0.10} = 1000$
 
-|Bond         | t = 0        |  t = 0.5       |  t = 1        |  t = 1.5    |
-|:------------|-------------:|---------------:|--------------:|------------:|
-| X (x units) | $-97.5461\times x$ | $0$      | $100\times x$ |  $0$        |
-| Z (z units) | $-95.6317\times z$ | $0$      | $0$           |  $100 \times z$|
-| Total       |  $0$               |  $0$     | $-100$        |  $100\times\left(1+\frac{f(0,1,1.5)}{2}\right)$ |
+- Next, calculate the modified durations:
 
-- Thus, 
-$97.5461x − 95.6317\times z = 0$
-$100\times x = -100$
+$MD_{10} = \frac{10}{1.1} = 9.09$
 
-- Solving, 
-$x = -1$ 
-$z = \frac{97.5461}{95.6317} = 1.020018$
+$\text{Value of perpetuity @ 10.1\%} = \frac{100}{0.101} = 990.10$
 
-- The arbitrage portfolio is
+$\text{Value of perpetuity @ 9.9\%} = \frac{100}{0.099} = 1010.10$
 
-|             | t = 0        |  t = 0.5       |  t = 1        |  t = 1.5    |
-|:------------|-------------:|---------------:|--------------:|------------:|
-| Lend at $f(1,1.5)$=4.5% | $0$ | $0$ | $-100$ | $102.25$ |
-| | | | |
-| | | | |
-| | | | |
-| *(-1 of) Synthetic Forward* | | | | 
-| Buy 1 Unit of X | $-97.5461\times x$ | $0$      | $100$ |  $0$        |
-| Short 1.020018 units of Z | $+97.5461$ | $0$      | $0$           |  $-102.0018$|
-| Total       |  $0$               |  $0$     | $-100$        |  $100\times\left(1+\frac{f(0,1,1.5)}{2}\right)$ |
-| | | | |
-| | | | |
-| | | | |
-|Total | $0$ | $0$ | $0$ | $0.2482$ |
+$MD_{perpetuity} \approx -\frac{990.10 - 1010.10}{2\times 0.001}\times \frac{1}{1000}=10$
+
+- Set up a balance sheet
+
+| Assets | Liabilities |
+|:-------|------------:|
+| 10-yr bond       | Perpetuity  |
+| \$x              | Market value = \$1000|
+| MD = 9.09        |  MD = 10  |
+| $\frac{\Delta P}{P}\approx -9.09 \Delta y$ | $\frac{\Delta P}{P} \approx -10\Delta y$ |
+| $x\times(-9.09)\Delta y$ | $(1000)\times(-10)\Delta y$
+
+- Solving for x: $x =$ \$ $1100$.
 
 """)
 
-# ╔═╡ 9eae2846-7b22-4b6c-91db-ffa7cd67be92
+# ╔═╡ 82e11615-f42a-4020-befe-c5dcee7b3210
 vspace
 
-# ╔═╡ f2ef9979-8f46-4d1d-a8fd-87d1bcb9abee
-md"""
-**3.** Suppose that we go back to Part 1. You enter into a forward rate agreement to lend \$100 at t = 0.5 and be repaid at t = 2 at the forward rate of $f(0.5, 2)$. What happens to the value of the forward rate agreement if all interest rates decline by one percentage point in the instant after you enter into the forward rate agreement?
-- *Hint:* Write down the cash flows to the FRA that you enter into. Then, calculate the NPV using the new discount rates.
-"""
-
-# ╔═╡ d06cadc5-bed7-4fbb-8e78-3ad7bc2d1130
-Foldable("Solution",md"""
-The cash flow for the FRA is:
-
-|        | t = 0 | t = 0.5 | ... | t = 2 |
-|:--------|------:|--------:|----:|:-------|
-|Cash flow to FRA | $0$ | $-100$ |  | $+100\left(1+\frac{0.0467}{2}\right)^3$ = $107.17$ |
-
-- If all interest rates decline by one percentage point:
-
-$\frac{-100}{1+\frac{0.01}{2}} + \frac{107.17}{\left(1+\frac{0.03}{2}\right)^4} = 1.47$
-
-
-""")
-
-# ╔═╡ eba16ced-1971-4636-a867-b66f7d8cc4bc
-vspace
-
-# ╔═╡ 5b74cd45-3432-4d95-bd8b-7b48d7846a15
-md"""
-**4.** What does your answer in  Part 3 imply about the modified durations of your cash outflows and cash inflows in the forward rate agreement?
-"""
-
-# ╔═╡ 7451c257-6394-4a94-9e2c-ca47982f9000
-Foldable("Solution",md"""
-They imply that the MD of the cash inflows are higher than the cash outflows as the
-FRA has a positive net value if interest rates decline and a negative net value if interest
-rates increase, compared to an initial value of zero. As a balance sheet, the FRA can
-be thought of as:
-
-|             Assets | Liabilities    |
-|:-------------------|:---------------|
-| \$107.17 to be received at t = 2 | \$100 to be paid at t = 0.5 | 
-| $MD = \frac{2}{1+\frac{0.04}{2}} = 1.96$ | $MD = \frac{0.5}{1+\frac{0.02}{2}} = 0.495$ |
-
-
-""")
-
-# ╔═╡ 47a18fee-276c-4ea5-afbf-21147bb3ceaa
-vspace
-
-# ╔═╡ 5fd18248-1600-40ca-b3e5-a5c70fa83ff0
-md"""
-# Question 4
-"""
-
-# ╔═╡ c275fee5-5a06-49d8-8f24-6931c97d7cac
-md"""
-Suppose that it is December 31, 2022 and you can either buy a 1-year zero coupon bond (the bond's maturity date is December 31, 2023) for \$97 or you can enter into a forward contract today to buy a zero-coupon bond maturing on December 31, 2024. Via the forward contract, the actual purchase date would be in one year (December 31, 2023) for a price of $96. 
-"""
-
-# ╔═╡ db82ccfe-3223-4af3-bf73-72833ee78d28
-md"""
-**1.** If the Law of One Price holds, what should be the price of a *2-year* zero coupon bond today (i.e., the zero-coupon bond has a maturity date of December 31, 2024).
-- *Hint: Write down what the cash flows are to buying the 2-year bond today. Then, use the 1-year bond and the forward contract to replicate that cash flow, buying `x` units of the 1-year bond and using `z` units of the forward contract.*
-"""
-
-# ╔═╡ ee5bd069-2a51-406c-9a74-2fc466a1faaf
-Foldable("Solution",md"""
-|                   | t = 0 | t = 1 | t = 2  |
-|:------------------|-------:|------:|---------:|
-| Buying 1 unit of the 2-yr bond | $-P_{2yr}$ | $0$ | $+100$ |
-| Buying $x$ units of the 1-yr bond | $- 97\times x$ | $+100\times x$ | $0$ |
-| Entering into $z$ units of $P(1, 2)$ | 0 | $-96\times z$ | $+100\times$ z|
-
-- Recall that $P(1,2)$ simply denotes today's price for the (zero-coupon) bond to be bought in 1-year from today and this bond has maturity date in 2-year from today.
-
-$100 \times x - 96z = 0$
-$100\times z = 100$
-
-$\Rightarrow z = 1\textrm{  and  } x = 0.96$
-
-Thus, today's price of a two-year zero coupon bond ought to be
-
-$P_{2yr} = 97\times x = 93.12$
-
-""")
-
-# ╔═╡ eb065b6f-5af5-4832-99bf-ed8452f9cef2
-vspace
-
-# ╔═╡ 7c5db96e-6c50-4c9f-83fd-ae4b2d4acdbc
-md"""
-**2.** If the 2-year bond is actually selling for $92, construct a trading strategy to take advantage of this violation of the Law of One Price.
-"""
-
-# ╔═╡ 31a7d953-bdb3-41b8-ad21-5eb71b951b0b
-Foldable("Solution",md"""
-- This means that the 2-year bond is too cheap. Buy the two-year bond and short the replicating portfolio.
-
-|           |     t = 0   |   t = 1  | t = 2   |
-|:----------|------------:|----------:|--------:|
-| Buying 1 unit of the 2-yr bond | $-92$ | $0$ | $+100$ |
-| Short 0.96 units of the 1-yr bond | $+93.12$ | $-96$ | $0$ |
-| Short 1 unit of P(1, 2) | 0 | $+96$ | $-100$ |
-| Total | $1.12$ | $0$ | $0$ |
-
-""")
-
-# ╔═╡ f5b33f69-5767-44ad-b9fa-4074f15262de
-vspace
-
-# ╔═╡ ed20508e-bfe2-4247-8a8a-cbf1860bfaa1
-md"""
-# Question  5
-"""
-
-# ╔═╡ c6270f22-51dc-44a9-80b9-ccd10dbc41ac
-md"""
-On May 15, 2000, you enter into a forward rate agreement (notional =
-\$100 million) with a bank for the period from November 15, 2000 to May 15,
-2001 (6 months later to 1 year later). The current price of a
-6-month zero coupon bond is \$96.79 and the current price of a
-1-year zero coupon bond is \$93.51. Assume semi-annual compounding.
-
-"""
-
-# ╔═╡ 4a8ce7d3-0315-4d13-9734-c47f7b87d21b
-md"""
-__5.1__ What must the forward rate agreed upon be so that there is no arbitrage?
-"""
-
-# ╔═╡ f74312b3-54f7-4d3f-902e-3eb6494fc236
-Foldable("Solution",md"""
-First, solve for the yields on the 6-month and the 1-year zero coupon bonds.
-- 6mo zero: P=\$96.79
-
-$$r_{0.5}=2\times \left(\left(\frac{100}{96.79}\right)^{\frac{1}{2\times 0.5}} -1 \right)=0.066329166=6.6329\%$$
-
-- 1yr zero: P=\$93.51
-
-$$r_{1.0}=2\times \left(\left(\frac{100}{93.51}\right)^{\frac{1}{2\times 1}} -1 \right)=0.068240161=6.82402\%$$
-
-Next, solve for $f_{0.5,1}$
-
-$$\left(1+\frac{r_{0.5}}{2}\right)\left(1+\frac{f_{0.5,1}}{2}\right) = \left(1+\frac{r_1}{2}\right)^2$$
-
-Solving theis equation for the forward rates gives us
-
-   $$f_{0.5,1} = 7.015925\%$$
-
-Thus, you will pay \$100mm in Nov 2000 to receive
-	$100 \times \left(1+\frac{0.0701592}{2}\right) = 103.51$ million
-	in May 2001.
-	
-
-""")
-
-# ╔═╡ 9cc24dc0-811a-4611-a681-7ba24bbbfad8
-vspace
-
-# ╔═╡ 95a7fe7f-f580-4f26-b47e-a5dac16d49f5
-md"""
-__5.2__  What is the value of the forward at inception?
-"""
-
-# ╔═╡ 719d529a-03e4-4f1b-a438-6dcfa57deec3
-Foldable("Solution",md"""
-The value of the forward at inception is 0.
-""")
-
-# ╔═╡ 875a73c8-4c11-4821-b256-6bd3b9ef437d
-vspace
-
-# ╔═╡ 16f078b5-a050-4876-9048-a06d3e2733be
-md"""
-__5.3__ Suppose that three months have passed, so it is August 15, 2000. You are given the following discount factors. What is the value of the forward agreement? 
-
-*Hint: Think about what the cashflows to the forward agreement are.*
-
-- August 15, 2000
-
-|Maturity       |   $D(0,T)$
-|:--------------|:---------
-|Nov 2000 (3mo) |   0.9844
-|Feb 2001 (6mo) |   0.9690
-|May 2001 (9mo) |   0.9531
-|Aug 2001 (12mo)|   0.9386
-
-
-
-"""
-
-# ╔═╡ 765e386b-be08-43d0-ac71-a62d0ebf23c7
-Foldable("Solution",md"""
-
-Though the value of the forward at inception was 0, interest
-rates have changed since the forward rate agreement was made.
-The most straightforward way to calculate the value of the
-position is to write out the future cashflows and discount back
-to today.
-	
-	  
-| Time t                  | t = 0.25 (Nov 2000)  | t = 0.75 (May 2001) |
-|:------------------------|:---------------------|:--------------------|
-| Forward Rate Agreement  |                -100  |              103.51 |
-	
-	
-- Value of forward rate agreement:
-
-$$-100 \times 0.9844 + 103.51 \times 0.9531 = 0.215$$
-""")
-
-# ╔═╡ 99b4b3ec-5fde-4728-a49f-7f791ab0e0ad
-vspace
-
-# ╔═╡ eb77b6e7-2890-447a-98c7-74b581af4dd9
-md"""
-__5.4__ Now consider November 15, 2000. What is the value of the forward agreement now?
-
-| Maturity         |  $D(0,T)$ |
-|:-----------------|:--------|
-| Feb 2001 (3mo)   | 0.9848  | 
-| May 2001 (6mo)   | 0.9692  |
-| Aug 2001 (9mo)   | 0.9545  |
-| Nov 2001 (12mo)  | 0.9402  |
-"""
-
-# ╔═╡ f63ea571-6452-42c1-af7e-4fb789304a2d
-Foldable("Solution",md"""
-	  
-| Time t                  | t = 0.0 (Nov 2000)   | t = 0.50 (May 2001) |
-|:------------------------|:---------------------|:--------------------|
-| Forward Rate Agreement  |                -100  |              103.51 |
-	
-	
-- Value of forward rate agreement:
-
-$$-100 + 103.51 \times 0.9692 = 0.32$$
-
-""")
-
-# ╔═╡ 885c0fb2-79b7-48c7-9a63-f6d4f4becb68
-vspace
-
-# ╔═╡ f61fc2af-e411-4075-bcda-3fd761da58cb
-md"""
-__5.5__ What is the six-month spot rate (semi-annually compounded) now?
-"""
-
-# ╔═╡ 3e75a33e-392b-4fd0-9978-07fad6a4faf1
-Foldable("Solution",md"""
-
-Recall that the spot rate can be calculated from the discount factor $D(T)$ using
-
-$$D(T)=\frac{1}{(1+\frac{r_{T}}{2})^{2\times T}}$$
-
-Plugging in $D(T=0.5)=0.9692$ gives us
-
-$$r_{0.5} = 2\times \left( \left(\frac{1}{0.9692}\right)^{\frac{1}{2\times 0.5}} -1\right) = 0.0635557573 = 6.36\%$$
-""")
-
-# ╔═╡ d208120a-a450-460f-ab78-c0ca9e99c619
-vspace
-
-# ╔═╡ 82fe8645-a213-44ed-919d-18b0cbb0eeae
-md"""
-__5.6__ What is the cash flow in May 2001 if you invest \$100 million at the spot rate in Nov. 2000? Compare this to agreeing to the original forward rate agreement.
-"""
-
-# ╔═╡ 0e1c20db-5322-4f38-b9e0-f9333b8b743b
-Foldable("Solution",md"""
-- Investing in the spot rate:
-
-$$100 \times \left(1+\frac{0.0636}{2}\right)=103.18$$
-
-- Had we agree to the forward rate, we would invest at a rate of 7.016%.
-
-$$100\times \left(1+\frac{0.07016}{2}\right)=103.51$$
-
-""")
-
-# ╔═╡ 9afe4152-2414-4826-9d65-489b6ffa7a8f
-vspace
-
-# ╔═╡ 3713b423-0ef4-4685-a22d-39ae73dbb094
-md"""
-# Question 6
-"""
-
-# ╔═╡ f41b3285-6ff5-4f16-b936-eca01600b5b4
-md"""
-Suppose the one-year spot interest rate is 4% and the two-year spot rate is 5%. Assume that all rates are annually compounded.
-
-__6.1__ What is the forward rate at time 0 for borrowing at time 1 for one year (i.e. compute $f_{1,2}$)?
-"""
-
-# ╔═╡ 04feec75-3fdd-4a32-9010-7cccf2e93d57
-Foldable("Solution",md"""
-The forward rate is given by $$f_{1,2}=\frac{1.05^2}{1.04}=6.01$$%.
-""")
-
-# ╔═╡ 7f7c265d-237a-4bcf-98cf-601a360b7095
-vspace
-
-# ╔═╡ 2f641623-6c1c-476b-a57a-ebee39739137
-md"""
-__6.2__ Now suppose you want to borrow \$100 for one year one year from now and want to lock in the interest rate today. What investment strategy would you need to follow if you have access to the spot markets only (i.e. how can you synthetically replicate the forward contract using one-year and two-year zero coupon bonds)?
-"""
-
-# ╔═╡ 7958f21a-63af-47c8-9e7d-31a89ffa1645
-Foldable("Solution",md"""
-You want to implement a trading strategy that gives you \$100 one year from now, which you have to repay two years from now at the interest rate $f_{1,2}=6.01$%. The cash flow structure looks as follows:
-	
-| T | 0 | 1 | 2 |
-| --- | --- | --- | --- |
-| Forward Contract | 0 | +$100 | -\$100 $\times$ (1.0601) |
-	
-We can replicate this cash flow by investing $\frac{100}{1.04}$=\$96.15 for one year in $t=0$ and borrowing this amount for two years with a repayment of $96.15\times 1.05^2=$\$106.01. The trading strategy can be depicted as follows:
-	
-| T | 0 | 1 | 2 |
-| --- | --- | --- | --- |
-| Investing for one Year | -\$96.15 | +\$100 | 0 |
-| Borrowing for two years | +\$96.15 | 0 | -\$106.01 |
-| Total | 0 | +\$100 | -\$106.01 |
-	
-A combination of these two positions yields the same cash flows as a forward contract.
-""")
-
-# ╔═╡ d52e1caa-3a00-4bcc-9dec-6ac93e4bdb14
-vspace
-
-# ╔═╡ ccbfccc4-f3fd-4c86-a61e-7f6a2a0cf79b
-md"""
-__6.3__ Now both spot and forward contracts are traded. Suppose the forward rate was 5.5%. Explain how you could exploit this situation to make money without risk.
-"""
-
-# ╔═╡ 0eb1aa68-5c3a-46c8-9c29-c1288316d57c
-Foldable("Solution",md"""
-There are two ways to borrow money for two years. You can either borrow for two years in the spot market or borrow in the spot market for one year and enter into a forward contract for one more year. The cash flows from both strategies are known at t=0. 
-
-The two-year interest rate implied by the latter strategy is $\sqrt{1.04\times1.055}-1=4.75\%$. 
-
-That means you can borrow using the spot and future markets and then invest the proceeds for two years in the spot markets. This strategy involves no money up front but provides a cash flow at t=2. The following table clarifies this point.
-	
-| t | 0 | 1 | 2 |
-| --- | --- | --- | --- |
-| Borrowing for one year in the spot market | +$100 | -$104 | 0 |
-| Borrowing from the forward market | 0 | +$104 | -$104\times1.055=$109.72 |
-| Investing for two years in the spot market | -$100 | 0 | +$110.25 |
-| Total | 0 | 0 | +$0.53 |
-		
-""")
-
-# ╔═╡ 8d4541b1-83ef-485a-9502-336c079516f7
-vspace
-
-# ╔═╡ d6a1eca6-19da-411d-bcc7-cd2167678908
-md"""
-# Question 7
-"""
-
-# ╔═╡ ca61760e-9156-4d81-834e-e41c747e1e43
-md"""
-A one-year zero coupon bond with \$100 face value is currently trading for \$98. The forward rate for borrowing money one year from now for another year is 6%. Compute the arbitrage free two-year spot rate. Assume annual compounding.
-"""
-
-# ╔═╡ ece3723e-57a3-4cbc-8c36-9ee8ddc7130c
-Foldable("Solution",md"""
-
-The yield on the one-year zero coupon bond trading at \$98 is
-
-$$y_1 = \left(\frac{100}{98}\right)-1=2.04\%$$
-		
-Rolling this investment over after year one at the forward rate of 6% must give you the same return as investing today at the 2-year spot rate. That means,
-	
-$$(1+y_1)\times (1+f_{1,2})=(1+y_2)^2$$
-	
-Solving for the two year spot rate gives us
-
-$$y_2 = \sqrt{(1+y_1)\times(1+f_{1,2})}=4.00\%$$
-	
-""")
-
-# ╔═╡ 4f74d455-78f9-40ab-b304-b026071d9fd6
+# ╔═╡ 1b8410fa-9092-420f-92fb-36c21a8be9f6
 vspace
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -823,1107 +482,1202 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
-DataFrames = "~1.3.2"
-HTTP = "~1.7.3"
+DataFrames = "~1.3.1"
+HTTP = "~0.9.17"
 HypertextLiteral = "~0.9.3"
 LaTeXStrings = "~1.3.0"
-Plots = "~1.38.2"
-PlutoUI = "~0.7.37"
+Plots = "~1.25.3"
+PlutoUI = "~0.7.27"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-[[AbstractPlutoDingetjes]]
+julia_version = "1.11.2"
+manifest_format = "2.0"
+project_hash = "d607ebaaaf4853c10c62bf55ec2b2049b4e9ac71"
+
+[[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
-git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+git-tree-sha1 = "6e1d2a35f2f90a4bc7c2ed98079b2ba09c35b83a"
 uuid = "6e696c72-6542-2067-7265-42206c756150"
-version = "1.1.4"
+version = "1.3.2"
 
-[[ArgTools]]
+[[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
-version = "1.1.1"
+version = "1.1.2"
 
-[[Artifacts]]
+[[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+version = "1.11.0"
 
-[[Base64]]
+[[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+version = "1.11.0"
 
-[[BitFlags]]
-git-tree-sha1 = "43b1a4a8f797c1cddadf60499a8a077d4af2cd2d"
-uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
-version = "0.1.7"
-
-[[Bzip2_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "19a35467a82e236ff51bc17a3a44b69ef35185a2"
+[[deps.Bzip2_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "1b96ea4a01afe0ea4090c5c8039690672dd13f2e"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
-version = "1.0.8+0"
+version = "1.0.9+0"
 
-[[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
+[[deps.Cairo_jll]]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "2ac646d71d0d24b44f3f8c84da8c9f4d70fb67df"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
-version = "1.16.1+1"
+version = "1.18.4+0"
 
-[[ChainRulesCore]]
-deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "c6d890a52d2c4d55d326439580c3b8d0875a77d9"
-uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.15.7"
-
-[[ChangesOfVariables]]
-deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "38f7a08f19d8810338d4f5085211c7dfa5d5bdd8"
-uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.4"
-
-[[CodecZlib]]
-deps = ["TranscodingStreams", "Zlib_jll"]
-git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
-uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
-version = "0.7.0"
-
-[[ColorSchemes]]
-deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random", "SnoopPrecompile"]
-git-tree-sha1 = "aa3edc8f8dea6cbfa176ee12f7c2fc82f0608ed3"
+[[deps.ColorSchemes]]
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "PrecompileTools", "Random"]
+git-tree-sha1 = "403f2d8e209681fcbd9468a8514efff3ea08452e"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.20.0"
+version = "3.29.0"
 
-[[ColorTypes]]
+[[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "024fe24d83e4a5bf5fc80501a314ce0d1aa35597"
+git-tree-sha1 = "b10d0b65641d57b8b4d5e234446582de5047050d"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.0"
+version = "0.11.5"
 
-[[ColorVectorSpace]]
-deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "SpecialFunctions", "Statistics", "TensorCore"]
-git-tree-sha1 = "600cc5508d66b78aae350f7accdb58763ac18589"
+[[deps.ColorVectorSpace]]
+deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "Requires", "Statistics", "TensorCore"]
+git-tree-sha1 = "a1f44953f2382ebb937d60dafbe2deea4bd23249"
 uuid = "c3611d14-8923-5661-9e6a-0046d554d3a4"
-version = "0.9.10"
+version = "0.10.0"
 
-[[Colors]]
+    [deps.ColorVectorSpace.extensions]
+    SpecialFunctionsExt = "SpecialFunctions"
+
+    [deps.ColorVectorSpace.weakdeps]
+    SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+
+[[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
-git-tree-sha1 = "fc08e5930ee9a4e03f84bfb5211cb54e7769758a"
+git-tree-sha1 = "64e15186f0aa277e174aa81798f7eb8598e0157e"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
-version = "0.12.10"
+version = "0.13.0"
 
-[[Compat]]
-deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "96b0bc6c52df76506efc8a441c6cf1adcb1babc4"
+[[deps.Compat]]
+deps = ["TOML", "UUIDs"]
+git-tree-sha1 = "8ae8d32e09f0dcf42a36b90d4e17f5dd2e4c4215"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.42.0"
+version = "4.16.0"
+weakdeps = ["Dates", "LinearAlgebra"]
 
-[[CompilerSupportLibraries_jll]]
+    [deps.Compat.extensions]
+    CompatLinearAlgebraExt = "LinearAlgebra"
+
+[[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "1.1.1+0"
 
-[[Contour]]
-git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
+[[deps.ConstructionBase]]
+git-tree-sha1 = "76219f1ed5771adbb096743bff43fb5fdd4c1157"
+uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
+version = "1.5.8"
+
+    [deps.ConstructionBase.extensions]
+    ConstructionBaseIntervalSetsExt = "IntervalSets"
+    ConstructionBaseLinearAlgebraExt = "LinearAlgebra"
+    ConstructionBaseStaticArraysExt = "StaticArrays"
+
+    [deps.ConstructionBase.weakdeps]
+    IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
+    LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+    StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[[deps.Contour]]
+deps = ["StaticArrays"]
+git-tree-sha1 = "9f02045d934dc030edad45944ea80dbd1f0ebea7"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
-version = "0.6.2"
+version = "0.5.7"
 
-[[Crayons]]
+[[deps.Crayons]]
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 version = "4.1.1"
 
-[[DataAPI]]
-git-tree-sha1 = "cc70b17275652eb47bc9e5f81635981f13cea5c8"
+[[deps.DataAPI]]
+git-tree-sha1 = "abe83f3a2f1b857aac70ef8b269080af17764bbe"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
-version = "1.9.0"
+version = "1.16.0"
 
-[[DataFrames]]
+[[deps.DataFrames]]
 deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
-git-tree-sha1 = "ae02104e835f219b8930c7664b8012c93475c340"
+git-tree-sha1 = "db2a9cb664fcea7836da4b414c3278d71dd602d2"
 uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.3.2"
+version = "1.3.6"
 
-[[DataStructures]]
+[[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "3daef5523dd2e769dad2365274f760ff5f282c7d"
+git-tree-sha1 = "4e1fe97fdaed23e9dc21d4d664bea76b65fc50a0"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.11"
+version = "0.18.22"
 
-[[DataValueInterfaces]]
+[[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
 uuid = "e2d170a0-9d28-54be-80f0-106bbe20a464"
 version = "1.0.0"
 
-[[Dates]]
+[[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+version = "1.11.0"
 
-[[DelimitedFiles]]
+[[deps.Dbus_jll]]
+deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "473e9afc9cf30814eb67ffa5f2db7df82c3ad9fd"
+uuid = "ee1fde0b-3d02-5ea6-8484-8dfef6360eab"
+version = "1.16.2+0"
+
+[[deps.DelimitedFiles]]
 deps = ["Mmap"]
+git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+version = "1.9.1"
 
-[[Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
-
-[[DocStringExtensions]]
-deps = ["LibGit2"]
-git-tree-sha1 = "2fb1e02f2b635d0845df5d7c167fec4dd739b00d"
+[[deps.DocStringExtensions]]
+git-tree-sha1 = "e7b7e6f178525d17c720ab9c081e4ef04429f860"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.9.3"
+version = "0.9.4"
 
-[[Downloads]]
+[[deps.Downloads]]
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
 
-[[Expat_jll]]
+[[deps.EarCut_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
+git-tree-sha1 = "e3290f2d49e661fbd94046d7e3726ffcb2d41053"
+uuid = "5ae413db-bbd1-5e63-b57d-d24a61df00f5"
+version = "2.2.4+0"
+
+[[deps.EpollShim_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "8a4be429317c42cfae6a7fc03c31bad1970c310d"
+uuid = "2702e6a9-849d-5ed8-8c21-79e8b8f9ee43"
+version = "0.0.20230411+1"
+
+[[deps.Expat_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "d55dffd9ae73ff72f1c0482454dcf2ec6c6c4a63"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.4.8+0"
+version = "2.6.5+0"
 
-[[FFMPEG]]
+[[deps.Extents]]
+git-tree-sha1 = "063512a13dbe9c40d999c439268539aa552d1ae6"
+uuid = "411431e0-e8b7-467b-b5e0-f676ba4f2910"
+version = "0.1.5"
+
+[[deps.FFMPEG]]
 deps = ["FFMPEG_jll"]
-git-tree-sha1 = "b57e3acbe22f8484b4b5ff66a7499717fe1a9cc8"
+git-tree-sha1 = "53ebe7511fa11d33bec688a9178fac4e49eeee00"
 uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
-version = "0.4.1"
+version = "0.4.2"
 
-[[FFMPEG_jll]]
+[[deps.FFMPEG_jll]]
 deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "PCRE2_jll", "Pkg", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
 git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
 
-[[FileWatching]]
+[[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
+version = "1.11.0"
 
-[[FixedPointNumbers]]
+[[deps.FixedPointNumbers]]
 deps = ["Statistics"]
-git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
+git-tree-sha1 = "05882d6995ae5c12bb5f36dd2ed3f61c98cbb172"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
-version = "0.8.4"
+version = "0.8.5"
 
-[[Fontconfig_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Expat_jll", "FreeType2_jll", "JLLWrappers", "Libdl", "Libuuid_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "21efd19106a55620a188615da6d3d06cd7f6ee03"
+[[deps.Fontconfig_jll]]
+deps = ["Artifacts", "Bzip2_jll", "Expat_jll", "FreeType2_jll", "JLLWrappers", "Libdl", "Libuuid_jll", "Zlib_jll"]
+git-tree-sha1 = "301b5d5d731a0654825f1f2e906990f7141a106b"
 uuid = "a3f928ae-7b40-5064-980b-68af3947d34b"
-version = "2.13.93+0"
+version = "2.16.0+0"
 
-[[Formatting]]
-deps = ["Printf"]
-git-tree-sha1 = "8339d61043228fdd3eb658d86c926cb282ae72a8"
+[[deps.Formatting]]
+deps = ["Logging", "Printf"]
+git-tree-sha1 = "fb409abab2caf118986fc597ba84b50cbaf00b87"
 uuid = "59287772-0a20-5a39-b81b-1366585eb4c0"
-version = "0.4.2"
+version = "0.4.3"
 
-[[FreeType2_jll]]
-deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "87eb71354d8ec1a96d4a7636bd57a7347dde3ef9"
+[[deps.FreeType2_jll]]
+deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
+git-tree-sha1 = "2c5512e11c791d1baed2049c5652441b28fc6a31"
 uuid = "d7e528f0-a631-5988-bf34-fe36492bcfd7"
-version = "2.10.4+0"
+version = "2.13.4+0"
 
-[[FriBidi_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "aa31987c2ba8704e23c6c8ba8a4f769d5d7e4f91"
+[[deps.FriBidi_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "7a214fdac5ed5f59a22c2d9a885a16da1c74bbc7"
 uuid = "559328eb-81f9-559d-9380-de523a88c83c"
-version = "1.0.10+0"
+version = "1.0.17+0"
 
-[[Future]]
+[[deps.Future]]
 deps = ["Random"]
 uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
+version = "1.11.0"
 
-[[GLFW_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
-git-tree-sha1 = "d972031d28c8c8d9d7b41a536ad7bb0c2579caca"
+[[deps.GLFW_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll", "libdecor_jll", "xkbcommon_jll"]
+git-tree-sha1 = "fcb0584ff34e25155876418979d4c8971243bb89"
 uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
-version = "3.3.8+0"
+version = "3.4.0+2"
 
-[[GR]]
-deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "387d2b8b3ca57b791633f0993b31d8cb43ea3292"
+[[deps.GR]]
+deps = ["Base64", "DelimitedFiles", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Printf", "Random", "RelocatableFolders", "Serialization", "Sockets", "Test", "UUIDs"]
+git-tree-sha1 = "c98aea696662d09e215ef7cda5296024a9646c75"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.71.3"
+version = "0.64.4"
 
-[[GR_jll]]
+[[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "5982b5e20f97bff955e9a2343a14da96a746cd8c"
+git-tree-sha1 = "bc9f7725571ddb4ab2c4bc74fa397c1c5ad08943"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.71.3+0"
+version = "0.69.1+0"
 
-[[Gettext_jll]]
+[[deps.GeoFormatTypes]]
+git-tree-sha1 = "8e233d5167e63d708d41f87597433f59a0f213fe"
+uuid = "68eda718-8dee-11e9-39e7-89f7f65f511f"
+version = "0.4.4"
+
+[[deps.GeoInterface]]
+deps = ["DataAPI", "Extents", "GeoFormatTypes"]
+git-tree-sha1 = "294e99f19869d0b0cb71aef92f19d03649d028d5"
+uuid = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+version = "1.4.1"
+
+[[deps.GeometryBasics]]
+deps = ["EarCut_jll", "Extents", "GeoInterface", "IterTools", "LinearAlgebra", "StaticArrays", "StructArrays", "Tables"]
+git-tree-sha1 = "b62f2b2d76cee0d61a2ef2b3118cd2a3215d3134"
+uuid = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
+version = "0.4.11"
+
+[[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
 git-tree-sha1 = "9b02998aba7bf074d14de89f9d37ca24a1a0b046"
 uuid = "78b55507-aeef-58d4-861c-77aaff3498b1"
 version = "0.21.0+0"
 
-[[Glib_jll]]
-deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
+[[deps.Glib_jll]]
+deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Zlib_jll"]
+git-tree-sha1 = "b0036b392358c80d2d2124746c2bf3d48d457938"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+2"
+version = "2.82.4+0"
 
-[[Graphite2_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "344bf40dcab1073aca04aa0df4fb092f920e4011"
+[[deps.Graphite2_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "8a6dbda1fd736d60cc477d99f2e7a042acfa46e8"
 uuid = "3b182d85-2403-5c21-9c21-1e1f0cc25472"
-version = "1.3.14+0"
+version = "1.3.15+0"
 
-[[Grisu]]
+[[deps.Grisu]]
 git-tree-sha1 = "53bb909d1151e57e2484c3d1b53e19552b887fb2"
 uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
-[[HTTP]]
-deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "eb5aa5e3b500e191763d35198f859e4b40fff4a6"
+[[deps.HTTP]]
+deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
+git-tree-sha1 = "0fa77022fe4b511826b39c894c90daf5fce3334a"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.7.3"
+version = "0.9.17"
 
-[[HarfBuzz_jll]]
-deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
-git-tree-sha1 = "129acf094d168394e80ee1dc4bc06ec835e510a3"
+[[deps.HarfBuzz_jll]]
+deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll"]
+git-tree-sha1 = "55c53be97790242c29031e5cd45e8ac296dadda3"
 uuid = "2e76f6c2-a576-52d4-95c1-20adfe4de566"
-version = "2.8.1+1"
+version = "8.5.0+0"
 
-[[Hyperscript]]
+[[deps.Hyperscript]]
 deps = ["Test"]
-git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+git-tree-sha1 = "179267cfa5e712760cd43dcae385d7ea90cc25a4"
 uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
-version = "0.0.4"
+version = "0.0.5"
 
-[[HypertextLiteral]]
-git-tree-sha1 = "2b078b5a615c6c0396c77810d92ee8c6f470d238"
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "7134810b1afce04bbc1045ca1985fbe81ce17653"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-version = "0.9.3"
+version = "0.9.5"
 
-[[IOCapture]]
+[[deps.IOCapture]]
 deps = ["Logging", "Random"]
-git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+git-tree-sha1 = "b6d6bfdd7ce25b0f9b2f6b3dd56b2673a66c8770"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
-version = "0.2.2"
+version = "0.2.5"
 
-[[IniFile]]
+[[deps.IniFile]]
 git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
 version = "0.5.1"
 
-[[InteractiveUtils]]
+[[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+version = "1.11.0"
 
-[[InverseFunctions]]
-deps = ["Test"]
-git-tree-sha1 = "49510dfcb407e572524ba94aeae2fced1f3feb0f"
-uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.8"
-
-[[InvertedIndices]]
-git-tree-sha1 = "bee5f1ef5bf65df56bdd2e40447590b272a5471f"
+[[deps.InvertedIndices]]
+git-tree-sha1 = "6da3c4316095de0f5ee2ebd875df8721e7e0bdbe"
 uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
-version = "1.1.0"
+version = "1.3.1"
 
-[[IrrationalConstants]]
-git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
+[[deps.IrrationalConstants]]
+git-tree-sha1 = "e2222959fbc6c19554dc15174c81bf7bf3aa691c"
 uuid = "92d709cd-6900-40b7-9082-c6be49f344b6"
-version = "0.1.1"
+version = "0.2.4"
 
-[[IteratorInterfaceExtensions]]
+[[deps.IterTools]]
+git-tree-sha1 = "42d5f897009e7ff2cf88db414a389e5ed1bdd023"
+uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
+version = "1.10.0"
+
+[[deps.IteratorInterfaceExtensions]]
 git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
 uuid = "82899510-4779-5014-852e-03e436cf321d"
 version = "1.0.0"
 
-[[JLFzf]]
-deps = ["Pipe", "REPL", "Random", "fzf_jll"]
-git-tree-sha1 = "f377670cda23b6b7c1c0b3893e37451c5c1a2185"
-uuid = "1019f520-868f-41f5-a6de-eb00f4b6a39c"
-version = "0.1.5"
-
-[[JLLWrappers]]
-deps = ["Preferences"]
-git-tree-sha1 = "abc9885a7ca2052a736a600f7fa66209f96506e1"
+[[deps.JLLWrappers]]
+deps = ["Artifacts", "Preferences"]
+git-tree-sha1 = "a007feb38b422fbdab534406aeca1b86823cb4d6"
 uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
-version = "1.4.1"
+version = "1.7.0"
 
-[[JSON]]
+[[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
-git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
+git-tree-sha1 = "31e996f0a15c7b280ba9f76636b3ff9e2ae58c9a"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.21.3"
+version = "0.21.4"
 
-[[JpegTurbo_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
+[[deps.JpegTurbo_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "eac1206917768cb54957c65a615460d87b455fc1"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
-version = "2.1.2+0"
+version = "3.1.1+0"
 
-[[LAME_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "f6250b16881adf048549549fba48b1161acdac8c"
+[[deps.LAME_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "170b660facf5df5de098d866564877e119141cbd"
 uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
-version = "3.100.1+0"
+version = "3.100.2+0"
 
-[[LERC_jll]]
+[[deps.LERC_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "bf36f528eec6634efc60d7ec062008f171071434"
 uuid = "88015f11-f218-50d7-93a8-a6af411a945d"
 version = "3.0.0+1"
 
-[[LZO_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e5b909bcf985c5e2605737d2ce278ed791b89be6"
+[[deps.LLVMOpenMP_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "78211fb6cbc872f77cad3fc0b6cf647d923f4929"
+uuid = "1d63c593-3942-5779-bab2-d838dc0a180e"
+version = "18.1.7+0"
+
+[[deps.LZO_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "1c602b1127f4751facb671441ca72715cc95938a"
 uuid = "dd4b983a-f0e5-5f8d-a1b7-129d4a5fb1ac"
-version = "2.10.1+0"
+version = "2.10.3+0"
 
-[[LaTeXStrings]]
-git-tree-sha1 = "f2355693d6778a178ade15952b7ac47a4ff97996"
+[[deps.LaTeXStrings]]
+git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.3.0"
+version = "1.3.1"
 
-[[Latexify]]
+[[deps.Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Printf", "Requires"]
-git-tree-sha1 = "2422f47b34d4b127720a18f86fa7b1aa2e141f29"
+git-tree-sha1 = "8c57307b5d9bb3be1ff2da469063628631d4d51e"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
-version = "0.15.18"
+version = "0.15.21"
 
-[[LibCURL]]
+    [deps.Latexify.extensions]
+    DataFramesExt = "DataFrames"
+    DiffEqBiologicalExt = "DiffEqBiological"
+    ParameterizedFunctionsExt = "DiffEqBase"
+    SymEngineExt = "SymEngine"
+
+    [deps.Latexify.weakdeps]
+    DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+    DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
+    DiffEqBiological = "eb300fae-53e8-50a0-950c-e21f52c2b7e0"
+    SymEngine = "123dc426-2d89-5057-bbad-38513e3affd8"
+
+[[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
-version = "0.6.3"
+version = "0.6.4"
 
-[[LibCURL_jll]]
+[[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
-version = "7.84.0+0"
+version = "8.6.0+0"
 
-[[LibGit2]]
-deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
+[[deps.LibGit2]]
+deps = ["Base64", "LibGit2_jll", "NetworkOptions", "Printf", "SHA"]
 uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+version = "1.11.0"
 
-[[LibSSH2_jll]]
+[[deps.LibGit2_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll"]
+uuid = "e37daf67-58a4-590a-8e99-b0245dd2ffc5"
+version = "1.7.2+0"
+
+[[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
 uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
-version = "1.10.2+0"
+version = "1.11.0+1"
 
-[[Libdl]]
+[[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+version = "1.11.0"
 
-[[Libffi_jll]]
+[[deps.Libffi_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "0b4a5d71f3e5200a7dff793393e09dfc2d874290"
+git-tree-sha1 = "27ecae93dd25ee0909666e6835051dd684cc035e"
 uuid = "e9f186c6-92d2-5b65-8a66-fee21dc1b490"
-version = "3.2.2+1"
+version = "3.2.2+2"
 
-[[Libgcrypt_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgpg_error_jll", "Pkg"]
-git-tree-sha1 = "64613c82a59c120435c067c2b809fc61cf5166ae"
+[[deps.Libgcrypt_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgpg_error_jll"]
+git-tree-sha1 = "d77592fa54ad343c5043b6f38a03f1a3c3959ffe"
 uuid = "d4300ac3-e22c-5743-9152-c294e39db1e4"
-version = "1.8.7+0"
+version = "1.11.1+0"
 
-[[Libglvnd_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll", "Xorg_libXext_jll"]
-git-tree-sha1 = "6f73d1dd803986947b2c750138528a999a6c7733"
+[[deps.Libglvnd_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libX11_jll", "Xorg_libXext_jll"]
+git-tree-sha1 = "ff3b4b9d35de638936a525ecd36e86a8bb919d11"
 uuid = "7e76a0d4-f3c7-5321-8279-8d96eeed0f29"
-version = "1.6.0+0"
+version = "1.7.0+0"
 
-[[Libgpg_error_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "c333716e46366857753e273ce6a69ee0945a6db9"
+[[deps.Libgpg_error_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "df37206100d39f79b3376afb6b9cee4970041c61"
 uuid = "7add5ba3-2f88-524e-9cd5-f83b8a55f7b8"
-version = "1.42.0+0"
+version = "1.51.1+0"
 
-[[Libiconv_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
+[[deps.Libiconv_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "be484f5c92fad0bd8acfef35fe017900b0b73809"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+2"
+version = "1.18.0+0"
 
-[[Libmount_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9c30530bf0effd46e15e0fdcf2b8636e78cbbd73"
+[[deps.Libmount_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "a31572773ac1b745e0343fe5e2c8ddda7a37e997"
 uuid = "4b2f31a3-9ecc-558c-b454-b3730dcb73e9"
-version = "2.35.0+0"
+version = "2.41.0+0"
 
-[[Libtiff_jll]]
+[[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "Pkg", "Zlib_jll", "Zstd_jll"]
 git-tree-sha1 = "3eb79b0ca5764d4799c06699573fd8f533259713"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
 version = "4.4.0+0"
 
-[[Libuuid_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "7f3efec06033682db852f8b3bc3c1d2b0a0ab066"
+[[deps.Libuuid_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "321ccef73a96ba828cd51f2ab5b9f917fa73945a"
 uuid = "38a345b3-de98-5d2b-a5d3-14cd9215e700"
-version = "2.36.0+0"
+version = "2.41.0+0"
 
-[[LinearAlgebra]]
-deps = ["Libdl", "libblastrampoline_jll"]
+[[deps.LinearAlgebra]]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+version = "1.11.0"
 
-[[LogExpFunctions]]
-deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "946607f84feb96220f480e0422d3484c49c00239"
+[[deps.LogExpFunctions]]
+deps = ["DocStringExtensions", "IrrationalConstants", "LinearAlgebra"]
+git-tree-sha1 = "13ca9e2586b89836fd20cccf56e57e2b9ae7f38f"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.19"
+version = "0.3.29"
 
-[[Logging]]
+    [deps.LogExpFunctions.extensions]
+    LogExpFunctionsChainRulesCoreExt = "ChainRulesCore"
+    LogExpFunctionsChangesOfVariablesExt = "ChangesOfVariables"
+    LogExpFunctionsInverseFunctionsExt = "InverseFunctions"
+
+    [deps.LogExpFunctions.weakdeps]
+    ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
+    ChangesOfVariables = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
+    InverseFunctions = "3587e190-3f89-42d0-90ee-14403ec27112"
+
+[[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
+version = "1.11.0"
 
-[[LoggingExtras]]
-deps = ["Dates", "Logging"]
-git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
-uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
-version = "1.0.0"
+[[deps.MIMEs]]
+git-tree-sha1 = "c64d943587f7187e751162b3b84445bbbd79f691"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "1.1.0"
 
-[[MacroTools]]
-deps = ["Markdown", "Random"]
-git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
+[[deps.MacroTools]]
+git-tree-sha1 = "72aebe0b5051e5143a079a4685a46da330a40472"
 uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
-version = "0.5.10"
+version = "0.5.15"
 
-[[Markdown]]
+[[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+version = "1.11.0"
 
-[[MbedTLS]]
-deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
-git-tree-sha1 = "03a9b9718f5682ecb107ac9f7308991db4ce395b"
+[[deps.MbedTLS]]
+deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "NetworkOptions", "Random", "Sockets"]
+git-tree-sha1 = "c067a280ddc25f196b5e7df3877c6b226d390aaf"
 uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
-version = "1.1.7"
+version = "1.1.9"
 
-[[MbedTLS_jll]]
+[[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.0+0"
+version = "2.28.6+0"
 
-[[Measures]]
+[[deps.Measures]]
 git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
 version = "0.3.2"
 
-[[Missings]]
+[[deps.Missings]]
 deps = ["DataAPI"]
-git-tree-sha1 = "bf210ce90b6c9eed32d25dbcae1ebc565df2687f"
+git-tree-sha1 = "ec4f7fbeab05d7747bdf98eb74d130a2a2ed298d"
 uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
-version = "1.0.2"
+version = "1.2.0"
 
-[[Mmap]]
+[[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
+version = "1.11.0"
 
-[[MozillaCACerts_jll]]
+[[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2022.2.1"
+version = "2023.12.12"
 
-[[NaNMath]]
+[[deps.NaNMath]]
 deps = ["OpenLibm_jll"]
-git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
+git-tree-sha1 = "9b8215b1ee9e78a293f99797cd31375471b2bcae"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "1.0.1"
+version = "1.1.3"
 
-[[NetworkOptions]]
+[[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
 
-[[Ogg_jll]]
+[[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "887579a3eb005446d514ab7aeac5d1d027658b8f"
 uuid = "e7412a2a-1a6e-54c0-be00-318e2571c051"
 version = "1.3.5+1"
 
-[[OpenBLAS_jll]]
+[[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.20+0"
+version = "0.3.27+1"
 
-[[OpenLibm_jll]]
+[[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
-version = "0.8.1+0"
+version = "0.8.1+2"
 
-[[OpenSSL]]
-deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
-git-tree-sha1 = "6503b77492fd7fcb9379bf73cd31035670e3c509"
-uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
-version = "1.3.3"
-
-[[OpenSSL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "f6e9dba33f9f2c44e08a020b0caf6903be540004"
+[[deps.OpenSSL_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "ad31332567b189f508a3ea8957a2640b1147ab00"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.19+0"
+version = "1.1.23+1"
 
-[[OpenSpecFun_jll]]
-deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "13652491f6856acfd2db29360e1bbcd4565d04f1"
-uuid = "efe28fd5-8261-553b-a9e1-b2916fc3738e"
-version = "0.5.5+0"
-
-[[Opus_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "51a08fb14ec28da2ec7a927c4337e4332c2a4720"
+[[deps.Opus_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "6703a85cb3781bd5909d48730a67205f3f31a575"
 uuid = "91d4177d-7536-5919-b921-800302f37372"
-version = "1.3.2+0"
+version = "1.3.3+0"
 
-[[OrderedCollections]]
-git-tree-sha1 = "85f8e6578bf1f9ee0d11e7bb1b1456435479d47c"
+[[deps.OrderedCollections]]
+git-tree-sha1 = "cc4054e898b852042d7b503313f7ad03de99c3dd"
 uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
-version = "1.4.1"
-
-[[PCRE2_jll]]
-deps = ["Artifacts", "Libdl"]
-uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
-version = "10.40.0+0"
-
-[[Parsers]]
-deps = ["Dates"]
-git-tree-sha1 = "85b5da0fa43588c75bb1ff986493443f821c70b7"
-uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.2.3"
-
-[[Pipe]]
-git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
-uuid = "b98c9c47-44ae-5843-9183-064241ee97a0"
-version = "1.3.0"
-
-[[Pixman_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "b4f5d02549a10e20780a24fce72bea96b6329e29"
-uuid = "30392449-352a-5448-841d-b1acce4e97dc"
-version = "0.40.1+0"
-
-[[Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
-uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 version = "1.8.0"
 
-[[PlotThemes]]
-deps = ["PlotUtils", "Statistics"]
-git-tree-sha1 = "1f03a2d339f42dca4a4da149c7e15e9b896ad899"
+[[deps.PCRE2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
+version = "10.42.0+1"
+
+[[deps.Pango_jll]]
+deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "FriBidi_jll", "Glib_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "3b31172c032a1def20c98dae3f2cdc9d10e3b561"
+uuid = "36c8627f-9965-5494-a995-c6b170f724f3"
+version = "1.56.1+0"
+
+[[deps.Parsers]]
+deps = ["Dates", "PrecompileTools", "UUIDs"]
+git-tree-sha1 = "8489905bcdbcfac64d1daa51ca07c0d8f0283821"
+uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+version = "2.8.1"
+
+[[deps.Pixman_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "LLVMOpenMP_jll", "Libdl"]
+git-tree-sha1 = "db76b1ecd5e9715f3d043cec13b2ec93ce015d53"
+uuid = "30392449-352a-5448-841d-b1acce4e97dc"
+version = "0.44.2+0"
+
+[[deps.Pkg]]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "Random", "SHA", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.11.0"
+weakdeps = ["REPL"]
+
+    [deps.Pkg.extensions]
+    REPLExt = "REPL"
+
+[[deps.PlotThemes]]
+deps = ["PlotUtils", "Requires", "Statistics"]
+git-tree-sha1 = "a3a964ce9dc7898193536002a6dd892b1b5a6f1d"
 uuid = "ccf2f8ad-2431-5c83-bf29-c5338b663b6a"
-version = "3.1.0"
+version = "2.0.1"
 
-[[PlotUtils]]
-deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "SnoopPrecompile", "Statistics"]
-git-tree-sha1 = "5b7690dd212e026bbab1860016a6601cb077ab66"
+[[deps.PlotUtils]]
+deps = ["ColorSchemes", "Colors", "Dates", "PrecompileTools", "Printf", "Random", "Reexport", "StableRNGs", "Statistics"]
+git-tree-sha1 = "3ca9a356cd2e113c420f2c13bea19f8d3fb1cb18"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.3.2"
+version = "1.4.3"
 
-[[Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Preferences", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SnoopPrecompile", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "a99bbd3664bb12a775cda2eba7f3b2facf3dad94"
+[[deps.Plots]]
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "GeometryBasics", "JSON", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "PlotThemes", "PlotUtils", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
+git-tree-sha1 = "d16070abde61120e01b4f30f6f398496582301d6"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.38.2"
+version = "1.25.12"
 
-[[PlutoUI]]
-deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "bf0a1121af131d9974241ba53f601211e9303a9e"
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "d3de2694b52a01ce61a036f18ea9c0f61c4a9230"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.37"
+version = "0.7.62"
 
-[[PooledArrays]]
+[[deps.PooledArrays]]
 deps = ["DataAPI", "Future"]
-git-tree-sha1 = "db3a23166af8aebf4db5ef87ac5b00d36eb771e2"
+git-tree-sha1 = "36d8b4b899628fb92c2749eb488d884a926614d3"
 uuid = "2dfb63ee-cc39-5dd5-95bd-886bf059d720"
-version = "1.4.0"
+version = "1.4.3"
 
-[[Preferences]]
+[[deps.PrecompileTools]]
+deps = ["Preferences"]
+git-tree-sha1 = "5aa36f7049a63a1528fe8f7c3f2113413ffd4e1f"
+uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+version = "1.2.1"
+
+[[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
+git-tree-sha1 = "9306f6085165d270f7e3db02af26a400d580f5c6"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.3.0"
+version = "1.4.3"
 
-[[PrettyTables]]
+[[deps.PrettyTables]]
 deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
 git-tree-sha1 = "dfb54c4e414caa595a1f2ed759b160f5a3ddcba5"
 uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
 version = "1.3.1"
 
-[[Printf]]
+[[deps.Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+version = "1.11.0"
 
-[[Qt5Base_jll]]
+[[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
 git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+2"
 
-[[REPL]]
-deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
+[[deps.REPL]]
+deps = ["InteractiveUtils", "Markdown", "Sockets", "StyledStrings", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+version = "1.11.0"
 
-[[Random]]
-deps = ["SHA", "Serialization"]
+[[deps.Random]]
+deps = ["SHA"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+version = "1.11.0"
 
-[[RecipesBase]]
-deps = ["SnoopPrecompile"]
-git-tree-sha1 = "261dddd3b862bd2c940cf6ca4d1c8fe593e457c8"
+[[deps.RecipesBase]]
+deps = ["PrecompileTools"]
+git-tree-sha1 = "5c3d09cc4f31f5fc6af001c250bf1278733100ff"
 uuid = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
-version = "1.3.3"
+version = "1.3.4"
 
-[[RecipesPipeline]]
-deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase", "SnoopPrecompile"]
-git-tree-sha1 = "e974477be88cb5e3040009f3767611bc6357846f"
+[[deps.RecipesPipeline]]
+deps = ["Dates", "NaNMath", "PlotUtils", "RecipesBase"]
+git-tree-sha1 = "dc1e451e15d90347a7decc4221842a022b011714"
 uuid = "01d81517-befc-4cb6-b9ec-a95719d0359c"
-version = "0.6.11"
+version = "0.5.2"
 
-[[Reexport]]
+[[deps.Reexport]]
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
 
-[[RelocatableFolders]]
+[[deps.RelocatableFolders]]
 deps = ["SHA", "Scratch"]
-git-tree-sha1 = "90bc7a7c96410424509e4263e277e43250c05691"
+git-tree-sha1 = "cdbd3b1338c72ce29d9584fdbe9e9b70eeb5adca"
 uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
-version = "1.0.0"
+version = "0.1.3"
 
-[[Requires]]
+[[deps.Requires]]
 deps = ["UUIDs"]
-git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
+git-tree-sha1 = "62389eeff14780bfe55195b7204c0d8738436d64"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
-version = "1.3.0"
+version = "1.3.1"
 
-[[SHA]]
+[[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
-[[Scratch]]
+[[deps.Scratch]]
 deps = ["Dates"]
-git-tree-sha1 = "f94f779c94e58bf9ea243e77a37e16d9de9126bd"
+git-tree-sha1 = "3bac05bc7e74a75fd9cba4295cde4045d9fe2386"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
-version = "1.1.1"
+version = "1.2.1"
 
-[[Serialization]]
+[[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+version = "1.11.0"
 
-[[SharedArrays]]
-deps = ["Distributed", "Mmap", "Random", "Serialization"]
-uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
-
-[[Showoff]]
+[[deps.Showoff]]
 deps = ["Dates", "Grisu"]
 git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
 
-[[SimpleBufferStream]]
-git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
-uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
-version = "1.1.0"
-
-[[SnoopPrecompile]]
-deps = ["Preferences"]
-git-tree-sha1 = "e760a70afdcd461cf01a575947738d359234665c"
-uuid = "66db9d55-30c0-4569-8b51-7e840670fc0c"
-version = "1.0.3"
-
-[[Sockets]]
+[[deps.Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
+version = "1.11.0"
 
-[[SortingAlgorithms]]
+[[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
-git-tree-sha1 = "b3363d7460f7d098ca0912c69b082f75625d7508"
+git-tree-sha1 = "66e0a8e672a0bdfca2c3f5937efb8538b9ddc085"
 uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
-version = "1.0.1"
+version = "1.2.1"
 
-[[SparseArrays]]
-deps = ["LinearAlgebra", "Random"]
+[[deps.SparseArrays]]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+version = "1.11.0"
 
-[[SpecialFunctions]]
-deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "d75bda01f8c31ebb72df80a46c88b25d1c79c56d"
-uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.1.7"
+[[deps.StableRNGs]]
+deps = ["Random"]
+git-tree-sha1 = "83e6cce8324d49dfaf9ef059227f91ed4441a8e5"
+uuid = "860ef19b-820b-49d6-a774-d7a799459cd3"
+version = "1.0.2"
 
-[[Statistics]]
-deps = ["LinearAlgebra", "SparseArrays"]
-uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+[[deps.StaticArrays]]
+deps = ["LinearAlgebra", "PrecompileTools", "Random", "StaticArraysCore"]
+git-tree-sha1 = "0feb6b9031bd5c51f9072393eb5ab3efd31bf9e4"
+uuid = "90137ffa-7385-5640-81b9-e52037218182"
+version = "1.9.13"
 
-[[StatsAPI]]
+    [deps.StaticArrays.extensions]
+    StaticArraysChainRulesCoreExt = "ChainRulesCore"
+    StaticArraysStatisticsExt = "Statistics"
+
+    [deps.StaticArrays.weakdeps]
+    ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
+    Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
+[[deps.StaticArraysCore]]
+git-tree-sha1 = "192954ef1208c7019899fbf8049e717f92959682"
+uuid = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
+version = "1.4.3"
+
+[[deps.Statistics]]
 deps = ["LinearAlgebra"]
-git-tree-sha1 = "f9af7f195fb13589dd2e2d57fdb401717d2eb1f6"
-uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
-version = "1.5.0"
+git-tree-sha1 = "ae3bb1eb3bba077cd276bc5cfc337cc65c3075c0"
+uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.11.1"
+weakdeps = ["SparseArrays"]
 
-[[StatsBase]]
+    [deps.Statistics.extensions]
+    SparseArraysExt = ["SparseArrays"]
+
+[[deps.StatsAPI]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "1ff449ad350c9c4cbc756624d6f8a8c3ef56d3ed"
+uuid = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
+version = "1.7.0"
+
+[[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
 git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.33.21"
 
-[[TOML]]
+[[deps.StructArrays]]
+deps = ["ConstructionBase", "DataAPI", "Tables"]
+git-tree-sha1 = "9537ef82c42cdd8c5d443cbc359110cbb36bae10"
+uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
+version = "0.6.21"
+
+    [deps.StructArrays.extensions]
+    StructArraysAdaptExt = "Adapt"
+    StructArraysGPUArraysCoreExt = ["GPUArraysCore", "KernelAbstractions"]
+    StructArraysLinearAlgebraExt = "LinearAlgebra"
+    StructArraysSparseArraysExt = "SparseArrays"
+    StructArraysStaticArraysExt = "StaticArrays"
+
+    [deps.StructArrays.weakdeps]
+    Adapt = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
+    GPUArraysCore = "46192b85-c4d5-4398-a991-12ede77f4527"
+    KernelAbstractions = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
+    LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+    SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+    StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
+[[deps.StyledStrings]]
+uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
+version = "1.11.0"
+
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "7.7.0+0"
+
+[[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-version = "1.0.0"
+version = "1.0.3"
 
-[[TableTraits]]
+[[deps.TableTraits]]
 deps = ["IteratorInterfaceExtensions"]
 git-tree-sha1 = "c06b2f539df1c6efa794486abfb6ed2022561a39"
 uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 version = "1.0.1"
 
-[[Tables]]
-deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "LinearAlgebra", "OrderedCollections", "TableTraits", "Test"]
-git-tree-sha1 = "5ce79ce186cc678bbb5c5681ca3379d1ddae11a1"
+[[deps.Tables]]
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "OrderedCollections", "TableTraits"]
+git-tree-sha1 = "598cd7c1f68d1e205689b1c2fe65a9f85846f297"
 uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-version = "1.7.0"
+version = "1.12.0"
 
-[[Tar]]
+[[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
-[[TensorCore]]
+[[deps.TensorCore]]
 deps = ["LinearAlgebra"]
 git-tree-sha1 = "1feb45f88d133a655e001435632f019a9a1bcdb6"
 uuid = "62fd8b95-f654-4bbd-a8a5-9c27f68ccd50"
 version = "0.1.1"
 
-[[Test]]
+[[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+version = "1.11.0"
 
-[[TranscodingStreams]]
-deps = ["Random", "Test"]
-git-tree-sha1 = "94f38103c984f89cf77c402f2a68dbd870f8165f"
-uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.9.11"
+[[deps.Tricks]]
+git-tree-sha1 = "6cae795a5a9313bbb4f60683f7263318fc7d1505"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.10"
 
-[[URIs]]
-git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
+[[deps.URIs]]
+git-tree-sha1 = "cbbebadbcc76c5ca1cc4b4f3b0614b3e603b5000"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.4.1"
+version = "1.5.2"
 
-[[UUIDs]]
+[[deps.UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+version = "1.11.0"
 
-[[Unicode]]
+[[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+version = "1.11.0"
 
-[[UnicodeFun]]
+[[deps.UnicodeFun]]
 deps = ["REPL"]
 git-tree-sha1 = "53915e50200959667e78a92a418594b428dffddf"
 uuid = "1cfade01-22cf-5700-b092-accc4b62d6e1"
 version = "0.4.1"
 
-[[Unzip]]
-git-tree-sha1 = "ca0969166a028236229f63514992fc073799bb78"
+[[deps.Unzip]]
+git-tree-sha1 = "34db80951901073501137bdbc3d5a8e7bbd06670"
 uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
-version = "0.2.0"
+version = "0.1.2"
 
-[[Wayland_jll]]
-deps = ["Artifacts", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
-git-tree-sha1 = "ed8d92d9774b077c53e1da50fd81a36af3744c1c"
+[[deps.Wayland_jll]]
+deps = ["Artifacts", "EpollShim_jll", "Expat_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg", "XML2_jll"]
+git-tree-sha1 = "85c7811eddec9e7f22615371c3cc81a504c508ee"
 uuid = "a2964d1f-97da-50d4-b82a-358c7fce9d89"
-version = "1.21.0+0"
+version = "1.21.0+2"
 
-[[Wayland_protocols_jll]]
+[[deps.Wayland_protocols_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
+git-tree-sha1 = "5db3e9d307d32baba7067b13fc7b5aa6edd4a19a"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
-version = "1.25.0+0"
+version = "1.36.0+0"
 
-[[XML2_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "93c41695bc1c08c46c5899f4fe06d6ead504bb73"
+[[deps.XML2_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
+git-tree-sha1 = "b8b243e47228b4a3877f1dd6aee0c5d56db7fcf4"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.10.3+0"
+version = "2.13.6+1"
 
-[[XSLT_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "Pkg", "XML2_jll", "Zlib_jll"]
-git-tree-sha1 = "91844873c4085240b95e795f692c4cec4d805f8a"
+[[deps.XSLT_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libgcrypt_jll", "Libgpg_error_jll", "Libiconv_jll", "XML2_jll", "Zlib_jll"]
+git-tree-sha1 = "82df486bfc568c29de4a207f7566d6716db6377c"
 uuid = "aed1982a-8fda-507f-9586-7b0439959a61"
-version = "1.1.34+0"
+version = "1.1.43+0"
 
-[[Xorg_libX11_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libxcb_jll", "Xorg_xtrans_jll"]
-git-tree-sha1 = "5be649d550f3f4b95308bf0183b82e2582876527"
+[[deps.Xorg_libX11_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libxcb_jll", "Xorg_xtrans_jll"]
+git-tree-sha1 = "9dafcee1d24c4f024e7edc92603cedba72118283"
 uuid = "4f6342f7-b3d2-589e-9d20-edeb45f2b2bc"
-version = "1.6.9+4"
+version = "1.8.6+3"
 
-[[Xorg_libXau_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "4e490d5c960c314f33885790ed410ff3a94ce67e"
+[[deps.Xorg_libXau_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "e9216fdcd8514b7072b43653874fd688e4c6c003"
 uuid = "0c0b7dd1-d40b-584c-a123-a41640f87eec"
-version = "1.0.9+4"
+version = "1.0.12+0"
 
-[[Xorg_libXcursor_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libXfixes_jll", "Xorg_libXrender_jll"]
-git-tree-sha1 = "12e0eb3bc634fa2080c1c37fccf56f7c22989afd"
+[[deps.Xorg_libXcursor_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libXfixes_jll", "Xorg_libXrender_jll"]
+git-tree-sha1 = "807c226eaf3651e7b2c468f687ac788291f9a89b"
 uuid = "935fb764-8cf2-53bf-bb30-45bb1f8bf724"
-version = "1.2.0+4"
+version = "1.2.3+0"
 
-[[Xorg_libXdmcp_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "4fe47bd2247248125c428978740e18a681372dd4"
+[[deps.Xorg_libXdmcp_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "89799ae67c17caa5b3b5a19b8469eeee474377db"
 uuid = "a3789734-cfe1-5b06-b2d0-1dd0d9d62d05"
-version = "1.1.3+4"
+version = "1.1.5+0"
 
-[[Xorg_libXext_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll"]
-git-tree-sha1 = "b7c0aa8c376b31e4852b360222848637f481f8c3"
+[[deps.Xorg_libXext_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libX11_jll"]
+git-tree-sha1 = "d7155fea91a4123ef59f42c4afb5ab3b4ca95058"
 uuid = "1082639a-0dae-5f34-9b06-72781eeb8cb3"
-version = "1.3.4+4"
+version = "1.3.6+3"
 
-[[Xorg_libXfixes_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll"]
-git-tree-sha1 = "0e0dc7431e7a0587559f9294aeec269471c991a4"
+[[deps.Xorg_libXfixes_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libX11_jll"]
+git-tree-sha1 = "6fcc21d5aea1a0b7cce6cab3e62246abd1949b86"
 uuid = "d091e8ba-531a-589c-9de9-94069b037ed8"
-version = "5.0.3+4"
+version = "6.0.0+0"
 
-[[Xorg_libXi_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libXext_jll", "Xorg_libXfixes_jll"]
-git-tree-sha1 = "89b52bc2160aadc84d707093930ef0bffa641246"
+[[deps.Xorg_libXi_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libXext_jll", "Xorg_libXfixes_jll"]
+git-tree-sha1 = "984b313b049c89739075b8e2a94407076de17449"
 uuid = "a51aa0fd-4e3c-5386-b890-e753decda492"
-version = "1.7.10+4"
+version = "1.8.2+0"
 
-[[Xorg_libXinerama_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libXext_jll"]
-git-tree-sha1 = "26be8b1c342929259317d8b9f7b53bf2bb73b123"
+[[deps.Xorg_libXinerama_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libXext_jll"]
+git-tree-sha1 = "a1a7eaf6c3b5b05cb903e35e8372049b107ac729"
 uuid = "d1454406-59df-5ea1-beac-c340f2130bc3"
-version = "1.1.4+4"
+version = "1.1.5+0"
 
-[[Xorg_libXrandr_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll"]
-git-tree-sha1 = "34cea83cb726fb58f325887bf0612c6b3fb17631"
+[[deps.Xorg_libXrandr_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libXext_jll", "Xorg_libXrender_jll"]
+git-tree-sha1 = "b6f664b7b2f6a39689d822a6300b14df4668f0f4"
 uuid = "ec84b674-ba8e-5d96-8ba1-2a689ba10484"
-version = "1.5.2+4"
+version = "1.5.4+0"
 
-[[Xorg_libXrender_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll"]
-git-tree-sha1 = "19560f30fd49f4d4efbe7002a1037f8c43d43b96"
+[[deps.Xorg_libXrender_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libX11_jll"]
+git-tree-sha1 = "a490c6212a0e90d2d55111ac956f7c4fa9c277a6"
 uuid = "ea2f1a96-1ddc-540d-b46f-429655e07cfa"
-version = "0.9.10+4"
+version = "0.9.11+1"
 
-[[Xorg_libpthread_stubs_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "6783737e45d3c59a4a4c4091f5f88cdcf0908cbb"
+[[deps.Xorg_libpthread_stubs_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "c57201109a9e4c0585b208bb408bc41d205ac4e9"
 uuid = "14d82f49-176c-5ed1-bb49-ad3f5cbd8c74"
-version = "0.1.0+3"
+version = "0.1.2+0"
 
-[[Xorg_libxcb_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "XSLT_jll", "Xorg_libXau_jll", "Xorg_libXdmcp_jll", "Xorg_libpthread_stubs_jll"]
-git-tree-sha1 = "daf17f441228e7a3833846cd048892861cff16d6"
+[[deps.Xorg_libxcb_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "XSLT_jll", "Xorg_libXau_jll", "Xorg_libXdmcp_jll", "Xorg_libpthread_stubs_jll"]
+git-tree-sha1 = "1a74296303b6524a0472a8cb12d3d87a78eb3612"
 uuid = "c7cfdc94-dc32-55de-ac96-5a1b8d977c5b"
-version = "1.13.0+3"
+version = "1.17.0+3"
 
-[[Xorg_libxkbfile_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libX11_jll"]
-git-tree-sha1 = "926af861744212db0eb001d9e40b5d16292080b2"
+[[deps.Xorg_libxkbfile_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libX11_jll"]
+git-tree-sha1 = "dbc53e4cf7701c6c7047c51e17d6e64df55dca94"
 uuid = "cc61e674-0454-545c-8b26-ed2c68acab7a"
-version = "1.1.0+4"
+version = "1.1.2+1"
 
-[[Xorg_xcb_util_image_jll]]
+[[deps.Xorg_xcb_util_image_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
 git-tree-sha1 = "0fab0a40349ba1cba2c1da699243396ff8e94b97"
 uuid = "12413925-8142-5f55-bb0e-6d7ca50bb09b"
 version = "0.4.0+1"
 
-[[Xorg_xcb_util_jll]]
+[[deps.Xorg_xcb_util_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libxcb_jll"]
 git-tree-sha1 = "e7fd7b2881fa2eaa72717420894d3938177862d1"
 uuid = "2def613f-5ad1-5310-b15b-b15d46f528f5"
 version = "0.4.0+1"
 
-[[Xorg_xcb_util_keysyms_jll]]
+[[deps.Xorg_xcb_util_keysyms_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
 git-tree-sha1 = "d1151e2c45a544f32441a567d1690e701ec89b00"
 uuid = "975044d2-76e6-5fbe-bf08-97ce7c6574c7"
 version = "0.4.0+1"
 
-[[Xorg_xcb_util_renderutil_jll]]
+[[deps.Xorg_xcb_util_renderutil_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
 git-tree-sha1 = "dfd7a8f38d4613b6a575253b3174dd991ca6183e"
 uuid = "0d47668e-0667-5a69-a72c-f761630bfb7e"
 version = "0.3.9+1"
 
-[[Xorg_xcb_util_wm_jll]]
+[[deps.Xorg_xcb_util_wm_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
 git-tree-sha1 = "e78d10aab01a4a154142c5006ed44fd9e8e31b67"
 uuid = "c22f9ab0-d5fe-5066-847c-f4bb1cd4e361"
 version = "0.4.1+1"
 
-[[Xorg_xkbcomp_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libxkbfile_jll"]
-git-tree-sha1 = "4bcbf660f6c2e714f87e960a171b119d06ee163b"
+[[deps.Xorg_xkbcomp_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_libxkbfile_jll"]
+git-tree-sha1 = "ab2221d309eda71020cdda67a973aa582aa85d69"
 uuid = "35661453-b289-5fab-8a00-3d9160c6a3a4"
-version = "1.4.2+4"
+version = "1.4.6+1"
 
-[[Xorg_xkeyboard_config_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xkbcomp_jll"]
-git-tree-sha1 = "5c8424f8a67c3f2209646d4425f3d415fee5931d"
+[[deps.Xorg_xkeyboard_config_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Xorg_xkbcomp_jll"]
+git-tree-sha1 = "691634e5453ad362044e2ad653e79f3ee3bb98c3"
 uuid = "33bec58e-1273-512f-9401-5d533626f822"
-version = "2.27.0+4"
+version = "2.39.0+0"
 
-[[Xorg_xtrans_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "79c31e7844f6ecf779705fbc12146eb190b7d845"
+[[deps.Xorg_xtrans_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "a63799ff68005991f9d9491b6e95bd3478d783cb"
 uuid = "c5fb5394-a638-5e4d-96e5-b29de1b5cf10"
-version = "1.4.0+3"
+version = "1.6.0+0"
 
-[[Zlib_jll]]
+[[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+3"
+version = "1.2.13+1"
 
-[[Zstd_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
+[[deps.Zstd_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "446b23e73536f84e8037f5dce465e92275f6a308"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.2+0"
+version = "1.5.7+1"
 
-[[fzf_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "868e669ccb12ba16eaf50cb2957ee2ff61261c56"
-uuid = "214eeab7-80f7-51ab-84ad-2988db7cef09"
-version = "0.29.0+0"
-
-[[libaom_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "3a2ea60308f0996d26f1e5354e10c24e9ef905d4"
+[[deps.libaom_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "522c1df09d05a71785765d19c9524661234738e9"
 uuid = "a4ae2306-e953-59d6-aa16-d00cac43593b"
-version = "3.4.0+0"
+version = "3.11.0+0"
 
-[[libass_jll]]
-deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "5982a94fcba20f02f42ace44b9894ee2b140fe47"
+[[deps.libass_jll]]
+deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
+git-tree-sha1 = "e17c115d55c5fbb7e52ebedb427a0dca79d4484e"
 uuid = "0ac62f75-1d6f-5e53-bd7c-93b484bb37c0"
-version = "0.15.1+0"
+version = "0.15.2+0"
 
-[[libblastrampoline_jll]]
-deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+[[deps.libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.1+0"
+version = "5.11.0+0"
 
-[[libfdk_aac_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "daacc84a041563f965be61859a36e17c4e4fcd55"
+[[deps.libdecor_jll]]
+deps = ["Artifacts", "Dbus_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pango_jll", "Wayland_jll", "xkbcommon_jll"]
+git-tree-sha1 = "9bf7903af251d2050b467f76bdbe57ce541f7f4f"
+uuid = "1183f4f0-6f2a-5f1a-908b-139f9cdfea6f"
+version = "0.2.2+0"
+
+[[deps.libfdk_aac_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "8a22cf860a7d27e4f3498a0fe0811a7957badb38"
 uuid = "f638f0a6-7fb0-5443-88ba-1cc74229b280"
-version = "2.0.2+0"
+version = "2.0.3+0"
 
-[[libpng_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "94d180a6d2b5e55e447e2d27a29ed04fe79eb30c"
+[[deps.libpng_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Zlib_jll"]
+git-tree-sha1 = "068dfe202b0a05b8332f1e8e6b4080684b9c7700"
 uuid = "b53b4c65-9356-5827-b1ea-8c7a1a84506f"
-version = "1.6.38+0"
+version = "1.6.47+0"
 
-[[libvorbis_jll]]
+[[deps.libvorbis_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Ogg_jll", "Pkg"]
-git-tree-sha1 = "b910cb81ef3fe6e78bf6acee440bda86fd6ae00c"
+git-tree-sha1 = "490376214c4721cdaca654041f635213c6165cb3"
 uuid = "f27f6e37-5d2b-51aa-960f-b287f2bc3b7a"
-version = "1.3.7+1"
+version = "1.3.7+2"
 
-[[nghttp2_jll]]
+[[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
-version = "1.48.0+0"
+version = "1.59.0+0"
 
-[[p7zip_jll]]
+[[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
-version = "17.4.0+0"
+version = "17.4.0+2"
 
-[[x264_jll]]
+[[deps.x264_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "4fea590b89e6ec504593146bf8b988b2c00922b2"
 uuid = "1270edf5-f2f9-52d2-97e9-ab00b5d0237a"
 version = "2021.5.5+0"
 
-[[x265_jll]]
+[[deps.x265_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "ee567a171cce03570d77ad3a43e90218e38937a9"
 uuid = "dfaa095f-4041-5dcd-9319-2fabd8486b76"
 version = "3.5.0+0"
 
-[[xkbcommon_jll]]
+[[deps.xkbcommon_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
-git-tree-sha1 = "9ebfc140cc56e8c2156a15ceac2f0302e327ac0a"
+git-tree-sha1 = "63406453ed9b33a0df95d570816d5366c92b7809"
 uuid = "d8fb68d0-12a3-5cfd-a85a-d49703b185fd"
-version = "1.4.1+0"
+version = "1.4.1+2"
 """
 
 # ╔═╡ Cell order:
 # ╟─731c88b4-7daf-480d-b163-7003a5fbd41f
-# ╟─19b58a85-e443-4f5b-a93a-8d5684f9a17a
 # ╟─a5de5746-3df0-45b4-a62c-3daf36f015a5
-# ╟─3eeb383c-7e46-46c9-8786-ab924b475d45
-# ╟─9f9d1928-5806-46e9-8dab-2961da605826
-# ╟─7ad75350-14a4-47ee-8c6b-6a2eac09ebb1
-# ╟─23bb9890-718d-42fd-a9fa-51b4a7994ed7
-# ╟─caad8479-654b-4a15-a994-56c8764728c7
-# ╟─ac0cf027-4684-4e1e-87df-ac66ecc17461
-# ╟─238cfc9b-434a-426e-93e7-419314b7dc41
-# ╟─4302072c-2542-4901-8c3d-ba6170af3744
-# ╟─a473c4cd-0a21-493b-9ec5-55ea66a0ed99
-# ╟─1c95f7b3-6ff5-4b5e-bc26-4bf80d98425e
-# ╟─5d00ce86-142d-4740-91e1-73704382c366
-# ╟─40079ad2-79a8-4d15-906e-b4fdd8b6a88d
-# ╟─5f84a5be-dbea-4eab-ba5a-06b8062d5b4b
-# ╟─d43cdfc5-a6fe-423b-83c7-522026fd6097
-# ╟─d74dd608-b367-43f3-b5f1-bd654e5f87e2
-# ╟─9b10cdd6-ba85-49f5-87cd-d018a301b3af
-# ╟─18252fe4-6aba-4b13-b6fb-6426bd9037ca
-# ╟─16610ace-58fc-4619-a99c-90575607c1c0
-# ╟─738b8f7a-3cfd-4792-89e7-96ba3f55be81
-# ╟─e3c1b782-7f23-4c50-af3c-91aa8af0a88e
-# ╟─3a4ba27e-26d7-40d9-8f9d-8f22535d9287
-# ╟─86478c8f-aeee-4085-ad39-af31f8c9c037
-# ╟─f68b5afd-cf8f-4cba-ad7f-03fcc3f291af
-# ╟─6a8300c3-b1ae-46e4-ba04-0c15c10c3e0a
-# ╟─d419a379-712e-47a6-99ed-d8350fbc1000
-# ╟─6d1be573-3b15-4a18-89d7-5d887cea7e84
-# ╟─07c1fc06-d2c8-4512-89b0-9897d62ab35a
-# ╟─9eae2846-7b22-4b6c-91db-ffa7cd67be92
-# ╟─f2ef9979-8f46-4d1d-a8fd-87d1bcb9abee
-# ╟─d06cadc5-bed7-4fbb-8e78-3ad7bc2d1130
-# ╟─eba16ced-1971-4636-a867-b66f7d8cc4bc
-# ╟─5b74cd45-3432-4d95-bd8b-7b48d7846a15
-# ╟─7451c257-6394-4a94-9e2c-ca47982f9000
-# ╟─47a18fee-276c-4ea5-afbf-21147bb3ceaa
-# ╟─5fd18248-1600-40ca-b3e5-a5c70fa83ff0
-# ╟─c275fee5-5a06-49d8-8f24-6931c97d7cac
-# ╟─db82ccfe-3223-4af3-bf73-72833ee78d28
-# ╟─ee5bd069-2a51-406c-9a74-2fc466a1faaf
-# ╟─eb065b6f-5af5-4832-99bf-ed8452f9cef2
-# ╟─7c5db96e-6c50-4c9f-83fd-ae4b2d4acdbc
-# ╟─31a7d953-bdb3-41b8-ad21-5eb71b951b0b
-# ╟─f5b33f69-5767-44ad-b9fa-4074f15262de
-# ╟─ed20508e-bfe2-4247-8a8a-cbf1860bfaa1
-# ╟─c6270f22-51dc-44a9-80b9-ccd10dbc41ac
-# ╟─4a8ce7d3-0315-4d13-9734-c47f7b87d21b
-# ╟─f74312b3-54f7-4d3f-902e-3eb6494fc236
-# ╟─9cc24dc0-811a-4611-a681-7ba24bbbfad8
-# ╟─95a7fe7f-f580-4f26-b47e-a5dac16d49f5
-# ╟─719d529a-03e4-4f1b-a438-6dcfa57deec3
-# ╟─875a73c8-4c11-4821-b256-6bd3b9ef437d
-# ╟─16f078b5-a050-4876-9048-a06d3e2733be
-# ╟─765e386b-be08-43d0-ac71-a62d0ebf23c7
-# ╟─99b4b3ec-5fde-4728-a49f-7f791ab0e0ad
-# ╟─eb77b6e7-2890-447a-98c7-74b581af4dd9
-# ╟─f63ea571-6452-42c1-af7e-4fb789304a2d
-# ╟─885c0fb2-79b7-48c7-9a63-f6d4f4becb68
-# ╟─f61fc2af-e411-4075-bcda-3fd761da58cb
-# ╟─3e75a33e-392b-4fd0-9978-07fad6a4faf1
-# ╟─d208120a-a450-460f-ab78-c0ca9e99c619
-# ╟─82fe8645-a213-44ed-919d-18b0cbb0eeae
-# ╟─0e1c20db-5322-4f38-b9e0-f9333b8b743b
-# ╟─9afe4152-2414-4826-9d65-489b6ffa7a8f
-# ╟─3713b423-0ef4-4685-a22d-39ae73dbb094
-# ╟─f41b3285-6ff5-4f16-b936-eca01600b5b4
-# ╟─04feec75-3fdd-4a32-9010-7cccf2e93d57
-# ╟─7f7c265d-237a-4bcf-98cf-601a360b7095
-# ╟─2f641623-6c1c-476b-a57a-ebee39739137
-# ╟─7958f21a-63af-47c8-9e7d-31a89ffa1645
-# ╟─d52e1caa-3a00-4bcc-9dec-6ac93e4bdb14
-# ╟─ccbfccc4-f3fd-4c86-a61e-7f6a2a0cf79b
-# ╟─0eb1aa68-5c3a-46c8-9c29-c1288316d57c
-# ╟─8d4541b1-83ef-485a-9502-336c079516f7
-# ╟─d6a1eca6-19da-411d-bcc7-cd2167678908
-# ╟─ca61760e-9156-4d81-834e-e41c747e1e43
-# ╟─ece3723e-57a3-4cbc-8c36-9ee8ddc7130c
-# ╟─4f74d455-78f9-40ab-b304-b026071d9fd6
-# ╟─d160a115-56ed-4598-998e-255b82ec37f9
+# ╟─8bcc8106-31e8-4212-8f9e-8800e5737b11
+# ╟─657e8ee4-5df9-42c1-8639-ba5ab37b51b4
+# ╟─af866ea7-e8eb-4774-8d0d-66b4da87a01e
+# ╟─be7ce534-0249-42f5-8365-9af47376aa5b
+# ╟─8c5d9a78-9040-41fc-94f2-a6aab6da5c6d
+# ╟─90f57146-71c8-448e-a644-7039853050c0
+# ╟─225cef3a-33eb-4aee-83af-442b441d4adc
+# ╟─31be29e2-2457-4ef9-a95f-b2ac742ecd97
+# ╟─9ac02b23-b9fe-4061-93ad-bf79d9bd0d01
+# ╟─6ae264cd-edc4-4abe-8b1e-9b34f664e314
+# ╟─04969d91-8e9b-44b0-8517-60b59c5f2ebe
+# ╟─796384ef-7f3d-4423-8748-45a2a892c34b
+# ╟─0d010810-a2f9-4f78-a173-abb96eae4ecb
+# ╟─2cd77b86-5578-4d2c-9650-c654f0322602
+# ╟─96463334-3f79-4086-848e-240b2532e563
+# ╟─8b8220f2-bfe4-45d9-968d-ed256a98bf79
+# ╟─ab4d9779-a1cf-49b2-87ff-9e4d523ea77f
+# ╟─88f518bb-a3be-46e9-95eb-65424dbf0708
+# ╟─05b4cca7-e2e0-40e5-a653-0f3a9751e92c
+# ╟─7033fc1f-f60b-44dc-8f37-f04adf486857
+# ╟─f9fa048e-2a26-48a3-99c2-a107162439e8
+# ╟─09fc0f42-fdb2-4a50-88ae-e9c3da739d2f
+# ╟─a502041d-58ff-4d3b-b745-231fd6b21ac9
+# ╟─f0a85acc-effa-4e3a-95e4-1be30a0b69f0
+# ╟─0e211169-0204-4582-936d-feecf2aec3cd
+# ╟─f3d6b12c-3d76-4058-a0c9-e8bfc53e2143
+# ╟─f8a823ae-1aa1-41c7-b88c-283f541b067d
+# ╟─fe0d9d46-2c7f-42ba-bb04-ccb741631e7c
+# ╟─020b481e-a212-430f-9744-b369d23bab74
+# ╟─c6ea0fc5-80ea-4f99-8426-590ed5917b66
+# ╟─f8582e96-7877-439b-870b-b68a551411f7
+# ╟─7c22ab3a-6678-4e50-b417-8a51f36e4917
+# ╟─1fdd2193-0519-49ea-b57c-e94726de49f3
+# ╟─c4a0dba8-f203-47e7-9625-7a71238790d0
+# ╟─16a07c05-9982-4305-b8ec-eac332fa7774
+# ╟─83688847-afb0-44b9-a004-3a978f19dbc9
+# ╟─abd91e21-32d1-4d65-b535-1f241e0346c2
+# ╟─be90841e-c3eb-407b-8f6a-307c16ea49a8
+# ╟─dd5f91f6-b0a7-403b-a554-076106f4a365
+# ╟─af4c0216-0d9d-4841-9586-94329d575c64
+# ╟─34a2d854-f8cd-4f4d-9acd-5b1c57aba680
+# ╟─9eddbe1b-0761-4cb7-b6ba-347af5c41261
+# ╟─82e11615-f42a-4020-befe-c5dcee7b3210
+# ╟─1b8410fa-9092-420f-92fb-36c21a8be9f6
+# ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
