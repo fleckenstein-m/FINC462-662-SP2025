@@ -91,6 +91,49 @@ Markdown.parse("
 # ╔═╡ 225cef3a-33eb-4aee-83af-442b441d4adc
 vspace
 
+# ╔═╡ 31be29e2-2457-4ef9-a95f-b2ac742ecd97
+md"""
+**Solution**
+"""
+
+# ╔═╡ 9ac02b23-b9fe-4061-93ad-bf79d9bd0d01
+Markdown.parse("
+- The value and the modified durations of the bonds are:
+  -  ``P_{$(T4_1)}`` is the value in the $(T4_1)-year bond, i.e. `$(roundmult(P4_1,1e-4))`.
+  -  ``P_{$(T4_2)}`` is the value in the $(T4_2)-year bond, i.e. `x`.
+
+  -  ``MD_{$(T4_1)}`` = `$(roundmult(MD4_2,1e-4))`
+  -  ``MD_{$(T4_2)}`` = `$(roundmult(MD4_1,1e-4))`
+")
+
+# ╔═╡ 6ae264cd-edc4-4abe-8b1e-9b34f664e314
+Markdown.parse("
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `x` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+ ``MD_{$(T4_2)}``: `$(roundmult(MD4_2,1e-4))`| ``MD_{$(T4_1)}``: `$(roundmult(MD4_1,1e-4))`
+``\\Delta P_{$(T4_2)}= x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y`` | ``\\Delta P_{$(T4_1)}=$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y``
+")
+
+# ╔═╡ 04969d91-8e9b-44b0-8517-60b59c5f2ebe
+Markdown.parse("
+- To hedge the interest rate risk, we need to have
+``\$x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y \\stackrel{!}{=} $(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y\$``
+- Thus, our position on the $(T4_2)-year zero coupon bond ``x`` must be
+``\$x = $(roundmult(P4_1,1e-4)) \\times \\frac{(-$(roundmult(MD4_1,1e-4)))}{(-$(roundmult(MD4_2,1e-4)))} = $(roundmult(P4_1*MD4_1/MD4_2,1e-4))\$``
+- Thus, we buy \$ ``$(roundmult(P4_1*MD4_1/MD4_2,1e-4))`` of the $(T4_2)-year zero-coupon bond.
+")
+
+# ╔═╡ 796384ef-7f3d-4423-8748-45a2a892c34b
+Markdown.parse("
+- Pluggin in the market value of the $(T4_2)-year bond and solving for the face value ``F``
+``\$ $(roundmult(P4_1*MD4_1/MD4_2,1e-4)) = \\frac{F}{(1+$(r4)\\%)^$(T4_2)}\$``
+``\$ F= \\\$ $(roundmult(P4_1*MD4_1/MD4_2*(1+r4/100)^T4_2,1e-2))\$``
+")
+
+# ╔═╡ 0d010810-a2f9-4f78-a173-abb96eae4ecb
+vspace
+
 # ╔═╡ 2cd77b86-5578-4d2c-9650-c654f0322602
 md"""
 ## Exercise 2
@@ -101,6 +144,73 @@ md"""
 - Suppose that we are managing a pension fund and have a liability of \$100mm per year for the next 100 years. Assume that the discount rate is 5% regardless of maturity (term structure is flat). Suppose that the pension fund is currently fully funded (i.e., the fund has cash in the amount of the current market value of the liability).
 - Use 1-year and 30-year zero-coupon bonds to form a portfolio that hedges our liability.
 - What are the position in the 1-year and the 30-year zero-coupon bonds that we need to take to hedge our liability (using a duration hedge).
+"""
+
+# ╔═╡ 8b8220f2-bfe4-45d9-968d-ed256a98bf79
+vspace
+
+# ╔═╡ ab4d9779-a1cf-49b2-87ff-9e4d523ea77f
+md"""
+**Solution**
+"""
+
+# ╔═╡ 88f518bb-a3be-46e9-95eb-65424dbf0708
+md"""
+- Let’s first value the pension liability. 
+
+$\text{Value of Liability} = 100\times \frac{1}{0.05}\left[1 - \frac{1}{1.05^{100}}\right]= 1984.79102$.
+
+- Let’s also suppose that the pension fund currently has 1984.79102 in cash. That is, the pension fund is neither under- nor overfunded.
+"""
+
+# ╔═╡ 05b4cca7-e2e0-40e5-a653-0f3a9751e92c
+md"""
+- Next, we calculate the modified duration of our liability.
+$\textrm{Value of liability @ 5.0\%} = 1984.79102$
+
+$\textrm{Value of liability @ 5.1\%} = 100\times \frac{1}{0.051}\left[1-\frac{1}{1.051^{100}}\right] = 1947.227482$
+
+$\textrm{Value of liability @ 4.9\%} = 100\times \frac{1}{0.049}\left[1-\frac{1}{1.049^{100}}\right] = 2023.745478$
+
+$MD \approx -\frac{1947.227482 - 2023.745478}{2\times 0.001} \times \frac{1}{1984.79102} = 19.2761$
+
+- *Note how we can use our MD approximation formula even though it's not a bond.*
+"""
+
+# ╔═╡ 7033fc1f-f60b-44dc-8f37-f04adf486857
+md"""
+- Let's add the modified durations of the asset and liability sides.
+
+
+|       Assets   |             |      Liabilities          |
+|:---------------|:------------|--------------------------:|
+| 1yr            | 30yr        |        Pension            |
+| \$x            | \$z         |   \$1984.79102            |
+| $MD = \frac{1}{1.05} = 0.9524$ | $MD = \frac{30}{1.05} = 28.5714$ | $MD = 19.2761$ |
+
+Modified Duration Constraint:
+$-0.9524x - 28.5714z = -19.2761(1984.79102)$
+
+Assets = Liabilities Constraint:
+$x + z = 1984.79102$
+
+Solving: $x = 667.9925$, $z = 1316.799$
+
+Face values: 
+- 1yr:  $701.3921$
+  -  Calculation: $667.9925\times (1.05)$
+- 30yr: $5691.127$ 
+  - Calculation: $1316.799\times(1.05)^{30}$
+"""
+
+# ╔═╡ f9fa048e-2a26-48a3-99c2-a107162439e8
+md"""
+- Thus, our hedging portfolio is as shown below.
+
+|       Assets   |             |      Liabilities          |
+|:---------------|:------------|--------------------------:|
+| 1yr            | 30yr        |        Pension            |
+| \$ 667.9925    | \$1316.799  |   \$1984.79102            |
 """
 
 # ╔═╡ 09fc0f42-fdb2-4a50-88ae-e9c3da739d2f
@@ -118,6 +228,119 @@ Markdown.parse("
 
 ")
 
+# ╔═╡ 0e211169-0204-4582-936d-feecf2aec3cd
+vspace
+
+# ╔═╡ f3d6b12c-3d76-4058-a0c9-e8bfc53e2143
+md"""
+**Solution**
+"""
+
+# ╔═╡ f8a823ae-1aa1-41c7-b88c-283f541b067d
+Markdown.parse("
+- Let's first calculate the duration, convexity, the percentage price change and the dollar price in response to a yield change ``\\Delta y`` for each of the three bonds.
+
+")
+
+# ╔═╡ fe0d9d46-2c7f-42ba-bb04-ccb741631e7c
+Markdown.parse("
+- ``$(T4_1)``-year Zero-coupon bond (liability)
+  - ``MD_{$(T4_1)}=\\frac{T}{1+y} = \\frac{$(T4_1)}{1+$(r4)\\%} = $(roundmult(T4_1/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_1)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_1^2+T4_1)}{(1+$(r4)\\%)^2} = $(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_1)}}{P_{$(T4_1)}}= - MD_{$(T4_1)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_1)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_1)} = P_{$(T4_1)} \\times (- MD_{$(T4_1)}) \\times \\Delta y + P_{$(T4_1)} \\times \\frac{1}{2} \\times CX_{$(T4_1)} \\times \\left( \\Delta y \\right)^2``")
+
+
+# ╔═╡ 020b481e-a212-430f-9744-b369d23bab74
+Markdown.parse("
+- ``$(T4_2)``-year Zero-coupon bond
+  - ``MD_{$(T4_2)}=\\frac{T}{1+y} = \\frac{$(T4_2)}{1+$(r4)\\%} = $(roundmult(T4_2/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_2)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_2^2+T4_2)}{(1+$(r4)\\%)^2} = $(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_2)}}{P_{$(T4_2)}}= - MD_{$(T4_2)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_2)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_2)} = P_{$(T4_2)} \\times (- MD_{$(T4_2)}) \\times \\Delta y + P_{$(T4_2)} \\times \\frac{1}{2} \\times CX_{$(T4_2)} \\times \\left( \\Delta y \\right)^2``
+
+
+")
+
+# ╔═╡ c6ea0fc5-80ea-4f99-8426-590ed5917b66
+Markdown.parse("
+- ``$(T4_3)``-year Zero-coupon bond
+  - ``MD_{$(T4_3)}=\\frac{T}{1+y} = \\frac{$(T4_3)}{1+$(r4)\\%} = $(roundmult(T4_3/(1+r4/100),1e-4))``
+  - ``\\textrm{CX}_{$(T4_3)}= \\frac{T^2+T}{(1+y)^2}=\\frac{$(T4_3^2+T4_3)}{(1+$(r4)\\%)^2} = $(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))``
+  - ``\\frac{\\Delta P_{$(T4_3)}}{P_{$(T4_3)}}= - MD_{$(T4_3)} \\times \\Delta y + \\frac{1}{2} \\times CX_{$(T4_3)} \\times \\left( \\Delta y \\right)^2``
+  - ``\\Delta P_{$(T4_3)} = P_{$(T4_3)} \\times (- MD_{$(T4_3)}) \\times \\Delta y + P_{$(T4_3)} \\times \\frac{1}{2} \\times CX_{$(T4_3)} \\times \\left( \\Delta y \\right)^2``
+")
+
+# ╔═╡ f8582e96-7877-439b-870b-b68a551411f7
+Markdown.parse("
+- Next, let's write down the balance sheet.
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `x` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+ ``MD_{$(T4_2)}``: `$(roundmult(MD4_2,1e-4))`| ``MD_{$(T4_1)}``: `$(roundmult(MD4_1,1e-4))`
+``\\textrm{CX}_{$(T4_2)}``: `$(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))` | ``\\textrm{CX}_{$(T4_1)}``: `$(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))`
+``\\Delta P_{$(T4_2)}= x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2`` | ``\\Delta P_{$(T4_1)}=$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y + $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2``
+                       |
+$(T4_3)-year bond: `z` |
+``MD_{$(T4_3)}``: `$(roundmult(T4_3/(1+r4/100),1e-4))`|
+``\\textrm{CX}_{$(T4_3)}`` `$(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))` |
+``\\Delta P_{$(T4_3)}= z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2`` |
+")
+
+# ╔═╡ 7c22ab3a-6678-4e50-b417-8a51f36e4917
+Markdown.parse("
+- This means, we need to have
+``\$ \\Delta P_{$(T4_2)} + \\Delta P_{$(T4_3)} = \\Delta P_{$(T4_1)}\$``
+")
+
+# ╔═╡ 1fdd2193-0519-49ea-b57c-e94726de49f3
+Markdown.parse("
+``\$ x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 + \$``
+``\$ z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 = \$``
+``\$ $(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y + $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 \$``
+")
+
+# ╔═╡ c4a0dba8-f203-47e7-9625-7a71238790d0
+Markdown.parse("
+- Terms in ``\\Delta y``: **Modified Duration Equation**
+
+``\$ x \\times (-$(roundmult(MD4_2,1e-4))) \\times \\Delta y + z \\times (-$(roundmult(T4_3/(1+r4/100),1e-4))) \\times \\Delta y  =$(roundmult(P4_1,1e-4)) \\times (-$(roundmult(MD4_1,1e-4))) \\times \\Delta y \$``
+
+")
+
+# ╔═╡ 16a07c05-9982-4305-b8ec-eac332fa7774
+Markdown.parse("
+- Terms in ``(\\Delta y)^2``: **Convexity Equation**
+
+``\$ x \\times \\frac{1}{2} ($(roundmult((T4_2^2+T4_2)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 + z \\times \\frac{1}{2} ($(roundmult((T4_3^2+T4_3)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2 = $(roundmult(P4_1,1e-4)) \\times \\frac{1}{2} ($(roundmult((T4_1^2+T4_1)/(1+r4/100)^2,1e-4))) \\times (\\Delta y)^2\$``
+")
+
+# ╔═╡ 83688847-afb0-44b9-a004-3a978f19dbc9
+Markdown.parse("
+- The solution to this system of 2 equations in 2 unknowns is 
+``\$x = $(roundmult(sol4[1],1e-4)), z = $(roundmult(sol4[2],1e-4))\$``
+- Thus, we enter a position with market value of \$ $(roundmult(sol4[1],1e-4)) in the $(T4_2)-year bond, and a position with market value of \$ $(roundmult(sol4[2],1e-4)) in the $(T4_3)-year bond.
+- The corresponding face values in the ``$(T4_2)``-year bond and the ``$(T4_3)``-year bonds are
+\$F_{$(T4_2)} = $(roundmult(sol4[1]*(1+r4/100)^T4_2,1e-2))\$
+\$F_{$(T4_3)} = $(roundmult(sol4[2]*(1+r4/100)^T4_3,1e-2))\$
+")
+
+# ╔═╡ abd91e21-32d1-4d65-b535-1f241e0346c2
+Markdown.parse("
+- The balance sheet is now
+- Next, let's write down the balance sheet as in the previous example.
+Assets            |  Liabilities
+:-----------------|:--------------------
+ $(T4_2)-year bond: `$(roundmult(sol4[1],1e-4))` | $(T4_1)-year Bond: `$(roundmult(P4_1,1e-4))`
+Face value ``F_{$(T4_2)}``: $(roundmult(sol4[1]*(1+r4/100)^T4_2,1e-2)) | Face value ``F_{$(T4_1)}``: $(roundmult(F4_1,1e-2))
+                        |
+$(T4_3)-year bond: `$(roundmult(sol4[2],1e-4))` |
+Face value ``F_{$(T4_3)}``: $(roundmult(sol4[2]*(1+r4/100)^T4_3,1e-2)) | 
+")
+
+# ╔═╡ be90841e-c3eb-407b-8f6a-307c16ea49a8
+vspace
+
 # ╔═╡ dd5f91f6-b0a7-403b-a554-076106f4a365
 vspace
 
@@ -134,6 +357,36 @@ Suppose that you have a liability of $100 per year in perpetuity and the current
 $\text{Value of perpetuity} = \frac{1}{r}$
 
 """
+
+# ╔═╡ 9eddbe1b-0761-4cb7-b6ba-347af5c41261
+Foldable("Solution",md"""
+- First, calculate the value of the perpetuity.
+
+$\text{Value of perpetuity} = 100\times \frac{1}{r} = \frac{100}{0.10} = 1000$
+
+- Next, calculate the modified durations:
+
+$MD_{10} = \frac{10}{1.1} = 9.09$
+
+$\text{Value of perpetuity @ 10.1\%} = \frac{100}{0.101} = 990.10$
+
+$\text{Value of perpetuity @ 9.9\%} = \frac{100}{0.099} = 1010.10$
+
+$MD_{perpetuity} \approx -\frac{990.10 - 1010.10}{2\times 0.001}\times \frac{1}{1000}=10$
+
+- Set up a balance sheet
+
+| Assets | Liabilities |
+|:-------|------------:|
+| 10-yr bond       | Perpetuity  |
+| \$x              | Market value = \$1000|
+| MD = 9.09        |  MD = 10  |
+| $\frac{\Delta P}{P}\approx -9.09 \Delta y$ | $\frac{\Delta P}{P} \approx -10\Delta y$ |
+| $x\times(-9.09)\Delta y$ | $(1000)\times(-10)\Delta y$
+
+- Solving for x: $x =$ \$ $1100$.
+
+""")
 
 # ╔═╡ 82e11615-f42a-4020-befe-c5dcee7b3210
 vspace
@@ -1389,14 +1642,41 @@ version = "1.4.1+2"
 # ╟─8c5d9a78-9040-41fc-94f2-a6aab6da5c6d
 # ╟─90f57146-71c8-448e-a644-7039853050c0
 # ╟─225cef3a-33eb-4aee-83af-442b441d4adc
+# ╟─31be29e2-2457-4ef9-a95f-b2ac742ecd97
+# ╟─9ac02b23-b9fe-4061-93ad-bf79d9bd0d01
+# ╟─6ae264cd-edc4-4abe-8b1e-9b34f664e314
+# ╟─04969d91-8e9b-44b0-8517-60b59c5f2ebe
+# ╟─796384ef-7f3d-4423-8748-45a2a892c34b
+# ╟─0d010810-a2f9-4f78-a173-abb96eae4ecb
 # ╟─2cd77b86-5578-4d2c-9650-c654f0322602
 # ╟─96463334-3f79-4086-848e-240b2532e563
+# ╟─8b8220f2-bfe4-45d9-968d-ed256a98bf79
+# ╟─ab4d9779-a1cf-49b2-87ff-9e4d523ea77f
+# ╟─88f518bb-a3be-46e9-95eb-65424dbf0708
+# ╟─05b4cca7-e2e0-40e5-a653-0f3a9751e92c
+# ╟─7033fc1f-f60b-44dc-8f37-f04adf486857
+# ╟─f9fa048e-2a26-48a3-99c2-a107162439e8
 # ╟─09fc0f42-fdb2-4a50-88ae-e9c3da739d2f
 # ╟─a502041d-58ff-4d3b-b745-231fd6b21ac9
 # ╟─f0a85acc-effa-4e3a-95e4-1be30a0b69f0
+# ╟─0e211169-0204-4582-936d-feecf2aec3cd
+# ╟─f3d6b12c-3d76-4058-a0c9-e8bfc53e2143
+# ╟─f8a823ae-1aa1-41c7-b88c-283f541b067d
+# ╟─fe0d9d46-2c7f-42ba-bb04-ccb741631e7c
+# ╟─020b481e-a212-430f-9744-b369d23bab74
+# ╟─c6ea0fc5-80ea-4f99-8426-590ed5917b66
+# ╟─f8582e96-7877-439b-870b-b68a551411f7
+# ╟─7c22ab3a-6678-4e50-b417-8a51f36e4917
+# ╟─1fdd2193-0519-49ea-b57c-e94726de49f3
+# ╟─c4a0dba8-f203-47e7-9625-7a71238790d0
+# ╟─16a07c05-9982-4305-b8ec-eac332fa7774
+# ╟─83688847-afb0-44b9-a004-3a978f19dbc9
+# ╟─abd91e21-32d1-4d65-b535-1f241e0346c2
+# ╟─be90841e-c3eb-407b-8f6a-307c16ea49a8
 # ╟─dd5f91f6-b0a7-403b-a554-076106f4a365
 # ╟─af4c0216-0d9d-4841-9586-94329d575c64
 # ╟─34a2d854-f8cd-4f4d-9acd-5b1c57aba680
+# ╟─9eddbe1b-0761-4cb7-b6ba-347af5c41261
 # ╟─82e11615-f42a-4020-befe-c5dcee7b3210
 # ╟─1b8410fa-9092-420f-92fb-36c21a8be9f6
 # ╟─9dba51e3-0738-40a1-96d8-f5583cdc5729
