@@ -18,7 +18,7 @@
 | 13      | Hedging Interest Rate Risk                  | Apr 03, 2025   | [Slides](/assets/lectures/lect10/Lecture_10.html)              |
 | 14      | Hedging Interest Rate Risk (b)              | Apr 08, 2025   | [Slides](/assets/lectures/lect10/Lecture_10.html)              |
 | 15      | Bond Trading                                | Apr 10, 2025   | [Slides](/assets/lectures/lect11/Lecture_11.html)              |
-
+| 16      | Forwards                                    | Apr 17, 2025   | [Slides](/assets/lectures/lect12/Lecture_12.html)              |
 
 
 ## Assignments
