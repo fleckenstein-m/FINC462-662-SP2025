@@ -1,3 +1,5 @@
 ## Lecture 13
 
-[Slides](/assets/lectures/lect13/Lect13.html)                              
+- Open the lecture slides in a new browser window by right-clicking on the link below and and then selecting "Open link in new window".
+
+[Slides](/assets/lectures/lect13/Lecture_13.html)                              
