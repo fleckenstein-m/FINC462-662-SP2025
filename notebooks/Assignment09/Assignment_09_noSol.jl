@@ -204,75 +204,25 @@ Markdown.parse("
 __1.__ Calculate the two-year forward rate starting one year from today (i.e., \$f_{1,3}\$).
 ")
 
-# ╔═╡ 1c95f7b3-6ff5-4b5e-bc26-4bf80d98425e
-Foldable("Solution",
-Markdown.parse("
-``\$\\left( 1+ \\frac{f_{1,3}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,3}}{2}\\right)^{2\\times 3}}{\\left( 1+ \\frac{r_{0,1}}{2}\\right)^{2\\times 1}}\$``
-	
-``\$\\left( 1+ \\frac{f_{1,3}}{2}\\right)^{4}  = \\frac{\\left(1+ \\frac{$(r30_2)\\%}{2}\\right)^{6}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2}}\$``
-	
-``\$f_{1,3} = 2\\times \\left( \\frac{\\left(1+ \\frac{$(r30_2)\\%}{2}\\right)^{6/4}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2/4}} -1\\right)\$``
-	
-``\$ f_{1,3} = $(roundmult(f10_30_2,1e-6)) = $(roundmult(f10_30_2*100,1e-4)) \\%\$``
-"))
-
 # ╔═╡ 5d00ce86-142d-4740-91e1-73704382c366
 Markdown.parse("
 __2.__ Calculate the two-year forward rate starting two years from today (i.e., \$f_{2,4}\$).
 ")
-
-# ╔═╡ 40079ad2-79a8-4d15-906e-b4fdd8b6a88d
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{2,4}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,4}}{2}\\right)^{2\\times 4}}{\\left( 1+ \\frac{r_{0,2}}{2}\\right)^{2\\times 2}}\$``
-	
-``\$\\left( 1+ \\frac{f_{2,4}}{2}\\right)^{4}  = \\frac{\\left(1+ \\frac{$(r40_2)\\%}{2}\\right)^{8}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{4}}\$``
-	
-``\$f_{2,4} = 2\\times \\left( \\frac{\\left(1+ \\frac{$(r40_2)\\%}{2}\\right)^{8/4}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{4/4}} -1\\right)\$``
-	
-``\$f_{2,4} = $(roundmult(f20_40_2,1e-6)) = $(roundmult(f20_40_2*100,1e-4))\\%\$``
-"))
 
 # ╔═╡ 5f84a5be-dbea-4eab-ba5a-06b8062d5b4b
 Markdown.parse("
 __3.__ Calculate the two-year forward rate starting three years from today (i.e., \$f_{3,5}\$).
 ")
 
-# ╔═╡ d43cdfc5-a6fe-423b-83c7-522026fd6097
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{3,5}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,3}}{2}\\right)^{2\\times 3}}\$``
-	
-``\$\\left( 1+ \\frac{f_{3,5}}{2}\\right)^{2\\times 2}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r30_2)\\%}{2}\\right)^{2\\times 3}}\$``
-	
-``\$f_{3,5} = $(roundmult(f30_50_2,1e-6)) = $(roundmult(f30_50_2*100,1e-4))\\%\$``
-"))
-
 # ╔═╡ d74dd608-b367-43f3-b5f1-bd654e5f87e2
 Markdown.parse("
 __4.__ Calculate the 4-year forward rate starting one year from today (i.e., \$f_{1,5}\$).
 ")
 
-# ╔═╡ 9b10cdd6-ba85-49f5-87cd-d018a301b3af
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{1,5}}{2}\\right)^{2\\times 4}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,1}}{2}\\right)^{2\\times 1}}\$``
-	
-``\$\\left( 1+ \\frac{f_{1,5}}{2}\\right)^{2\\times 4}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r10_2)\\%}{2}\\right)^{2\\times 1}}\$``
-	
-``\$f_{1,5} = $(roundmult(f10_50_2,1e-6)) = $(roundmult(f10_50_2*100,1e-4))\\%\$``
-"))
-
 # ╔═╡ 18252fe4-6aba-4b13-b6fb-6426bd9037ca
 Markdown.parse("
 __5.__ Calculate the 3-year forward rate starting two years from today (i.e., \$f_{2,5}\$).
 ")
-
-# ╔═╡ 16610ace-58fc-4619-a99c-90575607c1c0
-Foldable("Solution",Markdown.parse("
-``\$\\left( 1+ \\frac{f_{2,5}}{2}\\right)^{2\\times 3}  = \\frac{\\left(1+ \\frac{r_{0,5}}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{r_{0,2}}{2}\\right)^{2\\times 2}}\$``
-	
-``\$\\left( 1+ \\frac{f_{2,5}}{2}\\right)^{2\\times 3}  = \\frac{\\left(1+ \\frac{$(r50_2)\\%}{2}\\right)^{2\\times 5}}{\\left( 1+ \\frac{$(r20_2)\\%}{2}\\right)^{2\\times 2}}\$``
-	
-``\$f_{2,5} = $(roundmult(f20_50_2,1e-6)) = $(roundmult(f20_50_2*100,1e-4))\\%\$``
-"))
 
 # ╔═╡ 738b8f7a-3cfd-4792-89e7-96ba3f55be81
 vspace
@@ -328,18 +278,6 @@ md"""
 **1.** From the given spot rates, calculate the forward rates, $f(0.5, 1)$, $f(1, 1.5)$, $f(1.5,2)$, and $f(0.5, 2)$.
 """
 
-# ╔═╡ 6a8300c3-b1ae-46e4-ba04-0c15c10c3e0a
-Foldable("Solution",Markdown.parse("
-
-Forward Rate   | Value                                     | Calculation            
---------------:|------------------------------------------:|----------------------:
-``f(0.5,1.0)``  | ``$(roundmult(f05_10_3*100,1e-3))\\%``   | ``$(strfVec_3[1])``
-``f(1.0,1.5)``  | ``$(roundmult(f10_15_3*100,1e-3))\\%``   | ``$(strfVec_3[2])``
-``f(1.5,2.0)``  | ``$(roundmult(f15_20_3*100,1e-3))\\%``   | ``$(strfVec_3[3])``
-``f(0.5,2.0)``  | ``$(roundmult(f05_20_3*100,1e-3))\\%``   | ``$(strfVec_3[4])``
-
-"))
-
 # ╔═╡ d419a379-712e-47a6-99ed-d8350fbc1000
 vspace
 
@@ -350,47 +288,6 @@ than what you found in Part 1 above.) Using this value for $f(1, 1.5)$ and the g
 - *Hint: Calculate zero-coupon bond prices for maturities of 1-year and 1.5-years. Then create a synthetic forward contract before forming a strategy.*
 """
 
-# ╔═╡ 07c1fc06-d2c8-4512-89b0-9897d62ab35a
-Foldable("Solution",md"""
-- Bond Prices
-  - 1-year zero-coupon bond price: $\frac{100}{1.0125^2} = 97.5461$ (Bond  `X`)
-  - 1.5-year zero-coupon bond price: $\frac{100}{1.015^3} = 95.6317$ (Bond `Z`)
-
-- Create a replicating portfolio to lend \$100 at $t=1$ that is repaid at $t=1.5$.
-
-|Bond         | t = 0        |  t = 0.5       |  t = 1        |  t = 1.5    |
-|:------------|-------------:|---------------:|--------------:|------------:|
-| X (x units) | $-97.5461\times x$ | $0$      | $100\times x$ |  $0$        |
-| Z (z units) | $-95.6317\times z$ | $0$      | $0$           |  $100 \times z$|
-| Total       |  $0$               |  $0$     | $-100$        |  $100\times\left(1+\frac{f(0,1,1.5)}{2}\right)$ |
-
-- Thus, 
-$97.5461x − 95.6317\times z = 0$
-$100\times x = -100$
-
-- Solving, 
-$x = -1$ 
-$z = \frac{97.5461}{95.6317} = 1.020018$
-
-- The arbitrage portfolio is
-
-|             | t = 0        |  t = 0.5       |  t = 1        |  t = 1.5    |
-|:------------|-------------:|---------------:|--------------:|------------:|
-| Lend at $f(1,1.5)$=4.5% | $0$ | $0$ | $-100$ | $102.25$ |
-| | | | |
-| | | | |
-| | | | |
-| *(-1 of) Synthetic Forward* | | | | 
-| Buy 1 Unit of X | $-97.5461\times x$ | $0$      | $100$ |  $0$        |
-| Short 1.020018 units of Z | $+97.5461$ | $0$      | $0$           |  $-102.0018$|
-| Total       |  $0$               |  $0$     | $-100$        |  $100\times\left(1+\frac{f(0,1,1.5)}{2}\right)$ |
-| | | | |
-| | | | |
-| | | | |
-|Total | $0$ | $0$ | $0$ | $0.2482$ |
-
-""")
-
 # ╔═╡ 9eae2846-7b22-4b6c-91db-ffa7cd67be92
 vspace
 
@@ -399,21 +296,6 @@ md"""
 **3.** Suppose that we go back to Part 1. You enter into a forward rate agreement to lend \$100 at t = 0.5 and be repaid at t = 2 at the forward rate of $f(0.5, 2)$. What happens to the value of the forward rate agreement if all interest rates decline by one percentage point in the instant after you enter into the forward rate agreement?
 - *Hint:* Write down the cash flows to the FRA that you enter into. Then, calculate the NPV using the new discount rates.
 """
-
-# ╔═╡ d06cadc5-bed7-4fbb-8e78-3ad7bc2d1130
-Foldable("Solution",md"""
-The cash flow for the FRA is:
-
-|        | t = 0 | t = 0.5 | ... | t = 2 |
-|:--------|------:|--------:|----:|:-------|
-|Cash flow to FRA | $0$ | $-100$ |  | $+100\left(1+\frac{0.0467}{2}\right)^3$ = $107.17$ |
-
-- If all interest rates decline by one percentage point:
-
-$\frac{-100}{1+\frac{0.01}{2}} + \frac{107.17}{\left(1+\frac{0.03}{2}\right)^4} = 1.47$
-
-
-""")
 
 # ╔═╡ f5b33f69-5767-44ad-b9fa-4074f15262de
 vspace
@@ -438,32 +320,6 @@ md"""
 __1.__ What must the forward rate agreed upon be so that there is no arbitrage?
 """
 
-# ╔═╡ f74312b3-54f7-4d3f-902e-3eb6494fc236
-Foldable("Solution",md"""
-First, solve for the yields on the 6-month and the 1-year zero coupon bonds.
-- 6mo zero: P=\$96.79
-
-$$r_{0.5}=2\times \left(\left(\frac{100}{96.79}\right)^{\frac{1}{2\times 0.5}} -1 \right)=0.066329166=6.6329\%$$
-
-- 1yr zero: P=\$93.51
-
-$$r_{1.0}=2\times \left(\left(\frac{100}{93.51}\right)^{\frac{1}{2\times 1}} -1 \right)=0.068240161=6.82402\%$$
-
-Next, solve for $f_{0.5,1}$
-
-$$\left(1+\frac{r_{0.5}}{2}\right)\left(1+\frac{f_{0.5,1}}{2}\right) = \left(1+\frac{r_1}{2}\right)^2$$
-
-Solving theis equation for the forward rates gives us
-
-   $$f_{0.5,1} = 7.015925\%$$
-
-Thus, you will pay \$100mm in Nov 2000 to receive
-	$100 \times \left(1+\frac{0.0701592}{2}\right) = 103.51$ million
-	in May 2001.
-	
-
-""")
-
 # ╔═╡ 9cc24dc0-811a-4611-a681-7ba24bbbfad8
 vspace
 
@@ -471,11 +327,6 @@ vspace
 md"""
 __2.__  What is the value of the forward at inception?
 """
-
-# ╔═╡ 719d529a-03e4-4f1b-a438-6dcfa57deec3
-Foldable("Solution",md"""
-The value of the forward at inception is 0.
-""")
 
 # ╔═╡ 875a73c8-4c11-4821-b256-6bd3b9ef437d
 vspace
@@ -499,26 +350,6 @@ __3.__ Suppose that three months have passed, so it is August 15, 2000. You are 
 
 """
 
-# ╔═╡ 765e386b-be08-43d0-ac71-a62d0ebf23c7
-Foldable("Solution",md"""
-
-Though the value of the forward at inception was 0, interest
-rates have changed since the forward rate agreement was made.
-The most straightforward way to calculate the value of the
-position is to write out the future cashflows and discount back
-to today.
-	
-	  
-| Time t                  | t = 0.25 (Nov 2000)  | t = 0.75 (May 2001) |
-|:------------------------|:---------------------|:--------------------|
-| Forward Rate Agreement  |                -100  |              103.51 |
-	
-	
-- Value of forward rate agreement:
-
-$$-100 \times 0.9844 + 103.51 \times 0.9531 = 0.215$$
-""")
-
 # ╔═╡ 99b4b3ec-5fde-4728-a49f-7f791ab0e0ad
 vspace
 
@@ -533,20 +364,6 @@ __4.__ Now consider November 15, 2000. What is the value of the forward agreemen
 | Aug 2001 (9mo)   | 0.9545  |
 | Nov 2001 (12mo)  | 0.9402  |
 """
-
-# ╔═╡ f63ea571-6452-42c1-af7e-4fb789304a2d
-Foldable("Solution",md"""
-	  
-| Time t                  | t = 0.0 (Nov 2000)   | t = 0.50 (May 2001) |
-|:------------------------|:---------------------|:--------------------|
-| Forward Rate Agreement  |                -100  |              103.51 |
-	
-	
-- Value of forward rate agreement:
-
-$$-100 + 103.51 \times 0.9692 = 0.32$$
-
-""")
 
 # ╔═╡ 885c0fb2-79b7-48c7-9a63-f6d4f4becb68
 vspace
@@ -1070,41 +887,29 @@ version = "17.4.0+2"
 # ╟─caad8479-654b-4a15-a994-56c8764728c7
 # ╟─238cfc9b-434a-426e-93e7-419314b7dc41
 # ╟─a473c4cd-0a21-493b-9ec5-55ea66a0ed99
-# ╟─1c95f7b3-6ff5-4b5e-bc26-4bf80d98425e
 # ╟─5d00ce86-142d-4740-91e1-73704382c366
-# ╟─40079ad2-79a8-4d15-906e-b4fdd8b6a88d
 # ╟─5f84a5be-dbea-4eab-ba5a-06b8062d5b4b
-# ╟─d43cdfc5-a6fe-423b-83c7-522026fd6097
 # ╟─d74dd608-b367-43f3-b5f1-bd654e5f87e2
-# ╟─9b10cdd6-ba85-49f5-87cd-d018a301b3af
 # ╟─18252fe4-6aba-4b13-b6fb-6426bd9037ca
-# ╟─16610ace-58fc-4619-a99c-90575607c1c0
 # ╟─738b8f7a-3cfd-4792-89e7-96ba3f55be81
 # ╟─e3c1b782-7f23-4c50-af3c-91aa8af0a88e
 # ╟─3a4ba27e-26d7-40d9-8f9d-8f22535d9287
 # ╟─86478c8f-aeee-4085-ad39-af31f8c9c037
 # ╟─f68b5afd-cf8f-4cba-ad7f-03fcc3f291af
-# ╟─6a8300c3-b1ae-46e4-ba04-0c15c10c3e0a
 # ╟─d419a379-712e-47a6-99ed-d8350fbc1000
 # ╟─6d1be573-3b15-4a18-89d7-5d887cea7e84
-# ╟─07c1fc06-d2c8-4512-89b0-9897d62ab35a
 # ╟─9eae2846-7b22-4b6c-91db-ffa7cd67be92
 # ╟─f2ef9979-8f46-4d1d-a8fd-87d1bcb9abee
-# ╟─d06cadc5-bed7-4fbb-8e78-3ad7bc2d1130
 # ╟─f5b33f69-5767-44ad-b9fa-4074f15262de
 # ╟─ed20508e-bfe2-4247-8a8a-cbf1860bfaa1
 # ╟─c6270f22-51dc-44a9-80b9-ccd10dbc41ac
 # ╟─4a8ce7d3-0315-4d13-9734-c47f7b87d21b
-# ╟─f74312b3-54f7-4d3f-902e-3eb6494fc236
 # ╟─9cc24dc0-811a-4611-a681-7ba24bbbfad8
 # ╟─95a7fe7f-f580-4f26-b47e-a5dac16d49f5
-# ╟─719d529a-03e4-4f1b-a438-6dcfa57deec3
 # ╟─875a73c8-4c11-4821-b256-6bd3b9ef437d
 # ╟─16f078b5-a050-4876-9048-a06d3e2733be
-# ╟─765e386b-be08-43d0-ac71-a62d0ebf23c7
 # ╟─99b4b3ec-5fde-4728-a49f-7f791ab0e0ad
 # ╟─eb77b6e7-2890-447a-98c7-74b581af4dd9
-# ╟─f63ea571-6452-42c1-af7e-4fb789304a2d
 # ╟─885c0fb2-79b7-48c7-9a63-f6d4f4becb68
 # ╟─9afe4152-2414-4826-9d65-489b6ffa7a8f
 # ╟─8d4541b1-83ef-485a-9502-336c079516f7
