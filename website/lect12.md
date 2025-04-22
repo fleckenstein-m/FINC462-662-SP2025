@@ -2,4 +2,4 @@
 
 - Open the lecture slides in a new browser window by right-clicking on the link below and and then selecting "Open link in new window".
 
-[Slides](/assets/lectures/lect12/Lecture_12_noSol.html)                              
+[Slides](/assets/lectures/lect12/Lecture_12.html)                              
