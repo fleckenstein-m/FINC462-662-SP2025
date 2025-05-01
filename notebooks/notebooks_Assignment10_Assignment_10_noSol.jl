@@ -116,7 +116,7 @@ vspace
 
 # ╔═╡ 47c9fb2f-8109-4d47-bca2-fe9489ef6b28
 md"""
-__2.2__ Suppose that you enter into a floating-for-fixed interest rate swap at the rate determined in 3.1. The notional is 100. Suppose that just a few minutes after you enter into this contract, the whole term structure of interest rates increases by one percentage point. What is the value of your interest rate swap position?
+__2.2__ Suppose that you enter into a floating-for-fixed interest rate swap at the rate determined in 2.1. The notional is 100. Suppose that just a few minutes after you enter into this contract, the whole term structure of interest rates increases by one percentage point. What is the value of your interest rate swap position?
 """
 
 # ╔═╡ d83f5933-6b5c-4420-967d-c2d8559d320f
