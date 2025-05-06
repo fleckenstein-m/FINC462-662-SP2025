@@ -17,7 +17,7 @@ begin
 	<p style="padding-bottom:1cm"> </p>
 	<div align=center style="font-size:25px; font-family:family:Georgia"> FINC-462/662: Fixed Income Securities </div>
 	<p style="padding-bottom:1cm"> </p>
-	<p align=center style="font-size:25px; font-family:family:Georgia"> <b> Assignment 10
+	<p align=center style="font-size:25px; font-family:family:Georgia"> <b> Assignment 11
 	</b> <p>
 	<p style="padding-bottom:1cm"> </p>
 	<p align=center style="font-size:25px; font-family:family:Georgia"> Spring 2025 <p>
@@ -56,81 +56,40 @@ end
 # ╔═╡ e3b00f74-f253-4c2d-96ae-8e43d9c5d032
 vspace
 
-# ╔═╡ 0d2fa9e4-421c-4fe2-ba95-828bef51a94e
+# ╔═╡ 7ad75350-14a4-47ee-8c6b-6a2eac09ebb1
 md"""
 # Question 1
 """
 
-# ╔═╡ 57cd074a-c21d-44e4-bb38-14a19ad4ae8e
+# ╔═╡ c3f1cfaf-fcd4-4829-bcf9-7cadde289ec8
 md"""
-__1.1__ Suppose that it is January 2, 2008. Use the EURIBOR curve below. All interest rates are annual, but semi-annually compounded (and given as decimals, i.e. 0.0457 means 4.57%). You enter a 1-year fixed-for-floating interest rate swap with quarterly payments and a \$100mm notional. What is the fair one-year swap rate?
-
-| t     | 1/12   | 2/12   | 3/12  | 4/12  | 5/12 |  6/12 | 7/12  | 8/12   | 9/12  | 10/12  | 11/12   | 12/12  |
-|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----  |:-----|
-| r     | 0.0457  | 0.0464   | 0.0468  | 0.0465  | 0.0461 | 0.0457 | 0.045  | 0.0442   | 0.0435  | 0.0429  | 0.0424   | 0.0419  |
+Suppose you are given the interest rate tree shown below. The rates on the tree are semi-annually compounded rates. What is the value of a 1.5-year semi-annual coupon bond with coupon rate of 1.75% (annual rate, semi-annually  compounded).
 
 """
 
-# ╔═╡ 0d58533e-b618-4d40-9aa2-82affc393335
+# ╔═╡ d9488d97-159b-4853-844b-45cbc1541f4a
+Resource("https://imgur.com/gOd8mF1.jpg", :width=>400)
+
+# ╔═╡ 6b52830b-fee5-479e-acb8-170be1e8b5de
 vspace
 
-# ╔═╡ 334c5066-48c5-467d-9c49-4c450a276cb6
-md"""
-__1.2__ What is the value of the interest rate swap at inception?"""
-
-# ╔═╡ 2ce4d1c1-9ba7-4ca1-af50-c3490d01daf8
-vspace
-
-# ╔═╡ 520998e4-c8c2-43bf-b109-41edf49d1fad
-md"""
-__1.3__ Suppose that it is now Feb 1, 2008. Use the LIBOR curve for that date given below. What is the value of the interest rate swap? 
-
-| t     | 1/12   | 2/12   | 3/12  | 4/12  | 5/12 |  6/12 | 7/12  | 8/12   | 9/12  | 10/12  | 11/12   | 12/12  |
-|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----  |:-----|
-| t     | 0.0314  | 0.0311   | 0.0310  | 0.0307  | 0.0305 | 0.0302 | 0.0297  | 0.0292   | 0.0288  | 0.0285  | 0.0283   | 0.0282  |
-
-- To do this, calculate the present value of the fixed and floating legs separately. Then determine the value of paying fixed and receiving floating.
-"""
-
-# ╔═╡ d9f49d24-d62f-446c-89ed-b0d85f59d7d0
-vspace
-
-# ╔═╡ ce159537-5bd7-4bee-8767-b5b9f95f2caa
+# ╔═╡ aa1a0dc5-5832-4571-bc60-1f7544b3050a
 md"""
 # Question 2
 """
 
-# ╔═╡ 094611b7-be02-4df0-9df6-e7deaa09b3b7
+# ╔═╡ 81afa859-1c87-4173-8f3a-9d1520b9d2f0
 md"""
-__2.1__ Suppose that you are given the following term structure of interest rates (zero-coupon yields). All interest rates are annual, but semi-annually compounded.
-What is the fair fixed rate in an interest rate swap where payments are made semi-annually?
-
-| t           | 0.5    | 1      | 1.5     | 2     | 2.5    | 3      |
-|:------------|:-------|:-------|:--------|:------|:-------|:-------|
-| Spot rate   | 0.02   | 0.025  | 0.03    | 0.03  | 0.035  | 0.04   |
-
+- Given the interest rate tree below, calculate the value of a 1.5-year interest rate cap with notional of $100 and strike rate of 4%. The rates on the tree are semi-annually compounded.
 """
 
-# ╔═╡ 5b82672f-7979-43f2-9fe8-7bb81069b2c5
+# ╔═╡ 3f3fb616-6823-4836-b169-fa2d6faa51e6
+Resource("https://imgur.com/rLqC3WI.jpg",:width=>500)
+
+# ╔═╡ 644fd25d-e9bd-415c-bd6c-65ae494a4db8
 vspace
 
-# ╔═╡ 47c9fb2f-8109-4d47-bca2-fe9489ef6b28
-md"""
-__2.2__ Suppose that you enter into a floating-for-fixed interest rate swap at the rate determined in 2.1. The notional is 100. Suppose that just a few minutes after you enter into this contract, the whole term structure of interest rates increases by one percentage point. What is the value of your interest rate swap position?
-"""
-
-# ╔═╡ d83f5933-6b5c-4420-967d-c2d8559d320f
-vspace
-
-# ╔═╡ 84e77f5c-2581-4f49-9a98-87061bc03cce
-md"""
-__2.3__  Did you make or lose money? What is the intuition behind this?
-"""
-
-# ╔═╡ e612f910-87c5-44d5-8088-ac70bf4b2079
-vspace
-
-# ╔═╡ 70adf941-e0b0-46e0-b820-35efd6c01d15
+# ╔═╡ 30ba6831-b089-4f58-9347-85628964b3b7
 vspace
 
 # ╔═╡ d160a115-56ed-4598-998e-255b82ec37f9
@@ -208,20 +167,6 @@ begin
 	using Logging
 	global_logger(NullLogger());
 	display("")
-
-	#Sets the width of Pluto cells
-	#Note: put this last here.
-		html"""
-			<style>
-				main {
-					margin: 0 auto;
-					max-width: 1050px;
-			    	padding-left: max(80px, 5%);
-			    	padding-right: max(80px, 5%);
-				}
-			</style>
-		"""
-	
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -237,6 +182,14 @@ Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[compat]
+DataFrames = "~1.3.2"
+HTTP = "~1.7.3"
+HypertextLiteral = "~0.9.3"
+LaTeXStrings = "~1.3.0"
+Plots = "~1.38.2"
+PlutoUI = "~0.7.37"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -245,7 +198,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "3a7534a300691ada198bfcfbb535ce4e30c8e86c"
+project_hash = "47f420bbc5bed3b54250075d1acb75289fe6568d"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -339,12 +292,6 @@ deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 version = "1.1.1+0"
 
-[[deps.ConcurrentUtilities]]
-deps = ["Serialization", "Sockets"]
-git-tree-sha1 = "d9d26935a0bcffc87d2613ce14c527c99fc543fd"
-uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
-version = "2.5.0"
-
 [[deps.Contour]]
 git-tree-sha1 = "439e35b0b36e2e5881738abc8857bd92ad6ff9a8"
 uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
@@ -361,10 +308,10 @@ uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 version = "1.16.0"
 
 [[deps.DataFrames]]
-deps = ["Compat", "DataAPI", "DataStructures", "Future", "InlineStrings", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrecompileTools", "PrettyTables", "Printf", "Random", "Reexport", "SentinelArrays", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
-git-tree-sha1 = "fb61b4812c49343d7ef0b533ba982c46021938a6"
+deps = ["Compat", "DataAPI", "Future", "InvertedIndices", "IteratorInterfaceExtensions", "LinearAlgebra", "Markdown", "Missings", "PooledArrays", "PrettyTables", "Printf", "REPL", "Reexport", "SortingAlgorithms", "Statistics", "TableTraits", "Tables", "Unicode"]
+git-tree-sha1 = "db2a9cb664fcea7836da4b414c3278d71dd602d2"
 uuid = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.7.0"
+version = "1.3.6"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -410,12 +357,6 @@ git-tree-sha1 = "8a4be429317c42cfae6a7fc03c31bad1970c310d"
 uuid = "2702e6a9-849d-5ed8-8c21-79e8b8f9ee43"
 version = "0.0.20230411+1"
 
-[[deps.ExceptionUnwrapping]]
-deps = ["Test"]
-git-tree-sha1 = "d36f682e590a83d63d1c7dbd287573764682d12a"
-uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
-version = "0.1.11"
-
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "d55dffd9ae73ff72f1c0482454dcf2ec6c6c4a63"
@@ -455,6 +396,12 @@ git-tree-sha1 = "9c68794ef81b08086aeb32eeaf33531668d5f5fc"
 uuid = "1fa38f19-a742-5d3f-a2b9-30dd87b9d5f8"
 version = "1.3.7"
 
+[[deps.Formatting]]
+deps = ["Logging", "Printf"]
+git-tree-sha1 = "fb409abab2caf118986fc597ba84b50cbaf00b87"
+uuid = "59287772-0a20-5a39-b81b-1366585eb4c0"
+version = "0.4.3"
+
 [[deps.FreeType2_jll]]
 deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
 git-tree-sha1 = "2c5512e11c791d1baed2049c5652441b28fc6a31"
@@ -479,16 +426,16 @@ uuid = "0656b61e-2033-5cc2-a64a-77c0f6c09b89"
 version = "3.4.0+2"
 
 [[deps.GR]]
-deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Preferences", "Printf", "Qt6Wayland_jll", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "p7zip_jll"]
-git-tree-sha1 = "7ffa4049937aeba2e5e1242274dc052b0362157a"
+deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
+git-tree-sha1 = "27442171f28c952804dede8ff72828a96f2bfc1f"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.73.14"
+version = "0.72.10"
 
 [[deps.GR_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "FreeType2_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt6Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "98fc192b4e4b938775ecd276ce88f539bcec358e"
+git-tree-sha1 = "025d171a2847f616becc0f84c8dc62fe18f0f6dd"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.73.14+0"
+version = "0.72.10+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -514,10 +461,10 @@ uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
 [[deps.HTTP]]
-deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "PrecompileTools", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "f93655dc73d7a0b4a368e3c0bce296ae035ad76e"
+deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "37e4657cd56b11abe3d10cd4a1ec5fbdb4180263"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.10.16"
+version = "1.7.4"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll"]
@@ -543,18 +490,10 @@ git-tree-sha1 = "b6d6bfdd7ce25b0f9b2f6b3dd56b2673a66c8770"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.5"
 
-[[deps.InlineStrings]]
-git-tree-sha1 = "6a9fde685a7ac1eb3495f8e812c5a7c3711c2d5e"
-uuid = "842dd82b-1e85-43dc-bf29-5d0ee9dffc48"
-version = "1.4.3"
-
-    [deps.InlineStrings.extensions]
-    ArrowTypesExt = "ArrowTypes"
-    ParsersExt = "Parsers"
-
-    [deps.InlineStrings.weakdeps]
-    ArrowTypes = "31f734f8-188a-4ce0-8406-c8a06bd891cd"
-    Parsers = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
+[[deps.IniFile]]
+git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
+uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
+version = "0.5.1"
 
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
@@ -607,10 +546,10 @@ uuid = "c1c5ebd0-6772-5130-a774-d5fcae4a789d"
 version = "3.100.2+0"
 
 [[deps.LERC_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "aaafe88dccbd957a8d82f7d05be9b69172e0cee3"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "bf36f528eec6634efc60d7ec062008f171071434"
 uuid = "88015f11-f218-50d7-93a8-a6af411a945d"
-version = "4.0.1+0"
+version = "3.0.0+1"
 
 [[deps.LLVMOpenMP_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -625,9 +564,9 @@ uuid = "dd4b983a-f0e5-5f8d-a1b7-129d4a5fb1ac"
 version = "2.10.3+0"
 
 [[deps.LaTeXStrings]]
-git-tree-sha1 = "dda21b8cbd6a6c40d9d02a73230f9d70fed6918c"
+git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.4.0"
+version = "1.3.1"
 
 [[deps.Latexify]]
 deps = ["Format", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Requires"]
@@ -700,9 +639,9 @@ version = "2.41.0+0"
 
 [[deps.Libtiff_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "LERC_jll", "Libdl", "XZ_jll", "Zlib_jll", "Zstd_jll"]
-git-tree-sha1 = "4ab7581296671007fc33f07a721631b8855f4b1d"
+git-tree-sha1 = "2da088d113af58221c52828a80378e16be7d037a"
 uuid = "89763e89-9b03-5906-acba-b20f662cd828"
-version = "4.7.1+0"
+version = "4.5.1+1"
 
 [[deps.Libuuid_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -880,10 +819,10 @@ uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
 version = "1.4.3"
 
 [[deps.Plots]]
-deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "TOML", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
-git-tree-sha1 = "809ba625a00c605f8d00cd2a9ae19ce34fc24d68"
+deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "PrecompileTools", "Preferences", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "UnitfulLatexify", "Unzip"]
+git-tree-sha1 = "9f8675a55b37a70aa23177ec110f6e3f4dd68466"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.40.13"
+version = "1.38.17"
 
     [deps.Plots.extensions]
     FileIOExt = "FileIO"
@@ -924,10 +863,10 @@ uuid = "21216c6a-2e73-6563-6e65-726566657250"
 version = "1.4.3"
 
 [[deps.PrettyTables]]
-deps = ["Crayons", "LaTeXStrings", "Markdown", "PrecompileTools", "Printf", "Reexport", "StringManipulation", "Tables"]
-git-tree-sha1 = "1101cd475833706e4d0e7b122218257178f48f34"
+deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
+git-tree-sha1 = "dfb54c4e414caa595a1f2ed759b160f5a3ddcba5"
 uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
-version = "2.4.0"
+version = "1.3.1"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -941,27 +880,9 @@ version = "1.3.0"
 
 [[deps.Qt6Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Vulkan_Loader_jll", "Xorg_libSM_jll", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_cursor_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "libinput_jll", "xkbcommon_jll"]
-git-tree-sha1 = "492601870742dcd38f233b23c3ec629628c1d724"
+git-tree-sha1 = "37b7bb7aabf9a085e0044307e1717436117f2b3b"
 uuid = "c0090381-4147-56d7-9ebc-da0b1113ec56"
-version = "6.7.1+1"
-
-[[deps.Qt6Declarative_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll", "Qt6ShaderTools_jll"]
-git-tree-sha1 = "e5dd466bf2569fe08c91a2cc29c1003f4797ac3b"
-uuid = "629bc702-f1f5-5709-abd5-49b8460ea067"
-version = "6.7.1+2"
-
-[[deps.Qt6ShaderTools_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll"]
-git-tree-sha1 = "1a180aeced866700d4bebc3120ea1451201f16bc"
-uuid = "ce943373-25bb-56aa-8eca-768745ed7b5a"
-version = "6.7.1+1"
-
-[[deps.Qt6Wayland_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Qt6Base_jll", "Qt6Declarative_jll"]
-git-tree-sha1 = "729927532d48cf79f49070341e1d918a65aba6b0"
-uuid = "e99dba38-086e-5de3-a5b1-6e4c66e897c3"
-version = "6.7.1+1"
+version = "6.5.3+1"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "StyledStrings", "Unicode"]
@@ -1011,12 +932,6 @@ deps = ["Dates"]
 git-tree-sha1 = "3bac05bc7e74a75fd9cba4295cde4045d9fe2386"
 uuid = "6c6a2e73-6563-6170-7368-637461726353"
 version = "1.2.1"
-
-[[deps.SentinelArrays]]
-deps = ["Dates", "Random"]
-git-tree-sha1 = "712fb0231ee6f9120e005ccd56297abbc053e7e0"
-uuid = "91c51154-3ec4-41a3-a24f-3f23e20d615c"
-version = "1.4.8"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -1075,12 +990,6 @@ deps = ["AliasTables", "DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunc
 git-tree-sha1 = "29321314c920c26684834965ec2ce0dacc9cf8e5"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.34.4"
-
-[[deps.StringManipulation]]
-deps = ["PrecompileTools"]
-git-tree-sha1 = "725421ae8e530ec29bcbdddbe91ff8053421d023"
-uuid = "892a3eda-7b42-436c-8928-eab12a02cf0e"
-version = "0.4.1"
 
 [[deps.StyledStrings]]
 uuid = "f489334b-da3d-4c2e-b8f0-e476e12c162b"
@@ -1458,10 +1367,10 @@ uuid = "dfaa095f-4041-5dcd-9319-2fabd8486b76"
 version = "3.5.0+0"
 
 [[deps.xkbcommon_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
-git-tree-sha1 = "63406453ed9b33a0df95d570816d5366c92b7809"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
+git-tree-sha1 = "c950ae0a3577aec97bfccf3381f66666bc416729"
 uuid = "d8fb68d0-12a3-5cfd-a85a-d49703b185fd"
-version = "1.4.1+2"
+version = "1.8.1+0"
 """
 
 # ╔═╡ Cell order:
@@ -1470,21 +1379,15 @@ version = "1.4.1+2"
 # ╟─a5de5746-3df0-45b4-a62c-3daf36f015a5
 # ╟─3eeb383c-7e46-46c9-8786-ab924b475d45
 # ╟─e3b00f74-f253-4c2d-96ae-8e43d9c5d032
-# ╟─0d2fa9e4-421c-4fe2-ba95-828bef51a94e
-# ╟─57cd074a-c21d-44e4-bb38-14a19ad4ae8e
-# ╟─0d58533e-b618-4d40-9aa2-82affc393335
-# ╟─334c5066-48c5-467d-9c49-4c450a276cb6
-# ╟─2ce4d1c1-9ba7-4ca1-af50-c3490d01daf8
-# ╟─520998e4-c8c2-43bf-b109-41edf49d1fad
-# ╟─d9f49d24-d62f-446c-89ed-b0d85f59d7d0
-# ╟─ce159537-5bd7-4bee-8767-b5b9f95f2caa
-# ╟─094611b7-be02-4df0-9df6-e7deaa09b3b7
-# ╟─5b82672f-7979-43f2-9fe8-7bb81069b2c5
-# ╟─47c9fb2f-8109-4d47-bca2-fe9489ef6b28
-# ╟─d83f5933-6b5c-4420-967d-c2d8559d320f
-# ╟─84e77f5c-2581-4f49-9a98-87061bc03cce
-# ╟─e612f910-87c5-44d5-8088-ac70bf4b2079
-# ╟─70adf941-e0b0-46e0-b820-35efd6c01d15
+# ╟─7ad75350-14a4-47ee-8c6b-6a2eac09ebb1
+# ╟─c3f1cfaf-fcd4-4829-bcf9-7cadde289ec8
+# ╟─d9488d97-159b-4853-844b-45cbc1541f4a
+# ╟─6b52830b-fee5-479e-acb8-170be1e8b5de
+# ╟─aa1a0dc5-5832-4571-bc60-1f7544b3050a
+# ╟─81afa859-1c87-4173-8f3a-9d1520b9d2f0
+# ╟─3f3fb616-6823-4836-b169-fa2d6faa51e6
+# ╟─644fd25d-e9bd-415c-bd6c-65ae494a4db8
+# ╟─30ba6831-b089-4f58-9347-85628964b3b7
 # ╟─d160a115-56ed-4598-998e-255b82ec37f9
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
