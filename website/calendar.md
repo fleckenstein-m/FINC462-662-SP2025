@@ -22,8 +22,11 @@
 | 17      | Forwards (b)                                | Apr 22, 2025   | [Slides](/assets/lectures/lect12/Lecture_12.html)              |
 | 18      | Interest Rate Swaps                         | Apr 24, 2025   | [Slides](/assets/lectures/lect13/Lecture_13.html)              |
 | 19      | Interest Rate Swaps (b)                     | May 1, 2025   | [Slides](/assets/lectures/lect13/Lecture_13.html)              |
-| 20      | Interest Rate Swaps/SVB Case                | May 1, 2025   | [Slides](/assets/lectures/lect13/Lecture_13.html)              |
+| 20      | Interest Rate Swaps (c) /SVB Case                | May 1, 2025   | [Slides](/assets/lectures/lect13/Lecture_13.html)              |
 | 21      | SVB Case/ Interest Rate Options             | May 6, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
+| 22      | Interest Rate Options (b)                   | May 8, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
+| 23      | TIPS-Treasury Bond Puzzle                   | May 13, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
+| 24      | TIPS-Treasury Bond Puzzle (b)               | May 13, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
 
 
 ## Assignments
