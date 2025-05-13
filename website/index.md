@@ -120,7 +120,7 @@ Your final grade is based on _i)_ two midterm exams, _ii)_ a final exam, and _ii
   - Location: 329 Purnell Hall
 3. Final Exam
   - Date: *May 18, 2025*
-  - Time: 4.30pm-6.30pm (Section 010 and Sectio 011)
+  - Time: 4.30pm-6.30pm (Section 010 and Section 011)
   - Location: Gore Hall 205
 
 
