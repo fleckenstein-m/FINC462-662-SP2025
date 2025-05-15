@@ -26,7 +26,7 @@
 | 21      | SVB Case/ Interest Rate Options             | May 6, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
 | 22      | Interest Rate Options (b)                   | May 8, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
 | 23      | TIPS-Treasury Bond Puzzle                   | May 13, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
-| 24      | TIPS-Treasury Bond Puzzle (b)               | May 13, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
+| 24      | TIPS-Treasury Bond Puzzle (b)               | May 15, 2025   | [Slides](/assets/lectures/lect14/Lecture_14.html)              |
 
 
 ## Assignments
